@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Tito & Andrea ✨ Estilo Pucca & Garu</title>
+  <title>Tito & Andrea ✨</title>
   <style>
     :root {
-      --pucca-red: #ff2a55;
-      --pucca-dark: #1b1420;
-      --pucca-bg: #ffe4e8;
-      --pucca-border: #221824;
-      --pucca-yellow: #ffcc00;
+      --primary: #ff2a55;
+      --dark: #16101c;
+      --card-bg: #ffffff;
+      --border-color: #221526;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Arial Rounded MT Bold', 'Comic Sans MS', 'Chalkboard SE', -apple-system, sans-serif;
+      font-family: 'Arial Rounded MT Bold', 'Comfortaa', -apple-system, sans-serif;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
@@ -27,7 +26,7 @@
       height: 100%;
       height: 100dvh;
       overflow: hidden;
-      background: #1a0f1d;
+      background: #0f0914;
     }
 
     body {
@@ -42,11 +41,11 @@
       max-width: 480px;
       height: 100%;
       height: 100dvh;
-      max-height: 900px;
-      background: #84dcc6;
+      max-height: 920px;
+      background: #7ecba1;
       overflow: hidden;
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
-      border: 4px solid var(--pucca-border);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+      border: 4px solid var(--border-color);
     }
 
     @media (min-width: 481px) {
@@ -63,10 +62,10 @@
       touch-action: none;
     }
 
-    /* HUD Superior */
+    /* HUD Superior Ultra Limpio */
     .top-hud {
       position: absolute;
-      top: max(12px, env(safe-area-inset-top, 12px));
+      top: max(14px, env(safe-area-inset-top, 14px));
       left: 14px;
       right: 14px;
       display: flex;
@@ -78,13 +77,13 @@
 
     .counter-badge {
       background: #ffffff;
-      border: 3.5px solid var(--pucca-border);
+      border: 3.5px solid var(--border-color);
       padding: 6px 16px;
       border-radius: 50px;
       font-weight: 900;
-      font-size: clamp(0.85rem, 3vw, 1.05rem);
-      color: var(--pucca-red);
-      box-shadow: 0 5px 0 var(--pucca-border);
+      font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+      color: var(--primary);
+      box-shadow: 0 4px 0 var(--border-color);
       display: flex;
       align-items: center;
       gap: 6px;
@@ -93,7 +92,7 @@
     .audio-btn {
       pointer-events: auto;
       background: #ffffff;
-      border: 3.5px solid var(--pucca-border);
+      border: 3.5px solid var(--border-color);
       border-radius: 50%;
       width: clamp(42px, 11vw, 48px);
       height: clamp(42px, 11vw, 48px);
@@ -102,35 +101,16 @@
       justify-content: center;
       font-size: 1.25rem;
       cursor: pointer;
-      box-shadow: 0 5px 0 var(--pucca-border);
+      box-shadow: 0 4px 0 var(--border-color);
       transition: transform 0.1s;
     }
 
     .audio-btn:active {
-      transform: translateY(4px);
-      box-shadow: 0 1px 0 var(--pucca-border);
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--border-color);
     }
 
-    /* Cartelito inferior */
-    .instruction-pill {
-      position: absolute;
-      bottom: calc(max(18px, env(safe-area-inset-bottom, 18px)) + clamp(95px, 15vh, 125px));
-      left: 50%;
-      transform: translateX(-50%);
-      background: #ffffff;
-      border: 3px solid var(--pucca-border);
-      color: var(--pucca-dark);
-      padding: 6px 16px;
-      border-radius: 50px;
-      font-size: clamp(0.75rem, 2.5vw, 0.9rem);
-      font-weight: 800;
-      pointer-events: none;
-      z-index: 25;
-      box-shadow: 0 4px 0 var(--pucca-border);
-      white-space: nowrap;
-    }
-
-    /* Controles D-Pad Estilo Arcade / Pucca */
+    /* Controles D-Pad */
     .controls-wrapper {
       position: absolute;
       bottom: max(14px, env(safe-area-inset-bottom, 14px));
@@ -152,15 +132,15 @@
 
     .dpad-btn {
       background: #ffffff;
-      border: 3.5px solid var(--pucca-border);
+      border: 3.5px solid var(--border-color);
       border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: clamp(1.3rem, 4vw, 1.6rem);
       font-weight: 900;
-      color: var(--pucca-red);
-      box-shadow: 0 5px 0 var(--pucca-border);
+      color: var(--primary);
+      box-shadow: 0 5px 0 var(--border-color);
       cursor: pointer;
       user-select: none;
       transition: all 0.08s;
@@ -168,8 +148,8 @@
 
     .dpad-btn:active, .dpad-btn.active {
       transform: translateY(4px);
-      box-shadow: 0 1px 0 var(--pucca-border);
-      background: var(--pucca-red);
+      box-shadow: 0 1px 0 var(--border-color);
+      background: var(--primary);
       color: #ffffff;
     }
 
@@ -178,11 +158,52 @@
     .btn-down { grid-column: 2; grid-row: 2; }
     .btn-right { grid-column: 3; grid-row: 2; }
 
-    /* Modales Estilo Cómic Pucca */
+    /* Modal Inicio Simple */
+    .start-screen {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 9, 20, 0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      padding: 20px;
+      transition: opacity 0.3s ease;
+    }
+
+    .start-btn {
+      background: var(--primary);
+      color: white;
+      border: 4px solid var(--border-color);
+      border-radius: 50px;
+      padding: 16px 36px;
+      font-size: 1.25rem;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 0 var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: pulseBtn 1.5s infinite;
+    }
+
+    .start-btn:active {
+      transform: translateY(6px);
+      box-shadow: 0 2px 0 var(--border-color);
+    }
+
+    @keyframes pulseBtn {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Modal Final Limpio */
     .modal-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(27, 20, 32, 0.85);
+      background: rgba(15, 9, 20, 0.85);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -200,93 +221,92 @@
 
     .modal-card {
       background: #ffffff;
-      border: 4.5px solid var(--pucca-border);
+      border: 4.5px solid var(--border-color);
       border-radius: 32px;
-      padding: clamp(22px, 6vw, 32px) clamp(18px, 5vw, 26px);
+      padding: clamp(24px, 6vw, 32px) clamp(18px, 5vw, 24px);
       width: 100%;
-      max-width: 360px;
+      max-width: 350px;
       text-align: center;
-      box-shadow: 0 10px 0 var(--pucca-border);
-      transform: scale(0.85) rotate(-2deg);
+      box-shadow: 0 10px 0 var(--border-color);
+      transform: scale(0.88);
       transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.4);
     }
 
     .modal-overlay.active .modal-card {
-      transform: scale(1) rotate(0deg);
+      transform: scale(1);
     }
 
     .modal-card h2 {
-      font-size: clamp(1.4rem, 4.8vw, 1.75rem);
+      font-size: clamp(1.3rem, 4.8vw, 1.6rem);
       font-weight: 900;
-      color: var(--pucca-red);
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: -0.5px;
+      color: var(--dark);
+      margin-bottom: 12px;
+      line-height: 1.3;
     }
 
-    .modal-card p {
-      font-size: clamp(0.92rem, 3vw, 1.05rem);
-      color: var(--pucca-dark);
-      font-weight: 700;
-      line-height: 1.4;
-      margin-bottom: 18px;
-    }
-
-    .btn-main {
-      background: var(--pucca-red);
-      color: #ffffff;
-      border: 3.5px solid var(--pucca-border);
-      padding: clamp(12px, 3.5vw, 16px);
-      border-radius: 50px;
-      font-size: clamp(1rem, 3.5vw, 1.2rem);
-      font-weight: 900;
-      cursor: pointer;
-      width: 100%;
-      box-shadow: 0 6px 0 var(--pucca-border);
-      transition: all 0.1s;
-    }
-
-    .btn-main:active {
-      transform: translateY(5px);
-      box-shadow: 0 1px 0 var(--pucca-border);
-    }
-
-    /* Propuesta */
     .proposal-area {
       position: relative;
-      height: 110px;
+      height: 100px;
       width: 100%;
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     #btn-yes {
       position: absolute;
-      left: 10px;
-      top: 25px;
+      left: 8px;
+      top: 20px;
       width: 130px;
       z-index: 10;
       background: #2ec4b6;
+      color: #ffffff;
+      border: 3.5px solid var(--border-color);
+      padding: 12px 18px;
+      border-radius: 50px;
+      font-weight: 900;
+      font-size: 1.05rem;
+      box-shadow: 0 5px 0 var(--border-color);
+      cursor: pointer;
     }
 
     #btn-no {
       position: absolute;
-      right: 10px;
-      top: 25px;
+      right: 8px;
+      top: 20px;
       width: 130px;
       background: #ff9f1c;
       color: #ffffff;
-      border: 3.5px solid var(--pucca-border);
-      padding: 12px 16px;
+      border: 3.5px solid var(--border-color);
+      padding: 12px 18px;
       border-radius: 50px;
       font-weight: 900;
       font-size: 1rem;
-      box-shadow: 0 5px 0 var(--pucca-border);
+      box-shadow: 0 5px 0 var(--border-color);
+      cursor: pointer;
       transition: all 0.15s;
+    }
+
+    .btn-yes:active, .btn-no:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 var(--border-color);
     }
 
     .whatsapp-btn {
       background: #25d366 !important;
-      margin-top: 10px;
+      color: white;
+      border: 3.5px solid var(--border-color);
+      padding: 14px;
+      border-radius: 50px;
+      font-weight: 900;
+      font-size: 1.05rem;
+      width: 100%;
+      box-shadow: 0 6px 0 var(--border-color);
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .whatsapp-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 var(--border-color);
     }
   </style>
 </head>
@@ -297,14 +317,10 @@
     <!-- HUD Superior -->
     <div class="top-hud">
       <div class="counter-badge">
-        <span>💐 ROSAS:</span>
-        <span id="rose-score" style="font-size: 1.15rem; color: #ff2a55;">0/5</span>
+        <span>💐</span>
+        <span id="rose-score">0 / 5</span>
       </div>
       <button class="audio-btn" id="audioToggle" onclick="toggleAudio()">🎵</button>
-    </div>
-
-    <div class="instruction-pill" id="instPill">
-      ✨ Juntando las rosas más lindas para Andrea
     </div>
 
     <!-- Canvas Principal -->
@@ -320,36 +336,26 @@
       </div>
     </div>
 
-    <!-- MODAL DE INICIO -->
-    <div class="modal-overlay active" id="modal-start">
-      <div class="modal-card">
-        <div style="font-size: 3.5rem; margin-bottom: 6px;">💌🌹✨</div>
-        <h2>¡HOLA, BONITA!</h2>
-        <p>Tito está juntando las rosas más lindas del camino porque tienes la sonrisa más hermosa del mundo.</p>
-        <button class="btn-main" onclick="startGame()">
-          ¡ACOMPÁÑALO! 🌸✨
-        </button>
-      </div>
+    <!-- Pantalla de Inicio Limpia (1 solo botón) -->
+    <div class="start-screen" id="startScreen">
+      <button class="start-btn" onclick="startGame()">
+        <span>JUGAR</span> 💖
+      </button>
     </div>
 
-    <!-- MODAL FINAL -->
+    <!-- MODAL FINAL (Sin párrafos largos, solo la pregunta) -->
     <div class="modal-overlay" id="modal-final">
       <div class="modal-card">
-        <div style="font-size: 3.5rem; margin-bottom: 4px;">💐👑💋</div>
-        <h2>¡ME ENCANTAS, ANDREA!</h2>
-        <p style="margin-bottom: 8px;">Tito cruzó todo el jardín solo para verte sonreír con tus hermosos rulos.</p>
-        <h3 style="color: #ff2a55; font-size: 1.35rem; font-weight: 900; margin: 10px 0 6px 0;" id="final-question">
-          ¿Aceptarías tener una cita conmigo? 🥰
-        </h3>
-        <p style="font-size: 0.88rem; color: #666; margin-bottom: 12px;">(Prometo risas, buena comida y pasarla increíble ✨)</p>
+        <div style="font-size: 3.5rem; margin-bottom: 8px;">👑💐💋</div>
+        <h2 id="final-question">¿Aceptas tener una cita conmigo? 🥰</h2>
 
         <div class="proposal-buttons" id="proposalArea">
-          <button class="btn-main" id="btn-yes" onclick="celebrateYes()">¡SÍ! 💖</button>
+          <button id="btn-yes" onclick="celebrateYes()">¡SÍ! 💖</button>
           <button id="btn-no" onmouseover="dodgeNo()" ontouchstart="dodgeNo()" onclick="dodgeNo()">No 😜</button>
         </div>
 
-        <button class="btn-main whatsapp-btn" id="btnWhatsApp" style="display: none;" onclick="openWhatsApp()">
-          Confirmar nuestra cita a Tito 💬
+        <button class="whatsapp-btn" id="btnWhatsApp" style="display: none;" onclick="openWhatsApp()">
+          Confirmar por WhatsApp 💬
         </button>
       </div>
     </div>
@@ -358,32 +364,32 @@
 
   <script>
     /* =========================================================================
-       CONFIGURACIÓN
+       CONFIGURACIÓN LIMPIA
        ========================================================================= */
     const CONFIG = {
       nombreChico: "Tito",
       nombreChica: "Andrea",
       telefonoWhatsApp: "5493765005973", // Número de Tito (+54 9 3765 005973)
-      mensajeWhatsApp: "¡Hola Tito! Me encantó el juego estilo Pucca, las rosas y el besito... ¡Acepto la cita! 🥰💐✨",
+      mensajeWhatsApp: "¡Hola Tito! Jugué a nuestro juego, amé el besito y las rosas... ¡Acepto la cita! 🥰💐✨",
       rosas: [
-        { color: "#ff2a55" }, // Roja
-        { color: "#ff70a6" }, // Rosa
-        { color: "#ffd166" }, // Amarilla
-        { color: "#ffffff" }, // Blanca
-        { color: "#b5179e" }  // Púrpura
+        { color: "#ff1744" }, // Rojo pasión
+        { color: "#ff4081" }, // Rosa intenso
+        { color: "#ffd600" }, // Amarillo oro
+        { color: "#ffffff" }, // Blanco puro
+        { color: "#aa00ff" }  // Púrpura mágico
       ],
       frasesNo: [
         "¿Segura? 👀",
-        "¡Casi me atrapas! 😜",
-        "¡Mira qué lindo ramo! 🌹",
-        "¡Piénsalo bien! 🥰",
-        "¡Toca el botón verde! ✨",
-        "¡No te hagas la difícil! 💖"
+        "¡Casi! 😜",
+        "¡Bloqueado! 💖",
+        "¡Por acá no! 🌹",
+        "¡Piénsalo! 🥰",
+        "¡Toca el verde! ✨"
       ]
     };
 
     /* =========================================================================
-       AUDIO SINTETIZADO ESTILO PUCCA (Melodía rápida y alegre + efectos cómic)
+       AUDIO SINTETIZADO PUCCA
        ========================================================================= */
     let audioCtx = null;
     let musicPlaying = false;
@@ -416,30 +422,26 @@
       }, delay);
     }
 
-    // Efecto cómic de agilidad/salto
     function playDashSound() {
       if (!audioCtx) return;
-      playTone(400, 'triangle', 0.08, 0, 0.06);
-      playTone(600, 'triangle', 0.08, 40, 0.06);
+      playTone(400, 'triangle', 0.08, 0, 0.05);
+      playTone(600, 'triangle', 0.08, 30, 0.05);
     }
 
-    // Campanitas de rosa
     function playRoseChime() {
       if (!audioCtx) return;
       playTone(659.25, 'sine', 0.12, 0);
-      playTone(783.99, 'sine', 0.12, 60);
-      playTone(1046.50, 'sine', 0.25, 120);
+      playTone(783.99, 'sine', 0.12, 50);
+      playTone(1046.50, 'sine', 0.25, 100);
     }
 
-    // Sonido cómico de besito Pucca (Muack!)
     function playKissSound() {
       if (!audioCtx) return;
       playTone(520, 'sine', 0.06, 0, 0.12);
-      playTone(880, 'sine', 0.1, 50, 0.14);
-      playTone(1400, 'triangle', 0.3, 110, 0.16);
+      playTone(880, 'sine', 0.1, 40, 0.14);
+      playTone(1400, 'triangle', 0.3, 90, 0.16);
     }
 
-    // Melodía animada estilo Pucca
     function startMusic() {
       if (!audioCtx) initAudio();
       musicPlaying = true;
@@ -453,9 +455,9 @@
       if (musicInterval) clearInterval(musicInterval);
       musicInterval = setInterval(() => {
         if (!musicPlaying) return;
-        playTone(melody[step], 'triangle', 0.2, 0, 0.04);
+        playTone(melody[step], 'triangle', 0.2, 0, 0.035);
         step = (step + 1) % melody.length;
-      }, 240); // Ritmo rápido y alegre
+      }, 230);
     }
 
     function toggleAudio() {
@@ -470,7 +472,7 @@
     }
 
     /* =========================================================================
-       MOTOR DEL JUEGO ESTILO PUCCA (FÍSICAS CARTOON Y TRAZOS GRUESOS)
+       MOTOR DEL JUEGO
        ========================================================================= */
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
@@ -486,15 +488,13 @@
     let cameraY = WORLD_HEIGHT - 650;
     let currentScale = 1;
 
-    // Tito (Estilo Garu con su mullet de rulos negros y cadenita)
+    // Tito (Con mullet de rulos negros real, degradé lateral, sombra de barba definida, cadenita)
     const tito = {
       x: PATH_X,
       y: WORLD_HEIGHT - 120,
-      w: 46,
-      h: 54,
-      vx: 0,
-      vy: 0,
-      speed: 5.4, // Rápido y ágil como Garu
+      w: 48,
+      h: 56,
+      speed: 5.4,
       runFrame: 0,
       squash: 1,
       stretch: 1,
@@ -504,18 +504,17 @@
       spinAngle: 0
     };
 
-    // Andrea (Estilo Pucca con su melena larga de rulos negros, trencitas, crop top blanco y pollera de jean)
+    // Andrea (Con rulos largos, trencitas en la corona, crop top blanco, pollera de jean)
     const andrea = {
       x: PATH_X,
       y: 110,
-      w: 48,
-      h: 54,
+      w: 50,
+      h: 56,
       jumpY: 0,
-      kissOffset: 0,
-      hugTito: false
+      kissOffset: 0
     };
 
-    // Rosas a los costados
+    // Rosas colocadas A LOS COSTADOS
     const roses = [
       { id: 0, x: PATH_X - 110, y: WORLD_HEIGHT - 450, side: 'left', collected: false },
       { id: 1, x: PATH_X + 110, y: WORLD_HEIGHT - 900, side: 'right', collected: false },
@@ -524,24 +523,23 @@
       { id: 4, x: PATH_X + 110, y: WORLD_HEIGHT - 2250, side: 'right', collected: false }
     ];
 
-    // Partículas de polvo estilo cartoon al correr
     const dustPuffs = [];
     const headHearts = [];
     const kissTornado = [];
 
-    // Flores cartoon decorativas
+    // Flores de fondo
     const scenery = [];
-    for (let y = 100; y < WORLD_HEIGHT - 50; y += 120) {
+    for (let y = 100; y < WORLD_HEIGHT - 50; y += 110) {
       scenery.push({
         x: PATH_X - 160 + (Math.random() * 20),
         y: y + (Math.random() * 30),
-        r: 24 + Math.random() * 8,
+        r: 22 + Math.random() * 8,
         color: '#ff70a6'
       });
       scenery.push({
         x: PATH_X + 160 - (Math.random() * 20),
-        y: y + 60 + (Math.random() * 30),
-        r: 24 + Math.random() * 8,
+        y: y + 55 + (Math.random() * 30),
+        r: 22 + Math.random() * 8,
         color: '#ff4d6d'
       });
     }
@@ -561,35 +559,33 @@
     resizeCanvas();
 
     /* =========================================================================
-       DIBUJO CON ESTÉTICA PUCCA & GARU (Líneas negras gruesas, chibis redondeados)
+       SPRITES DETALLADOS Y REALISTAS (TITO CON MULLET & BARBA, ANDREA CON TRENCITAS)
        ========================================================================= */
 
-    // Dibuja a TITO estilo Garu
-    function drawPuccaTito(ctx, p) {
+    // DIBUJAR A TITO (Mullet de rulos negros realista, degradé a los lados, sombra de barba nítida, cadenita de oro)
+    function drawDetailedTito(ctx, p) {
       ctx.save();
       ctx.translate(p.x, p.y);
 
-      // Si está noqueado de amor girando
       if (p.intenseLove) {
         ctx.rotate(p.spinAngle);
       }
 
       ctx.scale(p.facing * p.stretch, p.squash);
 
-      // Sombra redonda gruesa
-      ctx.fillStyle = "rgba(27, 20, 32, 0.25)";
+      // Sombra
+      ctx.fillStyle = "rgba(18, 12, 22, 0.25)";
       ctx.beginPath();
-      ctx.ellipse(0, 22, 16, 7, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 23, 16, 7, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Patitas cartoon rápidas
+      // Zapatillas blancas
       const isMoving = (keys.up || keys.down || keys.left || keys.right);
       const runAngle = isMoving ? Math.sin(p.runFrame * 0.4) * 8 : 0;
 
       ctx.fillStyle = "#ffffff";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3;
-      // Zapatos blancos redondos
       ctx.beginPath();
       ctx.arc(-8, 18 + runAngle, 5.5, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
@@ -597,141 +593,160 @@
       ctx.arc(8, 18 - runAngle, 5.5, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // Pantalón negro
+      // Pantalón oscuro
       ctx.fillStyle = "#1b1420";
-      ctx.fillRect(-10, 8, 20, 10);
+      ctx.fillRect(-10, 8, 20, 11);
 
-      // Remera negra estilo Garu
-      ctx.fillStyle = "#1b1420";
+      // Remera negra
+      ctx.fillStyle = "#151515";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
       ctx.beginPath();
-      ctx.roundRect(-13, -7, 26, 17, 6);
-      ctx.fill();
-      ctx.stroke();
+      ctx.roundRect(-13, -7, 26, 17, 5);
+      ctx.fill(); ctx.stroke();
 
-      // Cadenita de oro brillante de Tito ✨
-      ctx.strokeStyle = "#ffcc00";
-      ctx.lineWidth = 2.5;
+      // CADENITA DE ORO BRILLANTE ✨
+      ctx.strokeStyle = "#ffd700";
+      ctx.lineWidth = 2.2;
       ctx.beginPath();
       ctx.arc(0, -6, 6, 0.1 * Math.PI, 0.9 * Math.PI);
       ctx.stroke();
 
-      // Ramo de flores en la mano
+      // Ramo de rosas en la mano
       if (collectedCount > 0) {
-        ctx.fillStyle = "#ff2a55";
-        ctx.strokeStyle = "#1b1420";
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.arc(14, -2, 7.5, 0, Math.PI * 2);
-        ctx.fill(); ctx.stroke();
+        drawDetailedRoseSprite(ctx, 14, -2, 7, "#ff1744");
       }
 
-      // Cabeza redonda Chibi estilo Pucca
-      ctx.fillStyle = "#ffe4d6";
+      // Cuello
+      ctx.fillStyle = "#fcd5b5";
+      ctx.fillRect(-4, -10, 8, 5);
+
+      // 1. MULLET TRASERO (Rulos largos cayendo por detrás del cuello como en la foto)
+      ctx.fillStyle = "#120c16";
+      ctx.strokeStyle = "#1b1420";
+      ctx.lineWidth = 2.5;
+
+      const backMulletCurls = [
+        { dx: -13, dy: -4, r: 6.5 },
+        { dx: 13, dy: -4, r: 6.5 },
+        { dx: -11, dy: 3, r: 6 },
+        { dx: 11, dy: 3, r: 6 },
+        { dx: -7, dy: 9, r: 5.5 },
+        { dx: 7, dy: 9, r: 5.5 },
+        { dx: -2, dy: 11, r: 5 },
+        { dx: 2, dy: 11, r: 5 }
+      ];
+      backMulletCurls.forEach(c => {
+        ctx.beginPath();
+        ctx.arc(c.dx, -18 + c.dy, c.r, 0, Math.PI * 2);
+        ctx.fill(); ctx.stroke();
+      });
+
+      // 2. Cabeza
+      ctx.fillStyle = "#fcd5b5";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
       ctx.beginPath();
-      ctx.arc(0, -18, 15, 0, Math.PI * 2);
+      ctx.arc(0, -18, 14, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      // 3. SOMBRA DE BARBA DEFINIDA (Stubble en mandíbula y mentón como en la foto)
+      ctx.fillStyle = "rgba(40, 25, 30, 0.22)";
+      ctx.beginPath();
+      ctx.arc(0, -15, 12, 0.15 * Math.PI, 0.85 * Math.PI);
       ctx.fill();
-      ctx.stroke();
 
-      // PEINADO MULLET CON RULOS NEGROS DE TITO (Estilo dibujo animado)
-      ctx.fillStyle = "#1b1420";
-      // Rulos traseros (mullet)
-      const mulletBumps = [
-        { dx: -14, dy: -6, r: 7 },
-        { dx: 14, dy: -6, r: 7 },
-        { dx: -12, dy: 3, r: 6.5 },
-        { dx: 12, dy: 3, r: 6.5 },
-        { dx: -7, dy: 8, r: 6 },
-        { dx: 7, dy: 8, r: 6 }
+      // 4. DEGRADÉ LATERAL CORTO (Fade en los costados de la cabeza)
+      ctx.fillStyle = "rgba(18, 12, 22, 0.45)";
+      ctx.beginPath();
+      ctx.arc(-10, -19, 5, 0, Math.PI * 2);
+      ctx.arc(10, -19, 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 5. RULOS FRONTALES Y SUPERIORES DEFINIDOS
+      ctx.fillStyle = "#120c16";
+      const topMulletCurls = [
+        { dx: -11, dy: -14, r: 7 },
+        { dx: -4, dy: -18, r: 7.5 },
+        { dx: 4, dy: -18, r: 7.5 },
+        { dx: 11, dy: -14, r: 7 },
+        { dx: -6, dy: -11, r: 5.5 }, // rulos que caen en la frente
+        { dx: 0, dy: -12, r: 6 },
+        { dx: 6, dy: -11, r: 5.5 }
       ];
-      mulletBumps.forEach(b => {
+      topMulletCurls.forEach(c => {
         ctx.beginPath();
-        ctx.arc(b.dx, -18 + b.dy, b.r, 0, Math.PI * 2);
+        ctx.arc(c.dx, -18 + c.dy, c.r, 0, Math.PI * 2);
         ctx.fill(); ctx.stroke();
       });
 
-      // Rulos superiores y flequillo
-      const topBumps = [
-        { dx: -10, dy: -14, r: 7.5 },
-        { dx: -3, dy: -18, r: 8 },
-        { dx: 5, dy: -18, r: 8 },
-        { dx: 12, dy: -13, r: 7 },
-        { dx: -4, dy: -10, r: 6 }, // rulos en frente
-        { dx: 4, dy: -10, r: 6 }
-      ];
-      topBumps.forEach(b => {
-        ctx.beginPath();
-        ctx.arc(b.dx, -18 + b.dy, b.r, 0, Math.PI * 2);
-        ctx.fill(); ctx.stroke();
-      });
-
-      // OJOS Y CARA ESTILO GARU:
+      // 6. OJOS Y EXPRESIÓN
       if (p.heartEyesTimer > 0 || p.intenseLove) {
-        // Ojos de Corazón latiendo gigantes
         const pulse = 1 + Math.sin(Date.now() * 0.02) * 0.25;
-        ctx.fillStyle = "#ff2a55";
+        ctx.fillStyle = "#ff1744";
         ctx.strokeStyle = "#1b1420";
         ctx.lineWidth = 2;
-        drawComicHeart(ctx, -5, -18, 6.5 * pulse);
-        drawComicHeart(ctx, 5, -18, 6.5 * pulse);
+        drawDetailedHeart(ctx, -5, -18, 6.5 * pulse);
+        drawDetailedHeart(ctx, 5, -18, 6.5 * pulse);
 
-        // Sonrisa gigante enamorado
-        ctx.fillStyle = "#ff2a55";
+        // Sonrisa gigante
+        ctx.fillStyle = "#ff1744";
         ctx.beginPath();
-        ctx.arc(0, -12, 5, 0, Math.PI);
+        ctx.arc(0, -12, 4.5, 0, Math.PI);
         ctx.fill(); ctx.stroke();
 
-        // Chapitas rojas
-        ctx.fillStyle = "#ff4d6d";
+        // Chapitas
+        ctx.fillStyle = "#ff4081";
         ctx.beginPath();
-        ctx.ellipse(-9, -13, 4, 2.5, 0, 0, Math.PI * 2);
-        ctx.ellipse(9, -13, 4, 2.5, 0, 0, Math.PI * 2);
+        ctx.ellipse(-8, -13, 3.5, 2, 0, 0, Math.PI * 2);
+        ctx.ellipse(8, -13, 3.5, 2, 0, 0, Math.PI * 2);
         ctx.fill();
       } else {
-        // Ojitos estilo Garu (líneas curvas expresivas o puntitos)
-        ctx.strokeStyle = "#1b1420";
-        ctx.lineWidth = 3;
+        // Ojos cálidos y definidos
+        ctx.fillStyle = "#1b1420";
         ctx.beginPath();
-        // Ojo izq: línea decidida / tierna
-        ctx.arc(-5, -18, 3, 0.9 * Math.PI, 1.9 * Math.PI);
-        ctx.stroke();
-        // Ojo der:
+        ctx.arc(-4.5, -18, 2.4, 0, Math.PI * 2);
+        ctx.arc(4.5, -18, 2.4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Brillo blanco en los ojos
+        ctx.fillStyle = "#ffffff";
         ctx.beginPath();
-        ctx.arc(5, -18, 3, 1.1 * Math.PI, 0.1 * Math.PI);
+        ctx.arc(-3.5, -19, 1, 0, Math.PI * 2);
+        ctx.arc(5.5, -19, 1, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Sonrisa tierna
+        ctx.strokeStyle = "#b3543b";
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        ctx.arc(0, -13, 3.5, 0.1 * Math.PI, 0.9 * Math.PI);
         ctx.stroke();
 
-        // Boquita tierna
+        // Sonrojo
+        ctx.fillStyle = "rgba(255, 64, 129, 0.4)";
         ctx.beginPath();
-        ctx.arc(0, -13, 3, 0.1 * Math.PI, 0.9 * Math.PI);
-        ctx.stroke();
-
-        // Chapitas sonrojadas
-        ctx.fillStyle = "rgba(255, 77, 109, 0.5)";
-        ctx.beginPath();
-        ctx.arc(-8, -14, 3, 0, Math.PI * 2);
-        ctx.arc(8, -14, 3, 0, Math.PI * 2);
+        ctx.arc(-7, -14, 2.5, 0, Math.PI * 2);
+        ctx.arc(7, -14, 2.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
       ctx.restore();
     }
 
-    // Dibuja a ANDREA estilo Pucca
-    function drawPuccaAndrea(ctx, p) {
+    // DIBUJAR A ANDREA (Rulos largos negros con trencitas en la corona, crop top blanco, pollera jean)
+    function drawDetailedAndrea(ctx, p) {
       ctx.save();
       ctx.translate(p.x, p.y + p.kissOffset - p.jumpY);
 
       // Sombra
-      ctx.fillStyle = "rgba(27, 20, 32, 0.25)";
+      ctx.fillStyle = "rgba(18, 12, 22, 0.25)";
       ctx.beginPath();
-      ctx.ellipse(0, 22 + p.jumpY, 18, 8, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 23 + p.jumpY, 18, 8, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Patitas
-      ctx.fillStyle = "#ffe4d6";
+      // Piernitas
+      ctx.fillStyle = "#fcd5b5";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3;
       ctx.beginPath();
@@ -739,8 +754,8 @@
       ctx.arc(7, 18, 5, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // POLLERA DE JEAN CELESTE (Estilo cartoon)
-      ctx.fillStyle = "#64b5f6";
+      // POLLERA DE JEAN CELESTE (Con detalle de bolsillos)
+      ctx.fillStyle = "#7cb9e8";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
       ctx.beginPath();
@@ -751,7 +766,7 @@
       ctx.closePath();
       ctx.fill(); ctx.stroke();
 
-      // CROP TOP BLANCO (Estilo Pucca moderno)
+      // CROP TOP BLANCO
       ctx.fillStyle = "#ffffff";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
@@ -759,86 +774,149 @@
       ctx.roundRect(-10, -8, 20, 11, 4);
       ctx.fill(); ctx.stroke();
 
-      // Vasito térmico rosa en su mano
-      ctx.fillStyle = "#ff2a55";
+      // Vasito térmico rosa en mano 🥤
+      ctx.fillStyle = "#ff4081";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 2.5;
       ctx.beginPath();
       ctx.roundRect(11, -5, 6, 11, 2);
       ctx.fill(); ctx.stroke();
 
-      // Cabeza redonda estilo Pucca
-      ctx.fillStyle = "#ffe4d6";
+      // 1. RULOS LARGOS DE ANDREA (Cayendo por los hombros y espalda)
+      ctx.fillStyle = "#120c16";
       ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3.5;
-      ctx.beginPath();
-      ctx.arc(0, -18, 16, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
+      ctx.lineWidth = 2.5;
 
-      // PEINADO DE ANDREA (Rulos largos y trencitas frontales estilo Pucca)
-      ctx.fillStyle = "#1b1420";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3.5;
-
-      // Rulos largos y esponjosos a los lados
-      const andreaCurls = [
-        { dx: -15, dy: -8, r: 8 },
-        { dx: 15, dy: -8, r: 8 },
-        { dx: -18, dy: 2, r: 8.5 },
-        { dx: 18, dy: 2, r: 8.5 },
-        { dx: -17, dy: 12, r: 8 },
-        { dx: 17, dy: 12, r: 8 },
-        { dx: -13, dy: 20, r: 7 },
-        { dx: 13, dy: 20, r: 7 }
+      const andreaLongCurls = [
+        { dx: -15, dy: -7, r: 7.5 },
+        { dx: 15, dy: -7, r: 7.5 },
+        { dx: -17, dy: 1, r: 8 },
+        { dx: 17, dy: 1, r: 8 },
+        { dx: -16, dy: 9, r: 7.5 },
+        { dx: 16, dy: 9, r: 7.5 },
+        { dx: -13, dy: 17, r: 6.5 },
+        { dx: 13, dy: 17, r: 6.5 },
+        { dx: -10, dy: 23, r: 5.5 },
+        { dx: 10, dy: 23, r: 5.5 }
       ];
-      andreaCurls.forEach(b => {
+      andreaLongCurls.forEach(c => {
         ctx.beginPath();
-        ctx.arc(b.dx, -18 + b.dy, b.r, 0, Math.PI * 2);
+        ctx.arc(c.dx, -18 + c.dy, c.r, 0, Math.PI * 2);
         ctx.fill(); ctx.stroke();
       });
 
-      // Parte superior peinada con trencitas
-      ctx.beginPath();
-      ctx.arc(0, -25, 10, Math.PI, 0);
-      ctx.fill(); ctx.stroke();
-
-      // EXPRESIÓN DE PUCCA:
-      // Ojitos felices de línea curva (característicos de Pucca: ^_^)
+      // 2. Cabeza
+      ctx.fillStyle = "#fcd5b5";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
       ctx.beginPath();
-      ctx.arc(-5, -18, 3.5, 0.8 * Math.PI, 0.2 * Math.PI, true);
-      ctx.stroke();
+      ctx.arc(0, -18, 15, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      // 3. PARTE SUPERIOR CON TRENCITAS / SECCIONES (El peinado exacto de Andrea en la foto)
+      ctx.fillStyle = "#120c16";
       ctx.beginPath();
-      ctx.arc(5, -18, 3.5, 0.8 * Math.PI, 0.2 * Math.PI, true);
+      ctx.arc(0, -25, 9, Math.PI, 0);
+      ctx.fill(); ctx.stroke();
+
+      // Líneas de las trencitas hacia atrás
+      ctx.strokeStyle = "#38293d";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-5, -29); ctx.lineTo(-3, -22);
+      ctx.moveTo(0, -30);  ctx.lineTo(0, -22);
+      ctx.moveTo(5, -29);  ctx.lineTo(3, -22);
       ctx.stroke();
 
-      // Sonrisita pícara / dulce
+      // 4. OJOS Y SONRISA CON HOYUELOS
+      ctx.strokeStyle = "#1b1420";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(-5, -18, 3.2, 0.8 * Math.PI, 0.2 * Math.PI, true);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(5, -18, 3.2, 0.8 * Math.PI, 0.2 * Math.PI, true);
+      ctx.stroke();
+
+      // Sonrisa dulce
       ctx.beginPath();
       ctx.arc(0, -12, 4, 0.1 * Math.PI, 0.9 * Math.PI);
       ctx.stroke();
 
-      // Chapitas rojas ovaladas grandes (sello de Pucca)
-      ctx.fillStyle = "#ff2a55";
+      // Hoyuelos & Chapitas rojas
+      ctx.fillStyle = "#ff4081";
       ctx.beginPath();
-      ctx.ellipse(-10, -13, 4.5, 3, 0, 0, Math.PI * 2);
-      ctx.ellipse(10, -13, 4.5, 3, 0, 0, Math.PI * 2);
+      ctx.ellipse(-9, -13, 4, 2.5, 0, 0, Math.PI * 2);
+      ctx.ellipse(9, -13, 4, 2.5, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Gran corazón flotando sobre Andrea
+      // Corazón flotando
       const heartBounce = Math.sin(Date.now() * 0.008) * 5;
-      drawComicHeart(ctx, 0, -46 + heartBounce, 8);
+      drawDetailedHeart(ctx, 0, -46 + heartBounce, 8);
 
       ctx.restore();
     }
 
-    // Dibuja un corazón con borde negro estilo cómic
-    function drawComicHeart(ctx, hx, hy, size) {
+    // DIBUJAR ROSAS REALES CON PÉTALOS EN CAPAS Y TALLO CON HOJAS BOTÁNICAS
+    function drawDetailedRoseSprite(ctx, rx, ry, size, color) {
+      ctx.save();
+      ctx.translate(rx, ry);
+
+      // Tallo verde con hojas
+      ctx.fillStyle = "#2e7d32";
+      ctx.strokeStyle = "#1b1420";
+      ctx.lineWidth = 2;
+      ctx.fillRect(-1.5, size * 0.4, 3, size * 1.3);
+      ctx.strokeRect(-1.5, size * 0.4, 3, size * 1.3);
+
+      // Hoja derecha
+      ctx.beginPath();
+      ctx.ellipse(size * 0.7, size * 0.8, size * 0.45, size * 0.25, 0.3, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      // Hoja izquierda
+      ctx.beginPath();
+      ctx.ellipse(-size * 0.7, size * 1.0, size * 0.45, size * 0.25, -0.3, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      // Pétalos exteriores de la rosa
+      ctx.fillStyle = color;
+      ctx.lineWidth = 2.5;
+
+      // Capa base
+      ctx.beginPath();
+      ctx.arc(0, 0, size, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      // Capa de pétalos superpuestos (Rosa abierta)
+      ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+      ctx.beginPath();
+      ctx.arc(-size * 0.25, -size * 0.1, size * 0.6, 0.2 * Math.PI, 1.4 * Math.PI);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(size * 0.25, size * 0.1, size * 0.6, 1.1 * Math.PI, 0.1 * Math.PI);
+      ctx.stroke();
+
+      // Espiral central del capullo
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(0, 0, size * 0.45, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(0, -size * 0.05, size * 0.25, 0.2 * Math.PI, 1.8 * Math.PI);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function drawDetailedHeart(ctx, hx, hy, size) {
       ctx.save();
       ctx.translate(hx, hy);
-      ctx.fillStyle = "#ff2a55";
+      ctx.fillStyle = "#ff1744";
       ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 2.2;
 
       ctx.beginPath();
       const d = size;
@@ -850,8 +928,8 @@
       ctx.restore();
     }
 
-    // Dibujar Rosa con estilo Cartoon
-    function drawPuccaRose(ctx, r) {
+    // Dibujar Rosa en el mapa del sendero
+    function drawMapRose(ctx, r) {
       if (r.collected) return;
 
       const float = Math.sin(Date.now() * 0.006 + r.id) * 5;
@@ -864,34 +942,18 @@
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.ellipse(rx, r.y + 12, 18, 9, 0, 0, Math.PI * 2);
+      ctx.ellipse(rx, r.y + 16, 20, 9, 0, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // Tallo
-      ctx.fillStyle = "#2ec4b6";
-      ctx.fillRect(rx - 2.5, ry, 5, 14);
-      ctx.strokeRect(rx - 2.5, ry, 5, 14);
-
-      // Rosa Redonda Cartoon
+      // Dibujar la rosa detallada
       const info = CONFIG.rosas[r.id];
-      ctx.fillStyle = info.color;
-      ctx.lineWidth = 3.5;
-      ctx.beginPath();
-      ctx.arc(rx, ry - 3, 12, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      // Detalle de espiral
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.arc(rx, ry - 3, 6, 0.2 * Math.PI, 1.8 * Math.PI);
-      ctx.stroke();
+      drawDetailedRoseSprite(ctx, rx, ry, 13, info.color);
 
       ctx.restore();
     }
 
     /* =========================================================================
-       ACTUALIZACIÓN Y FÍSICAS CARTOON (SQUASH & STRETCH, NUBES DE POLVO)
+       ACTUALIZACIÓN Y FÍSICAS
        ========================================================================= */
     const keys = { up: false, down: false, left: false, right: false };
 
@@ -917,7 +979,6 @@
           tito.squash = 1 + Math.sin(tito.runFrame * 0.4) * 0.12;
           tito.stretch = 1 - Math.sin(tito.runFrame * 0.4) * 0.1;
 
-          // Generar nubecitas de polvo al correr rápido
           if (tito.runFrame % 5 === 0) {
             dustPuffs.push({
               x: tito.x - (tito.facing * 10),
@@ -947,14 +1008,13 @@
             if (dist < 40) {
               r.collected = true;
               collectedCount++;
-              document.getElementById('rose-score').innerText = `${collectedCount}/5`;
+              document.getElementById('rose-score').innerText = `${collectedCount} / 5`;
               playRoseChime();
               if (navigator.vibrate) navigator.vibrate(50);
 
               tito.heartEyesTimer = 160;
 
-              // Corazones cartoon saltando sobre la cabeza de Tito
-              for (let i = 0; i < 12; i++) {
+              for (let i = 0; i < 14; i++) {
                 headHearts.push({
                   x: tito.x + (Math.random() - 0.5) * 20,
                   y: tito.y - 35,
@@ -964,12 +1024,6 @@
                   alpha: 1
                 });
               }
-
-              if (collectedCount >= 5) {
-                document.getElementById('instPill').innerText = "💖 ¡Ramo listo! ¡Corre hacia Andrea!";
-              } else {
-                document.getElementById('instPill').innerText = `✨ ${collectedCount}/5 Rosas recolectadas`;
-              }
             }
           }
         });
@@ -978,9 +1032,7 @@
         const distAndrea = Math.hypot(tito.x - andrea.x, tito.y - andrea.y);
         if (distAndrea < 70) {
           if (collectedCount >= 5) {
-            startPuccaKissScene();
-          } else {
-            document.getElementById('instPill').innerText = `🌸 ¡Faltan ${5 - collectedCount} rosas!`;
+            startKissScene();
           }
         }
 
@@ -991,16 +1043,14 @@
         cameraY = Math.max(0, Math.min(WORLD_HEIGHT - viewportVirtualHeight, cameraY));
       }
 
-      // CINEMÁTICA CLÁSICA PUCCA: ¡Andrea se abalanza y le da un besote tornado!
+      // Cinemática del Beso
       if (gameState === 'KISS_SCENE') {
         kissTimer++;
 
-        // 1. Andrea salta hacia Tito con entusiasmo
         if (kissTimer < 25) {
           andrea.jumpY = Math.sin((kissTimer / 25) * Math.PI) * 24;
           andrea.kissOffset = (kissTimer / 25) * 18;
         } else if (kissTimer === 25) {
-          // ¡EL BESO TORNADO! (MUACK!)
           playKissSound();
           if (navigator.vibrate) navigator.vibrate([100, 50, 200]);
 
@@ -1016,16 +1066,15 @@
             });
           }
         } else if (kissTimer > 25 && kissTimer < 90) {
-          // Tito noqueado de amor girando y flotando
           tito.intenseLove = true;
           tito.spinAngle += 0.2;
-          tito.y -= 0.6; // Flotar suave
+          tito.y -= 0.6;
         } else if (kissTimer >= 120) {
           triggerFinalModal();
         }
       }
 
-      // Actualizar partículas
+      // Partículas
       dustPuffs.forEach((d, idx) => {
         d.r += 0.4;
         d.alpha -= 0.05;
@@ -1049,11 +1098,10 @@
     }
 
     let kissTimer = 0;
-    function startPuccaKissScene() {
+    function startKissScene() {
       gameState = 'KISS_SCENE';
       kissTimer = 0;
       keys.up = false; keys.down = false; keys.left = false; keys.right = false;
-      document.getElementById('instPill').innerText = "💋 ¡BESO PUCCA A TITO!";
     }
 
     function render() {
@@ -1063,18 +1111,18 @@
       ctx.scale(currentScale, currentScale);
       ctx.translate(0, -cameraY);
 
-      // Césped / Fondo verde alegre estilo Pucca
-      ctx.fillStyle = "#84dcc6";
+      // Césped
+      ctx.fillStyle = "#7ecba1";
       ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
-      // Sendero estilo cómic con bordes negros gruesos
+      // Sendero
       ctx.fillStyle = "#ffe4e8";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 4;
       ctx.fillRect(PATH_X - (PATH_WIDTH / 2), 0, PATH_WIDTH, WORLD_HEIGHT);
       ctx.strokeRect(PATH_X - (PATH_WIDTH / 2), 0, PATH_WIDTH, WORLD_HEIGHT);
 
-      // Adoquines decorativos
+      // Adoquines
       for (let y = 30; y < WORLD_HEIGHT; y += 70) {
         ctx.fillStyle = "#ffccd5";
         ctx.beginPath();
@@ -1095,7 +1143,7 @@
         }
       });
 
-      // Árboles y flores gigantes estilo cartoon
+      // Flores decorativas
       scenery.forEach(s => {
         ctx.fillStyle = s.color;
         ctx.strokeStyle = "#1b1420";
@@ -1103,14 +1151,13 @@
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fill(); ctx.stroke();
-        // Centro flor
-        ctx.fillStyle = "#ffcc00";
+        ctx.fillStyle = "#ffd600";
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r * 0.35, 0, Math.PI * 2);
         ctx.fill(); ctx.stroke();
       });
 
-      // Nubecitas de polvo al correr
+      // Polvo al correr
       dustPuffs.forEach(d => {
         ctx.save();
         ctx.globalAlpha = d.alpha;
@@ -1123,28 +1170,28 @@
         ctx.restore();
       });
 
-      // Rosas
-      roses.forEach(r => drawPuccaRose(ctx, r));
+      // Rosas en el mapa
+      roses.forEach(r => drawMapRose(ctx, r));
 
-      // Andrea
-      drawPuccaAndrea(ctx, andrea);
+      // Andrea detallada
+      drawDetailedAndrea(ctx, andrea);
 
-      // Tito
-      drawPuccaTito(ctx, tito);
+      // Tito detallado
+      drawDetailedTito(ctx, tito);
 
-      // Corazones al recoger rosas
+      // Corazones sobre la cabeza
       headHearts.forEach(h => {
         ctx.save();
         ctx.globalAlpha = h.alpha;
-        drawComicHeart(ctx, h.x, h.y, h.size);
+        drawDetailedHeart(ctx, h.x, h.y, h.size);
         ctx.restore();
       });
 
-      // Texto cómico "MUACK!" y tornado de corazones
+      // Beso cómic animado
       if (gameState === 'KISS_SCENE' && kissTimer >= 25 && kissTimer < 100) {
         ctx.save();
-        ctx.font = "900 22px 'Comic Sans MS', sans-serif";
-        ctx.fillStyle = "#ff2a55";
+        ctx.font = "900 22px 'Arial Rounded MT Bold', sans-serif";
+        ctx.fillStyle = "#ff1744";
         ctx.strokeStyle = "#1b1420";
         ctx.lineWidth = 5;
         ctx.textAlign = "center";
@@ -1159,7 +1206,7 @@
         ctx.globalAlpha = k.alpha;
         const kx = tito.x + Math.cos(k.angle) * k.dist;
         const ky = tito.y - 15 + Math.sin(k.angle) * k.dist;
-        drawComicHeart(ctx, kx, ky, k.size);
+        drawDetailedHeart(ctx, kx, ky, k.size);
         ctx.restore();
       });
 
@@ -1178,7 +1225,7 @@
     function startGame() {
       initAudio();
       startMusic();
-      document.getElementById('modal-start').classList.remove('active');
+      document.getElementById('startScreen').style.display = 'none';
       gameState = 'PLAYING';
       gameLoop();
     }
