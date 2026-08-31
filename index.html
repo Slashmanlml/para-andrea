@@ -2,13 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Tito & Andrea ✨ El Sendero de las Rosas</title>
   <style>
     :root {
       --primary: #ff4b72;
       --primary-hover: #ff2d5a;
-      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-bg: rgba(255, 255, 255, 0.96);
       --text: #2d182b;
       --text-muted: #72516d;
     }
@@ -22,26 +22,40 @@
       user-select: none;
     }
 
-    body {
+    html, body {
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
       background: #140817;
-      color: var(--text);
-      height: 100vh;
-      width: 100vw;
+    }
+
+    body {
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
+      color: var(--text);
     }
 
     #game-container {
       position: relative;
       width: 100%;
-      max-width: 440px;
+      max-width: 500px;
       height: 100%;
-      max-height: 860px;
+      height: 100dvh;
+      max-height: 920px;
       background: #559e5e;
       overflow: hidden;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (min-width: 501px) {
+      #game-container {
+        border-radius: 28px;
+        height: 94vh;
+      }
     }
 
     #gameCanvas {
@@ -54,9 +68,9 @@
     /* HUD Superior */
     .top-hud {
       position: absolute;
-      top: 14px;
-      left: 14px;
-      right: 14px;
+      top: max(12px, env(safe-area-inset-top, 12px));
+      left: 12px;
+      right: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -65,14 +79,15 @@
     }
 
     .counter-badge {
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(8px);
-      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: clamp(6px, 1.8vh, 10px) clamp(12px, 3.5vw, 18px);
       border-radius: 50px;
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: clamp(0.78rem, 2.4vw, 0.95rem);
       color: var(--primary);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.18);
       display: flex;
       align-items: center;
       gap: 6px;
@@ -81,42 +96,50 @@
 
     .audio-btn {
       pointer-events: auto;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       border: 2px solid #ffd6e0;
       border-radius: 50%;
-      width: 42px;
-      height: 42px;
+      width: clamp(38px, 10vw, 44px);
+      height: clamp(38px, 10vw, 44px);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.15rem;
+      font-size: clamp(1rem, 3vw, 1.25rem);
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.18);
+      transition: transform 0.1s;
+    }
+
+    .audio-btn:active {
+      transform: scale(0.92);
     }
 
     /* Pill de instrucción inferior */
     .instruction-pill {
       position: absolute;
-      bottom: 125px;
+      bottom: calc(max(18px, env(safe-area-inset-bottom, 18px)) + clamp(95px, 15vh, 125px));
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(20, 10, 25, 0.75);
+      background: rgba(20, 10, 25, 0.78);
       color: white;
-      padding: 6px 16px;
+      padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.82rem;
+      font-size: clamp(0.72rem, 2.2vw, 0.85rem);
       font-weight: 600;
       pointer-events: none;
       z-index: 25;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       border: 1px solid rgba(255, 255, 255, 0.2);
       white-space: nowrap;
+      text-align: center;
+      max-width: 90%;
     }
 
     /* Controles de pantalla táctil */
     .controls-wrapper {
       position: absolute;
-      bottom: 20px;
+      bottom: max(14px, env(safe-area-inset-bottom, 14px));
       left: 0;
       right: 0;
       display: flex;
@@ -127,21 +150,22 @@
 
     .dpad-container {
       display: grid;
-      grid-template-columns: 60px 60px 60px;
-      grid-template-rows: 48px 48px;
+      grid-template-columns: repeat(3, clamp(52px, 14vw, 66px));
+      grid-template-rows: repeat(2, clamp(42px, 11vw, 52px));
       gap: 6px;
       pointer-events: auto;
     }
 
     .dpad-btn {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 2px solid rgba(255, 75, 114, 0.4);
       border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: clamp(1.2rem, 3.5vw, 1.5rem);
       color: var(--primary);
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       cursor: pointer;
@@ -152,7 +176,7 @@
     .dpad-btn:active, .dpad-btn.active {
       background: #ff4b72;
       color: white;
-      transform: scale(0.92);
+      transform: scale(0.9);
     }
 
     .btn-up { grid-column: 2; grid-row: 1; }
@@ -164,12 +188,13 @@
     .modal-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(15, 5, 20, 0.8);
-      backdrop-filter: blur(8px);
+      background: rgba(15, 5, 20, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: clamp(14px, 4vw, 24px);
       z-index: 100;
       opacity: 0;
       pointer-events: none;
@@ -184,9 +209,9 @@
     .modal-card {
       background: var(--card-bg);
       border-radius: 28px;
-      padding: 26px 20px;
+      padding: clamp(20px, 5vw, 28px) clamp(16px, 4vw, 24px);
       width: 100%;
-      max-width: 350px;
+      max-width: 360px;
       text-align: center;
       box-shadow: 0 15px 35px rgba(0,0,0,0.4);
       border: 2px solid rgba(255, 255, 255, 0.8);
@@ -199,26 +224,26 @@
     }
 
     .modal-card h2 {
-      font-size: 1.4rem;
+      font-size: clamp(1.2rem, 4vw, 1.45rem);
       font-weight: 800;
       color: #3b1734;
       margin-bottom: 8px;
     }
 
     .modal-card p {
-      font-size: 0.95rem;
+      font-size: clamp(0.86rem, 2.7vw, 0.98rem);
       color: var(--text-muted);
       line-height: 1.45;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .btn-main {
       background: linear-gradient(135deg, var(--primary) 0%, #ff7597 100%);
       color: white;
       border: none;
-      padding: 14px 24px;
+      padding: clamp(12px, 3vw, 15px) clamp(20px, 4vw, 26px);
       border-radius: 50px;
-      font-size: 1.05rem;
+      font-size: clamp(0.95rem, 3vw, 1.08rem);
       font-weight: 700;
       cursor: pointer;
       width: 100%;
@@ -240,7 +265,7 @@
 
     #btn-yes {
       position: absolute;
-      left: 10px;
+      left: 8px;
       top: 25px;
       width: 125px;
       z-index: 10;
@@ -248,7 +273,7 @@
 
     #btn-no {
       position: absolute;
-      right: 10px;
+      right: 8px;
       top: 25px;
       width: 125px;
       background: #8e8e93;
@@ -301,7 +326,7 @@
     <!-- MODAL DE INICIO -->
     <div class="modal-overlay active" id="modal-start">
       <div class="modal-card">
-        <div style="font-size: 3.5rem; margin-bottom: 8px;">🌷✨💌</div>
+        <div style="font-size: 3.2rem; margin-bottom: 8px;">🌷✨💌</div>
         <h2>¡Hola, Andrea!</h2>
         <p>Tito está recorriendo el sendero mágico hacia ti para llevarte un ramo de rosas especiales.</p>
         <p style="font-size: 0.88rem; color: #ff4b72; font-weight: 700;">¡Acompáñalo por el camino para encontrarse al final!</p>
@@ -469,11 +494,12 @@
     }
 
     /* =========================================================================
-       CONFIGURACIÓN DEL MUNDO VERTICAL (SENDERO DE JARDÍN)
+       CONFIGURACIÓN DEL MUNDO VIRTUAL Y RESPONSIVE
        ========================================================================= */
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
+    const V_WIDTH = 440; // Ancho virtual de referencia para escala uniforme
     const WORLD_WIDTH = 440;
     const WORLD_HEIGHT = 2600;
     const PATH_X = WORLD_WIDTH / 2;
@@ -482,8 +508,9 @@
     let gameState = 'START'; // START, PLAYING, KISS_SCENE, FINAL
     let collectedCount = 0;
     let cameraY = WORLD_HEIGHT - 650;
+    let currentScale = 1;
 
-    // Tito (Personaje con rulos negros y estados de enamoramiento)
+    // Tito
     const tito = {
       x: PATH_X,
       y: WORLD_HEIGHT - 120,
@@ -491,14 +518,14 @@
       h: 58,
       speed: 4.5,
       walkFrame: 0,
-      heartEyesTimer: 0, // Temporizador de ojos de corazón
-      thoughtText: "",   // Palabra tierna que piensa
-      thoughtTimer: 0,   // Temporizador de globo de pensamiento
-      intenseLove: false,// Enamoramiento extremo tras el beso
+      heartEyesTimer: 0,
+      thoughtText: "",
+      thoughtTimer: 0,
+      intenseLove: false,
       levitate: 0
     };
 
-    // Andrea (Esperando al final del sendero)
+    // Andrea
     const andrea = {
       x: PATH_X,
       y: 110,
@@ -508,7 +535,7 @@
       kissKissed: false
     };
 
-    // Rosas colocadas A LOS COSTADOS del sendero
+    // Rosas a los costados
     const roses = [
       { id: 0, x: PATH_X - 105, y: WORLD_HEIGHT - 450, side: 'left', collected: false },
       { id: 1, x: PATH_X + 105, y: WORLD_HEIGHT - 900, side: 'right', collected: false },
@@ -545,15 +572,23 @@
       });
     }
 
-    // Corazones de enamoramiento que explotan en la cinemática del beso
     const loveHearts = [];
 
+    // Redimensionado responsivo con soporte Retina Display
     function resizeCanvas() {
       const container = document.getElementById('game-container');
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
+      currentScale = (width / V_WIDTH) * dpr;
     }
     window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 150));
     resizeCanvas();
 
     /* =========================================================================
@@ -561,7 +596,7 @@
        ========================================================================= */
 
     function drawCurlyHair(ctx, x, y, isGirl = false) {
-      ctx.fillStyle = "#120c16"; // Rulos negros
+      ctx.fillStyle = "#120c16";
 
       const curls = isGirl
         ? [
@@ -608,16 +643,13 @@
       }
     }
 
-    // Mini carita de Andrea para dentro del globo de pensamiento
     function drawMiniAndreaFace(ctx, x, y) {
       ctx.save();
-      // Cabeza
       ctx.fillStyle = "#fcd5b5";
       ctx.beginPath();
       ctx.arc(x, y, 9, 0, Math.PI * 2);
       ctx.fill();
 
-      // Rulos
       ctx.fillStyle = "#120c16";
       const miniCurls = [
         { dx: -9, dy: -6, r: 4 },
@@ -632,13 +664,11 @@
         ctx.fill();
       });
 
-      // Flor
       ctx.fillStyle = "#ff4b72";
       ctx.beginPath();
       ctx.arc(x + 8, y - 6, 2.5, 0, Math.PI * 2);
       ctx.fill();
 
-      // Ojitos felices
       ctx.strokeStyle = "#1a1a1a";
       ctx.lineWidth = 1.2;
       ctx.beginPath();
@@ -646,7 +676,6 @@
       ctx.arc(x + 3, y - 1, 2, 0.8 * Math.PI, 0.2 * Math.PI, true);
       ctx.stroke();
 
-      // Sonrisita
       ctx.beginPath();
       ctx.arc(x, y + 2, 2.5, 0.1 * Math.PI, 0.9 * Math.PI);
       ctx.stroke();
@@ -654,7 +683,6 @@
       ctx.restore();
     }
 
-    // Dibujar a Tito
     function drawTito(ctx, p) {
       ctx.save();
       ctx.translate(p.x, p.y - p.levitate);
@@ -662,29 +690,24 @@
       const isMoving = (keys.up || keys.down || keys.left || keys.right);
       const legBob = isMoving ? Math.sin(p.walkFrame * 0.25) * 4 : 0;
 
-      // Sombra
       ctx.fillStyle = "rgba(0,0,0,0.2)";
       ctx.beginPath();
       ctx.ellipse(0, 20 + p.levitate, 16, 8, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Zapatillas
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(-10, 16 + legBob, 8, 6);
       ctx.fillRect(2, 16 - legBob, 8, 6);
 
-      // Pantalones
       ctx.fillStyle = "#2b3a4a";
       ctx.fillRect(-9, 5, 7, 13 + legBob);
       ctx.fillRect(2, 5, 7, 13 - legBob);
 
-      // Buzo verde menta
       ctx.fillStyle = "#2a9d8f";
       ctx.beginPath();
       ctx.roundRect(-12, -10, 24, 18, 5);
       ctx.fill();
 
-      // Ramo de flores
       if (collectedCount > 0) {
         ctx.fillStyle = "#ff4b72";
         ctx.beginPath();
@@ -694,55 +717,44 @@
         ctx.fillRect(11, 2, 4, 8);
       }
 
-      // Cabeza
       ctx.fillStyle = "#fcd5b5";
       ctx.beginPath();
       ctx.arc(0, -18, 12, 0, Math.PI * 2);
       ctx.fill();
 
-      // Rulos negros
       drawCurlyHair(ctx, 0, -18, false);
 
-      // OJOS: Normales o Corazones enamorados 😍
       if (p.heartEyesTimer > 0 || p.intenseLove) {
-        // Ojos de corazón latiendo
         const pulse = 1 + Math.sin(Date.now() * 0.015) * 0.25;
         const heartSize = p.intenseLove ? 6 * pulse : 4 * pulse;
 
         ctx.fillStyle = "#ff0055";
-        // Ojo izq
         drawMiniHeart(ctx, -5, -18, heartSize);
-        // Ojo der
         drawMiniHeart(ctx, 5, -18, heartSize);
 
-        // Sonrisa gigante enamorada
         ctx.fillStyle = "#c06e52";
         ctx.beginPath();
         ctx.arc(0, -13, 4.5, 0, Math.PI);
         ctx.fill();
 
-        // Sonrojo intenso
         ctx.fillStyle = "rgba(255, 40, 80, 0.65)";
         ctx.beginPath();
         ctx.arc(-8, -14, 4, 0, Math.PI * 2);
         ctx.arc(8, -14, 4, 0, Math.PI * 2);
         ctx.fill();
       } else {
-        // Ojos normales
         ctx.fillStyle = "#1a1a1a";
         ctx.beginPath();
         ctx.arc(-4, -18, 2, 0, Math.PI * 2);
         ctx.arc(4, -18, 2, 0, Math.PI * 2);
         ctx.fill();
 
-        // Sonrisa
         ctx.strokeStyle = "#c06e52";
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.arc(0, -14, 3.5, 0.1 * Math.PI, 0.9 * Math.PI);
         ctx.stroke();
 
-        // Sonrojo
         ctx.fillStyle = "rgba(255, 100, 120, 0.4)";
         ctx.beginPath();
         ctx.arc(-7, -15, 2.5, 0, Math.PI * 2);
@@ -750,7 +762,6 @@
         ctx.fill();
       }
 
-      // GLOBO DE PENSAMIENTO (Aparece Andrea y la palabra tierna)
       if (p.thoughtTimer > 0) {
         drawThoughtBubble(ctx, 35, -55, p.thoughtText);
       }
@@ -770,17 +781,14 @@
       ctx.restore();
     }
 
-    // Globo de pensamiento flotante con Andrea dentro
     function drawThoughtBubble(ctx, bx, by, text) {
       ctx.save();
-      // Bolitas conectoras
       ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
       ctx.beginPath();
       ctx.arc(bx - 22, by + 28, 3.5, 0, Math.PI * 2);
       ctx.arc(bx - 14, by + 18, 5, 0, Math.PI * 2);
       ctx.fill();
 
-      // Nube principal de pensamiento
       ctx.fillStyle = "rgba(255, 255, 255, 0.96)";
       ctx.shadowColor = "rgba(255, 75, 114, 0.35)";
       ctx.shadowBlur = 10;
@@ -789,14 +797,11 @@
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Dibujar carita de Andrea dentro
       drawMiniAndreaFace(ctx, bx - 14, by - 4);
 
-      // Corazoncito al lado de Andrea
       ctx.fillStyle = "#ff4b72";
       drawMiniHeart(ctx, bx + 16, by - 12, 5);
 
-      // Palabra tierna debajo
       ctx.fillStyle = "#ff2a55";
       ctx.font = "bold 9.5px sans-serif";
       ctx.textAlign = "center";
@@ -805,14 +810,12 @@
       ctx.restore();
     }
 
-    // Dibujar a Andrea
     function drawAndrea(ctx, p) {
       ctx.save();
       ctx.translate(p.x, p.y + p.kissOffset);
 
       const breathe = Math.sin(Date.now() * 0.003) * 1.5;
 
-      // Arco de flores
       ctx.strokeStyle = "#ffd6e0";
       ctx.lineWidth = 4;
       ctx.beginPath();
@@ -828,13 +831,11 @@
         ctx.fill();
       }
 
-      // Sombra
       ctx.fillStyle = "rgba(0,0,0,0.2)";
       ctx.beginPath();
       ctx.ellipse(0, 20, 18, 9, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Vestido
       ctx.fillStyle = "#ff7597";
       ctx.beginPath();
       ctx.moveTo(-5, -6);
@@ -847,18 +848,14 @@
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(-7, -1, 14, 2.5);
 
-      // Cabeza
       ctx.fillStyle = "#fcd5b5";
       ctx.beginPath();
       ctx.arc(0, -18 + breathe, 12, 0, Math.PI * 2);
       ctx.fill();
 
-      // Rulos negros
       drawCurlyHair(ctx, 0, -18 + breathe, true);
 
-      // Ojos tiernos (o guiño al dar el beso)
       if (p.kissKissed) {
-        // Ojito guiñado coqueto 😉
         ctx.strokeStyle = "#1a1a1a";
         ctx.lineWidth = 1.6;
         ctx.beginPath();
@@ -876,21 +873,18 @@
         ctx.fill();
       }
 
-      // Sonrisa
       ctx.strokeStyle = "#c06e52";
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.arc(0, -13 + breathe, 3.5, 0.1 * Math.PI, 0.9 * Math.PI);
       ctx.stroke();
 
-      // Sonrojo
       ctx.fillStyle = "rgba(255, 60, 100, 0.45)";
       ctx.beginPath();
       ctx.arc(-7, -14 + breathe, 3, 0, Math.PI * 2);
       ctx.arc(7, -14 + breathe, 3, 0, Math.PI * 2);
       ctx.fill();
 
-      // Corazón
       const heartFloat = Math.sin(Date.now() * 0.005) * 4;
       ctx.font = "14px sans-serif";
       ctx.fillText("💖", -6, -42 + heartFloat);
@@ -898,7 +892,6 @@
       ctx.restore();
     }
 
-    // Dibujar Rosa
     function drawRose(ctx, r) {
       if (r.collected) return;
 
@@ -969,11 +962,10 @@
         tito.x = Math.max(30, Math.min(WORLD_WIDTH - 30, tito.x));
         tito.y = Math.max(andrea.y + 40, Math.min(WORLD_HEIGHT - 50, tito.y));
 
-        // Timers
         if (tito.heartEyesTimer > 0) tito.heartEyesTimer--;
         if (tito.thoughtTimer > 0) tito.thoughtTimer--;
 
-        // Recolección de rosas
+        // Recolección
         roses.forEach(r => {
           if (!r.collected) {
             const dist = Math.hypot(tito.x - r.x, tito.y - r.y);
@@ -984,9 +976,8 @@
               playRoseChime();
               if (navigator.vibrate) navigator.vibrate(50);
 
-              // Activar ojos de corazón y pensamiento con Andrea
               const rInfo = CONFIG.rosas[r.id];
-              tito.heartEyesTimer = 180; // 3 segundos
+              tito.heartEyesTimer = 180;
               tito.thoughtTimer = 180;
               tito.thoughtText = rInfo.palabra;
 
@@ -999,7 +990,7 @@
           }
         });
 
-        // Encuentro con Andrea -> Iniciar Cinemática del Beso
+        // Encuentro
         const distAndrea = Math.hypot(tito.x - andrea.x, tito.y - andrea.y);
         if (distAndrea < 65) {
           if (collectedCount >= 5) {
@@ -1010,16 +1001,15 @@
         }
 
         // Cámara vertical
-        const targetCamY = tito.y - (canvas.height * 0.65);
+        const viewportVirtualHeight = canvas.height / currentScale;
+        const targetCamY = tito.y - (viewportVirtualHeight * 0.65);
         cameraY += (targetCamY - cameraY) * 0.1;
-        cameraY = Math.max(0, Math.min(WORLD_HEIGHT - canvas.height, cameraY));
+        cameraY = Math.max(0, Math.min(WORLD_HEIGHT - viewportVirtualHeight, cameraY));
       }
 
-      // Cinemática del Beso y Enamoramiento Intenso
       if (gameState === 'KISS_SCENE') {
         kissTimer++;
 
-        // Andrea se acerca y da el besito
         if (kissTimer < 40) {
           andrea.kissOffset = (kissTimer / 40) * 16;
         } else if (kissTimer === 40) {
@@ -1027,7 +1017,6 @@
           playKissSound();
           if (navigator.vibrate) navigator.vibrate([100, 50, 150]);
 
-          // Generar lluvia de corazones de enamoramiento
           for (let i = 0; i < 60; i++) {
             loveHearts.push({
               x: tito.x,
@@ -1041,13 +1030,12 @@
           }
         } else if (kissTimer > 40 && kissTimer < 90) {
           tito.intenseLove = true;
-          tito.levitate = Math.sin((kissTimer - 40) * 0.1) * 8; // Levitar de amor
+          tito.levitate = Math.sin((kissTimer - 40) * 0.1) * 8;
         } else if (kissTimer >= 130) {
           triggerFinalModal();
         }
       }
 
-      // Actualizar corazones de amor
       loveHearts.forEach((h, idx) => {
         h.x += h.vx;
         h.y += h.vy;
@@ -1056,7 +1044,6 @@
         if (h.alpha <= 0) loveHearts.splice(idx, 1);
       });
 
-      // Actualizar destellos
       sparkles.forEach(s => {
         s.x += s.speedX;
         s.y += s.speedY;
@@ -1079,6 +1066,8 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       ctx.save();
+      // Escala responsiva uniforme
+      ctx.scale(currentScale, currentScale);
       ctx.translate(0, -cameraY);
 
       // Césped
@@ -1127,7 +1116,7 @@
       // Tito
       drawTito(ctx, tito);
 
-      // Texto de Beso animado durante la cinemática
+      // Texto de Beso animado
       if (gameState === 'KISS_SCENE' && kissTimer >= 40 && kissTimer < 110) {
         ctx.save();
         ctx.font = "bold 16px sans-serif";
@@ -1137,7 +1126,7 @@
         ctx.restore();
       }
 
-      // Corazones de amor flotando tras el beso
+      // Corazones de amor
       loveHearts.forEach(h => {
         ctx.save();
         ctx.globalAlpha = h.alpha;
@@ -1219,7 +1208,7 @@
     }
 
     /* =========================================================================
-       CONTROLES
+       CONTROLES Y TOUCH RESPONSIVE
        ========================================================================= */
     function bindBtn(id, key) {
       const el = document.getElementById(id);
@@ -1260,11 +1249,15 @@
       if (e.key === 'ArrowRight' || e.key === 'd') keys.right = false;
     });
 
+    // Control táctil exacto en escala
     canvas.addEventListener('pointerdown', (e) => {
       if (gameState !== 'PLAYING') return;
       const rect = canvas.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top + cameraY;
+      const rawX = (e.clientX - rect.left) * (canvas.width / rect.width);
+      const rawY = (e.clientY - rect.top) * (canvas.height / rect.height);
+      
+      const clickX = rawX / currentScale;
+      const clickY = (rawY / currentScale) + cameraY;
 
       if (clickY < tito.y - 15) keys.up = true;
       if (clickY > tito.y + 15) keys.down = true;
