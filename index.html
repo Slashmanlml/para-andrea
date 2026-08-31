@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Tito & Andrea ✨ Una historia de amor</title>
+  <title>Tito & Andrea ✨ El Sendero de las Rosas</title>
   <style>
     :root {
       --primary: #ff4b72;
@@ -23,52 +23,56 @@
     }
 
     body {
-      background: #1a0b1e;
+      background: #140817;
       color: var(--text);
-      min-height: 100vh;
+      height: 100vh;
+      width: 100vw;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       overflow: hidden;
-      position: relative;
     }
 
     #game-container {
       position: relative;
       width: 100%;
-      max-width: 480px;
-      height: 100vh;
-      max-height: 850px;
-      display: flex;
-      flex-direction: column;
-      background: #87CEEB;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+      max-width: 440px;
+      height: 100%;
+      max-height: 860px;
+      background: #5fa868;
       overflow: hidden;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
     }
 
-    /* Barra superior de estado */
+    #gameCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+    }
+
+    /* HUD Superior */
     .top-hud {
       position: absolute;
-      top: 12px;
-      left: 12px;
-      right: 12px;
+      top: 14px;
+      left: 14px;
+      right: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 20;
+      z-index: 30;
       pointer-events: none;
     }
 
     .counter-badge {
       background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(8px);
-      padding: 8px 14px;
+      padding: 8px 16px;
       border-radius: 50px;
       font-weight: 800;
       font-size: 0.9rem;
       color: var(--primary);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       display: flex;
       align-items: center;
       gap: 6px;
@@ -80,87 +84,127 @@
       background: rgba(255, 255, 255, 0.92);
       border: 2px solid #ffd6e0;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
-    /* Canvas del Juego */
-    #gameCanvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-      touch-action: none;
+    /* Mensaje emergente corto y tierno al juntar una rosa */
+    .sweet-toast {
+      position: absolute;
+      top: 75px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px) scale(0.9);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      padding: 12px 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(255, 75, 114, 0.3);
+      border: 2px solid #ff4b72;
+      z-index: 50;
+      text-align: center;
+      max-width: 88%;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    /* Controles táctiles en pantalla para celular */
-    .touch-controls {
+    .sweet-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    .toast-rose-tag {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .toast-text {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #3b1734;
+      line-height: 1.35;
+    }
+
+    /* Instrucción en pantalla */
+    .instruction-pill {
+      position: absolute;
+      bottom: 125px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20, 10, 25, 0.75);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      pointer-events: none;
+      z-index: 25;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Controles de pantalla táctil (D-Pad / Flechas) */
+    .controls-wrapper {
       position: absolute;
       bottom: 20px;
       left: 0;
       right: 0;
-      padding: 0 20px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 20;
+      justify-content: center;
+      z-index: 30;
       pointer-events: none;
     }
 
-    .d-pad {
-      display: flex;
-      gap: 12px;
+    .dpad-container {
+      display: grid;
+      grid-template-columns: 60px 60px 60px;
+      grid-template-rows: 48px 48px;
+      gap: 6px;
       pointer-events: auto;
     }
 
-    .touch-btn {
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
+    .dpad-btn {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(8px);
       border: 2px solid rgba(255, 75, 114, 0.4);
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       color: var(--primary);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       cursor: pointer;
       user-select: none;
-      transition: transform 0.1s, background 0.1s;
+      transition: all 0.1s;
     }
 
-    .touch-btn:active, .touch-btn.active {
-      transform: scale(0.92);
+    .dpad-btn:active, .dpad-btn.active {
       background: #ff4b72;
       color: white;
+      transform: scale(0.92);
     }
 
-    .action-btn-area {
-      pointer-events: auto;
-    }
+    .btn-up { grid-column: 2; grid-row: 1; }
+    .btn-left { grid-column: 1; grid-row: 2; }
+    .btn-down { grid-column: 2; grid-row: 2; }
+    .btn-right { grid-column: 3; grid-row: 2; }
 
-    .touch-btn-jump {
-      width: 72px;
-      height: 72px;
-      font-size: 1.1rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #ff4b72, #ff7597);
-      color: white;
-      border: 2px solid white;
-    }
-
-    /* Modales y Mensajes */
-    .overlay-screen {
+    /* Modales */
+    .modal-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(20, 5, 20, 0.75);
+      background: rgba(15, 5, 20, 0.78);
       backdrop-filter: blur(8px);
       display: flex;
       justify-content: center;
@@ -172,7 +216,7 @@
       transition: opacity 0.3s ease;
     }
 
-    .overlay-screen.active {
+    .modal-overlay.active {
       opacity: 1;
       pointer-events: auto;
     }
@@ -180,42 +224,31 @@
     .modal-card {
       background: var(--card-bg);
       border-radius: 28px;
-      padding: 26px 22px;
+      padding: 26px 20px;
       width: 100%;
-      max-width: 360px;
+      max-width: 350px;
       text-align: center;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
       border: 2px solid rgba(255, 255, 255, 0.8);
       transform: scale(0.9);
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .overlay-screen.active .modal-card {
+    .modal-overlay.active .modal-card {
       transform: scale(1);
     }
 
-    .badge-rose {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 16px;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      margin-bottom: 12px;
-    }
-
     .modal-card h2 {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: #3b1734;
       margin-bottom: 8px;
     }
 
     .modal-card p {
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
-      line-height: 1.5;
+      line-height: 1.45;
       margin-bottom: 18px;
     }
 
@@ -225,7 +258,7 @@
       border: none;
       padding: 14px 24px;
       border-radius: 50px;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       cursor: pointer;
       width: 100%;
@@ -237,27 +270,27 @@
       transform: scale(0.96);
     }
 
-    /* Modal Final de Propuesta */
-    .proposal-buttons {
+    /* Propuesta Final */
+    .proposal-area {
       position: relative;
-      height: 120px;
-      margin-top: 10px;
+      height: 110px;
       width: 100%;
+      margin-top: 10px;
     }
 
     #btn-yes {
       position: absolute;
       left: 10px;
-      top: 30px;
-      width: 130px;
+      top: 25px;
+      width: 125px;
       z-index: 10;
     }
 
     #btn-no {
       position: absolute;
       right: 10px;
-      top: 30px;
-      width: 130px;
+      top: 25px;
+      width: 125px;
       background: #8e8e93;
       color: white;
       border: none;
@@ -273,26 +306,6 @@
       box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35) !important;
       margin-top: 10px;
     }
-
-    /* Guía en pantalla */
-    .mission-banner {
-      position: absolute;
-      top: 65px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(6px);
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #3b1734;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      z-index: 15;
-      white-space: nowrap;
-      pointer-events: none;
-      border: 1px solid rgba(255, 75, 114, 0.2);
-    }
   </style>
 </head>
 <body>
@@ -302,75 +315,68 @@
     <!-- HUD Superior -->
     <div class="top-hud">
       <div class="counter-badge">
-        <span>💐 Rosas para Andrea:</span>
+        <span>💐 Ramo para Andrea:</span>
         <span id="rose-score" style="font-size: 1.1rem; color: #ff2d5a;">0/5</span>
       </div>
       <button class="audio-btn" id="audioToggle" onclick="toggleAudio()">🎵</button>
     </div>
 
-    <div class="mission-banner" id="mission-text">
-      🌸 ¡Ayuda a Tito a recolectar todas las rosas para Andrea!
+    <!-- Toast / Globo con mensaje corto al tomar cada rosa -->
+    <div class="sweet-toast" id="sweetToast">
+      <div class="toast-rose-tag" id="toastTag">🌹 Rosa Roja</div>
+      <div class="toast-text" id="toastText">"Tus rulos y tu sonrisa me encantan."</div>
+    </div>
+
+    <div class="instruction-pill" id="instPill">
+      🐾 Avanza por el sendero hacia Andrea y junta las rosas a los lados
     </div>
 
     <!-- Canvas Principal -->
     <canvas id="gameCanvas"></canvas>
 
-    <!-- Controles en pantalla táctil -->
-    <div class="touch-controls">
-      <div class="d-pad">
-        <button class="touch-btn" id="btnLeft">◀</button>
-        <button class="touch-btn" id="btnRight">▶</button>
-      </div>
-      <div class="action-btn-area">
-        <button class="touch-btn touch-btn-jump" id="btnJump">SALTAR<br>✨</button>
+    <!-- Controles táctiles -->
+    <div class="controls-wrapper">
+      <div class="dpad-container">
+        <button class="dpad-btn btn-up" id="btnUp">▲</button>
+        <button class="dpad-btn btn-left" id="btnLeft">◀</button>
+        <button class="dpad-btn btn-down" id="btnDown">▼</button>
+        <button class="dpad-btn btn-right" id="btnRight">▶</button>
       </div>
     </div>
 
     <!-- MODAL DE INICIO -->
-    <div class="overlay-screen active" id="modal-start">
+    <div class="modal-overlay active" id="modal-start">
       <div class="modal-card">
         <div style="font-size: 3.5rem; margin-bottom: 8px;">🌷✨💌</div>
         <h2>¡Hola, Andrea!</h2>
-        <p>Tito tiene una misión muy especial hoy: quiere recolectar las 5 rosas mágicas del jardín para armarte el ramo más lindo del mundo.</p>
-        <p style="font-size: 0.88rem; color: #ff4b72; font-weight: 600;">¿Lista para ayudar a Tito a llegar hasta ti?</p>
+        <p>Tito está recorriendo el sendero mágico hacia ti para llevarte un ramo de rosas especiales.</p>
+        <p style="font-size: 0.88rem; color: #ff4b72; font-weight: 700;">¡Acompáñalo por el camino para encontrarse al final!</p>
         <button class="btn-main" onclick="startGame()">
-          ¡Comenzar la Aventura! 💖
+          ¡Comenzar a Caminar! 💖
         </button>
       </div>
     </div>
 
-    <!-- MODAL DE MENSAJE DE ROSA -->
-    <div class="overlay-screen" id="modal-rose">
+    <!-- MODAL FINAL: ENCUENTRO Y PROPUESTA -->
+    <div class="modal-overlay" id="modal-final">
       <div class="modal-card">
-        <div class="badge-rose" id="rose-badge">🌹 Rosa Roja</div>
-        <h2 id="rose-title">Mensaje de Tito</h2>
-        <p id="rose-message" style="font-style: italic; color: #3b1734; font-size: 1.05rem;">"..."</p>
-        <button class="btn-main" onclick="resumeGame()">
-          Guardar en el Ramo 💐
-        </button>
-      </div>
-    </div>
-
-    <!-- MODAL FINAL: ENTREGA DEL RAMO Y PREGUNTA -->
-    <div class="overlay-screen" id="modal-final">
-      <div class="modal-card">
-        <div style="font-size: 3.2rem; margin-bottom: 8px;">👑💐✨</div>
-        <h2>¡Para la chica de los rulos más lindos!</h2>
-        <p style="margin-bottom: 10px; font-size: 0.95rem;">
-          Tito recolectó cada rosa pensando en lo increíble, divertida y especial que eres, Andrea.
+        <div style="font-size: 3.2rem; margin-bottom: 6px;">👑💐✨</div>
+        <h2>¡Llegaste a Andrea!</h2>
+        <p style="margin-bottom: 12px; font-size: 0.95rem;">
+          Tito te entregó el ramo completo de rosas pensando en ti en cada paso del camino.
         </p>
-        <h3 style="color: #ff2d5a; font-size: 1.25rem; font-weight: 800; margin: 12px 0 4px 0;" id="final-question">
+        <h3 style="color: #ff2d5a; font-size: 1.25rem; font-weight: 800; margin-bottom: 4px;" id="final-question">
           ¿Aceptarías tener una cita conmigo? 🥰
         </h3>
-        <p style="font-size: 0.85rem; color: #72516d;">(Prometo hacerte reír y cuidarte un montón)</p>
+        <p style="font-size: 0.85rem; color: #72516d;">(Prometo muchas risas y cuidarte un montón)</p>
 
         <div class="proposal-buttons" id="proposalArea">
-          <button class="btn-main" id="btn-yes" onclick="celebrateProposal()">¡SÍ! 💖</button>
+          <button class="btn-main" id="btn-yes" onclick="celebrateYes()">¡SÍ! 💖</button>
           <button id="btn-no" onmouseover="dodgeNo()" ontouchstart="dodgeNo()" onclick="dodgeNo()">No 😜</button>
         </div>
 
         <button class="btn-main whatsapp-btn" id="btnWhatsApp" style="display: none;" onclick="openWhatsApp()">
-          Contarle a Tito por WhatsApp 💬
+          Confirmar por WhatsApp a Tito 💬
         </button>
       </div>
     </div>
@@ -379,62 +385,52 @@
 
   <script>
     /* =========================================================================
-       CONFIGURACIÓN DE ROSAS Y MENSAJES ROMÁNTICOS
+       CONFIGURACIÓN DE ROSAS (FRASES CORTAS Y TIERNAS)
        ========================================================================= */
     const CONFIG = {
       nombreChico: "Tito",
       nombreChica: "Andrea",
-      telefonoWhatsApp: "5493765005973", // Número configurado de Tito (+54 9 3765 005973)
-      mensajeWhatsApp: "¡Hola Tito! Jugué a tu juego y junté todas las rosas... ¡Y dije que SÍ a la cita! 🥰💐✨",
+      telefonoWhatsApp: "5493765005973", // Número de Tito (+54 9 3765 005973)
+      mensajeWhatsApp: "¡Hola Tito! Llegaste al final del camino con todas las rosas... ¡Y dije que SÍ a la cita! 🥰💐✨",
       rosas: [
         {
           color: "#ff2a55",
-          badgeColor: "rgba(255, 42, 85, 0.15)",
-          nombre: "Rosa Roja 🌹",
-          titulo: "Tu hermosa energía",
-          mensaje: "Desde que te conocí, tu sonrisa y tus rulos hermosos iluminan cualquier día gris. Tienes una luz única, Andrea."
+          tag: "Rosa Roja 🌹",
+          frase: "Tus rulos y tu sonrisa me vuelven loco ✨"
         },
         {
           color: "#ff70a6",
-          badgeColor: "rgba(255, 112, 166, 0.15)",
-          nombre: "Rosa Rosa 🌸",
-          titulo: "Tu dulzura",
-          mensaje: "Me encanta tu sentido del humor y lo lindo que se siente hablar contigo por horas sin que el tiempo importe."
+          tag: "Rosa Rosa 🌸",
+          frase: "Amo reírme y hablar contigo por horas 💖"
         },
         {
           color: "#ffd166",
-          badgeColor: "rgba(255, 209, 102, 0.25)",
-          nombre: "Rosa Amarilla 🌻",
-          titulo: "Tu alegría contagiosa",
-          mensaje: "Cada risa contigo es un momento que me guardo en el corazón. Haces que todo sea más divertido y especial."
+          tag: "Rosa Amarilla 🌻",
+          frase: "Tu energía linda alegra todo mi día ☀️"
         },
         {
           color: "#ffffff",
-          badgeColor: "rgba(200, 200, 200, 0.3)",
-          nombre: "Rosa Blanca 🤍",
-          titulo: "La paz que me das",
-          mensaje: "Estar contigo me transmite una tranquilidad tan bonita que solo alguien con un corazón tan noble como el tuyo puede dar."
+          tag: "Rosa Blanca 🤍",
+          frase: "Estar contigo me da una paz hermosa 🌷"
         },
         {
           color: "#a06cd5",
-          badgeColor: "rgba(160, 108, 213, 0.2)",
-          nombre: "Rosa Mágica 💜",
-          titulo: "Lo especial que eres",
-          mensaje: "No hay nadie en el mundo como tú, mi chica de rulos favorita. Eres la casualidad más linda que me pudo pasar."
+          tag: "Rosa Mágica 💜",
+          frase: "Eres mi casualidad favorita en el mundo 👑"
         }
       ],
       frasesNo: [
         "¿Segura? 👀",
         "¡Casi me atrapas! 😜",
         "¡Opción bloqueada! 💖",
-        "¡Intenta el botón verde! 🌹",
-        "¡No se vale decir no! 🥰",
-        "¡Piénsalo bien! ✨"
+        "¡Por ahí no es! 🌹",
+        "¡Piénsalo bien! 🥰",
+        "¡Intenta el botón verde! ✨"
       ]
     };
 
     /* =========================================================================
-       SINTETIZADOR DE AUDIO WEB (Sin archivos externos para carga inmediata)
+       AUDIO SINTETIZADO (Web Audio API)
        ========================================================================= */
     let audioCtx = null;
     let musicPlaying = false;
@@ -457,7 +453,7 @@
           const gain = audioCtx.createGain();
           osc.type = type;
           osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
@@ -467,36 +463,29 @@
       }, delay);
     }
 
-    function playJumpSound() {
-      if (!audioCtx) return;
-      playTone(320, 'sine', 0.12);
-      playTone(480, 'triangle', 0.15, 60);
-    }
-
-    function playRoseSound() {
+    function playRoseChime() {
       if (!audioCtx) return;
       playTone(523.25, 'sine', 0.15, 0);   // C5
-      playTone(659.25, 'sine', 0.15, 80);  // E5
-      playTone(783.99, 'sine', 0.25, 160); // G5
-      playTone(1046.50, 'sine', 0.35, 240); // C6
+      playTone(659.25, 'sine', 0.15, 70);  // E5
+      playTone(783.99, 'sine', 0.2, 140);  // G5
+      playTone(1046.50, 'sine', 0.35, 210); // C6
     }
 
-    function playVictoryFanfare() {
+    function playVictoryChime() {
       if (!audioCtx) return;
-      const notes = [523.25, 523.25, 523.25, 659.25, 783.99, 1046.50];
-      const times = [0, 120, 240, 380, 520, 700];
+      const notes = [523.25, 523.25, 659.25, 783.99, 1046.50, 1318.51];
+      const times = [0, 100, 220, 340, 480, 650];
       notes.forEach((n, i) => playTone(n, 'triangle', 0.3, times[i]));
     }
 
-    // Melodía romántica en bucle suave
     function startMusic() {
       if (!audioCtx) initAudio();
       musicPlaying = true;
       document.getElementById('audioToggle').innerText = '🔊';
-      
+
       const melody = [
-        392, 440, 523.25, 587.33, 659.25, 587.33, 523.25, 440,
-        349.23, 392, 440, 523.25, 587.33, 523.25, 440, 392
+        440, 493.88, 523.25, 587.33, 659.25, 587.33, 523.25, 493.88,
+        392, 440, 493.88, 523.25, 587.33, 523.25, 493.88, 440
       ];
       let step = 0;
       if (musicInterval) clearInterval(musicInterval);
@@ -519,82 +508,79 @@
     }
 
     /* =========================================================================
-       MOTOR DEL JUEGO (CANVAS 2D)
+       CONFIGURACIÓN DEL MUNDO VERTICAL (SENDERO DE JARDÍN)
        ========================================================================= */
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-    let animationFrameId;
 
-    // Dimensiones virtuales del juego
-    const V_WIDTH = 480;
-    const V_HEIGHT = 700;
-    const WORLD_WIDTH = 1800; // Un jardín largo para explorar
-    const GROUND_Y = 560;
+    const WORLD_WIDTH = 440;
+    const WORLD_HEIGHT = 2600; // Sendero largo vertical
+    const PATH_X = WORLD_WIDTH / 2;
+    const PATH_WIDTH = 130;
 
-    let gameState = 'START'; // START, PLAYING, ROSE_PAUSE, FINAL
+    let gameState = 'START'; // START, PLAYING, FINAL
     let collectedCount = 0;
-    let cameraX = 0;
+    let cameraY = WORLD_HEIGHT - 650; // Inicia cerca de abajo
 
-    // Tito (Personaje jugador con rulos negros)
+    // Tito (Personaje con rulos negros)
     const tito = {
-      x: 80,
-      y: GROUND_Y - 70,
-      w: 48,
-      h: 70,
+      x: PATH_X,
+      y: WORLD_HEIGHT - 120, // Empieza al fondo del camino
+      w: 42,
+      h: 58,
       vx: 0,
       vy: 0,
-      speed: 4.8,
-      jumpPower: -13.5,
-      isGrounded: false,
-      facing: 1, // 1 der, -1 izq
-      walkFrame: 0
+      speed: 4.5,
+      walkFrame: 0,
+      facing: 0 // 0 arriba, 1 der, 2 abajo, 3 izq
     };
 
-    // Andrea (Esperando al final del jardín con sus rulos negros y vestido lindo)
+    // Andrea (Esperando al final/arriba del sendero con sus rulos negros y flores)
     const andrea = {
-      x: WORLD_WIDTH - 140,
-      y: GROUND_Y - 70,
-      w: 48,
-      h: 70,
-      blush: false
+      x: PATH_X,
+      y: 110, // Arriba del todo
+      w: 44,
+      h: 58
     };
 
-    // Rosas esparcidas a lo largo del jardín
+    // Rosas colocadas A LOS COSTADOS del sendero (izquierda y derecha)
     const roses = [
-      { id: 0, x: 340, y: GROUND_Y - 45, collected: false, floatOffset: 0 },
-      { id: 1, x: 650, y: GROUND_Y - 140, collected: false, floatOffset: 1 }, // en una plataforma
-      { id: 2, x: 960, y: GROUND_Y - 45, collected: false, floatOffset: 2 },
-      { id: 3, x: 1250, y: GROUND_Y - 150, collected: false, floatOffset: 3 }, // en otra plataforma
-      { id: 4, x: 1520, y: GROUND_Y - 50, collected: false, floatOffset: 4 }
+      { id: 0, x: PATH_X - 105, y: WORLD_HEIGHT - 450, side: 'left', collected: false },
+      { id: 1, x: PATH_X + 105, y: WORLD_HEIGHT - 900, side: 'right', collected: false },
+      { id: 2, x: PATH_X - 105, y: WORLD_HEIGHT - 1350, side: 'left', collected: false },
+      { id: 3, x: PATH_X + 105, y: WORLD_HEIGHT - 1800, side: 'right', collected: false },
+      { id: 4, x: PATH_X + 105, y: WORLD_HEIGHT - 2250, side: 'right', collected: false }
     ];
 
-    // Plataformas flotantes decorativas con flores
-    const platforms = [
-      { x: 580, y: GROUND_Y - 95, w: 150, h: 20 },
-      { x: 1180, y: GROUND_Y - 105, w: 160, h: 20 }
-    ];
-
-    // Partículas de pétalos y corazones en el aire
-    const floatingPetals = [];
-    for (let i = 0; i < 35; i++) {
-      floatingPetals.push({
-        x: Math.random() * WORLD_WIDTH,
-        y: Math.random() * V_HEIGHT,
-        size: Math.random() * 6 + 4,
-        speedX: Math.random() * 1 + 0.5,
-        speedY: Math.random() * 1.2 + 0.4,
-        color: ['#ff7597', '#ffb3c6', '#ffe5ec', '#ff4b72'][Math.floor(Math.random() * 4)]
+    // Decoraciones a los lados del camino (árboles, flores, faroles)
+    const scenery = [];
+    for (let y = 100; y < WORLD_HEIGHT - 50; y += 140) {
+      scenery.push({
+        x: PATH_X - 165 + (Math.random() * 20),
+        y: y + (Math.random() * 30),
+        type: 'tree',
+        size: 32 + Math.random() * 10
+      });
+      scenery.push({
+        x: PATH_X + 165 - (Math.random() * 20),
+        y: y + 70 + (Math.random() * 30),
+        type: 'tree',
+        size: 32 + Math.random() * 10
       });
     }
 
-    // Nubes
-    const clouds = [
-      { x: 100, y: 80, s: 0.8 },
-      { x: 450, y: 120, s: 1.2 },
-      { x: 850, y: 70, s: 0.9 },
-      { x: 1300, y: 110, s: 1.1 },
-      { x: 1650, y: 90, s: 1.0 }
-    ];
+    // Luciérnagas / destellos mágicos flotando
+    const sparkles = [];
+    for (let i = 0; i < 40; i++) {
+      sparkles.push({
+        x: Math.random() * WORLD_WIDTH,
+        y: Math.random() * WORLD_HEIGHT,
+        r: Math.random() * 2.5 + 1.5,
+        speedY: (Math.random() - 0.5) * 0.8,
+        speedX: (Math.random() - 0.5) * 0.8,
+        color: ['#fff', '#ffe5ec', '#ffcad4', '#ffd166'][Math.floor(Math.random() * 4)]
+      });
+    }
 
     function resizeCanvas() {
       const container = document.getElementById('game-container');
@@ -605,46 +591,40 @@
     resizeCanvas();
 
     /* =========================================================================
-       DIBUJO DE PERSONAJES CON CABELLO NEGRO CON RULOS
+       DIBUJO DE PERSONAJES CON RULOS NEGROS
        ========================================================================= */
 
-    // Función para dibujar una melena con rulos negros esponjosos
+    // Dibuja la cabellera de rulos negros
     function drawCurlyHair(ctx, x, y, isGirl = false) {
-      ctx.fillStyle = "#110b14"; // Negro profundo con matiz suave
-      
-      const curls = isGirl 
+      ctx.fillStyle = "#120c16"; // Negro profundo suave
+
+      const curls = isGirl
         ? [
-            // Rulos voluminosos de Andrea
-            { dx: -14, dy: -24, r: 10 },
-            { dx: -5, dy: -28, r: 11 },
-            { dx: 6, dy: -28, r: 11 },
-            { dx: 15, dy: -23, r: 10 },
-            { dx: -18, dy: -14, r: 9 },
-            { dx: 19, dy: -13, r: 9 },
-            { dx: -20, dy: -4, r: 9 },
-            { dx: 21, dy: -3, r: 9 },
-            { dx: -17, dy: 6, r: 8 },
-            { dx: 19, dy: 7, r: 8 },
-            { dx: -14, dy: 14, r: 7 },
-            { dx: 16, dy: 15, r: 7 },
-            // Mechones frontales con rulos
-            { dx: -10, dy: -18, r: 8 },
-            { dx: 11, dy: -18, r: 8 },
-            { dx: 0, dy: -22, r: 9 }
+            // Rulos esponjosos y voluminosos de Andrea
+            { dx: -13, dy: -14, r: 8 },
+            { dx: -5, dy: -18, r: 9 },
+            { dx: 5, dy: -18, r: 9 },
+            { dx: 13, dy: -14, r: 8 },
+            { dx: -16, dy: -6, r: 8 },
+            { dx: 16, dy: -6, r: 8 },
+            { dx: -17, dy: 2, r: 7.5 },
+            { dx: 17, dy: 2, r: 7.5 },
+            { dx: -13, dy: 10, r: 7 },
+            { dx: 13, dy: 10, r: 7 },
+            { dx: -8, dy: -11, r: 7 },
+            { dx: 8, dy: -11, r: 7 }
           ]
         : [
-            // Rulos de Tito (estilo copete con volumen y rulos definidos)
-            { dx: -12, dy: -22, r: 9 },
-            { dx: -4, dy: -26, r: 10 },
-            { dx: 6, dy: -26, r: 10 },
-            { dx: 14, dy: -20, r: 9 },
-            { dx: -16, dy: -14, r: 8 },
-            { dx: 16, dy: -12, r: 8 },
-            { dx: -14, dy: -5, r: 7 },
-            { dx: 15, dy: -4, r: 7 },
-            { dx: 0, dy: -20, r: 9 },
-            { dx: -6, dy: -16, r: 8 },
-            { dx: 7, dy: -16, r: 8 }
+            // Rulos cancheros con volumen de Tito
+            { dx: -11, dy: -14, r: 7.5 },
+            { dx: -3, dy: -18, r: 8.5 },
+            { dx: 5, dy: -18, r: 8.5 },
+            { dx: 12, dy: -13, r: 7.5 },
+            { dx: -14, dy: -7, r: 7 },
+            { dx: 14, dy: -7, r: 7 },
+            { dx: -12, dy: 0, r: 6 },
+            { dx: 12, dy: 0, r: 6 },
+            { dx: 0, dy: -14, r: 7.5 }
           ];
 
       curls.forEach(c => {
@@ -653,451 +633,427 @@
         ctx.fill();
       });
 
-      // Si es Andrea, una linda flor en su cabello
+      // Flor en el cabello de Andrea
       if (isGirl) {
         ctx.fillStyle = "#ff4b72";
         ctx.beginPath();
-        ctx.arc(x + 15, y - 18, 5, 0, Math.PI * 2);
+        ctx.arc(x + 13, y - 11, 4.5, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = "#ffe66d";
         ctx.beginPath();
-        ctx.arc(x + 15, y - 18, 2, 0, Math.PI * 2);
+        ctx.arc(x + 13, y - 11, 2, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
-    // Dibujar a Tito
+    // Dibujar a Tito caminando por el sendero
     function drawTito(ctx, p) {
       ctx.save();
-      ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
-      ctx.scale(p.facing, 1);
+      ctx.translate(p.x, p.y);
 
-      const isWalking = Math.abs(p.vx) > 0.1 && p.isGrounded;
-      const legBob = isWalking ? Math.sin(p.walkFrame * 0.3) * 6 : 0;
+      const isMoving = (keys.up || keys.down || keys.left || keys.right);
+      const legBob = isMoving ? Math.sin(p.walkFrame * 0.25) * 4 : 0;
+
+      // Sombra
+      ctx.fillStyle = "rgba(0,0,0,0.2)";
+      ctx.beginPath();
+      ctx.ellipse(0, 20, 16, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
 
       // Zapatillas
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(-12, 22 + legBob, 9, 8);
-      ctx.fillRect(3, 22 - legBob, 9, 8);
+      ctx.fillRect(-10, 16 + legBob, 8, 6);
+      ctx.fillRect(2, 16 - legBob, 8, 6);
 
       // Pantalones
       ctx.fillStyle = "#2b3a4a";
-      ctx.fillRect(-11, 8, 8, 16 + legBob);
-      ctx.fillRect(3, 8, 8, 16 - legBob);
+      ctx.fillRect(-9, 5, 7, 13 + legBob);
+      ctx.fillRect(2, 5, 7, 13 - legBob);
 
-      // Chaqueta / Buzo verde menta canchero
+      // Buzo verde menta
       ctx.fillStyle = "#2a9d8f";
       ctx.beginPath();
-      ctx.roundRect(-14, -8, 28, 20, 6);
+      ctx.roundRect(-12, -10, 24, 18, 5);
       ctx.fill();
 
-      // Brazos / Manos
-      ctx.fillStyle = "#fcd5b5";
-      ctx.beginPath();
-      ctx.arc(-14, 2, 4, 0, Math.PI * 2);
-      ctx.arc(14, 2, 4, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Si lleva rosas, dibuja el ramo en su mano delantera
+      // Si lleva rosas, se ve el ramo floreciendo en su brazo
       if (collectedCount > 0) {
         ctx.fillStyle = "#ff4b72";
         ctx.beginPath();
-        ctx.arc(16, 0, 7, 0, Math.PI * 2);
+        ctx.arc(13, -2, 6, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = "#38b000";
-        ctx.fillRect(14, 4, 4, 10);
+        ctx.fillRect(11, 2, 4, 8);
       }
 
-      // Cuello
-      ctx.fillStyle = "#fcd5b5";
-      ctx.fillRect(-4, -14, 8, 8);
-
       // Cabeza
       ctx.fillStyle = "#fcd5b5";
       ctx.beginPath();
-      ctx.arc(0, -18, 14, 0, Math.PI * 2);
+      ctx.arc(0, -18, 12, 0, Math.PI * 2);
       ctx.fill();
 
-      // Cabello con rulos negros
+      // Rulos negros de Tito
       drawCurlyHair(ctx, 0, -18, false);
 
-      // Ojos brillantes
+      // Ojos y sonrisa
       ctx.fillStyle = "#1a1a1a";
       ctx.beginPath();
-      ctx.arc(4, -18, 2.5, 0, Math.PI * 2);
-      ctx.arc(-4, -18, 2.5, 0, Math.PI * 2);
-      ctx.fill();
-      // Brillo ojos
-      ctx.fillStyle = "#ffffff";
-      ctx.beginPath();
-      ctx.arc(5, -19, 1, 0, Math.PI * 2);
-      ctx.arc(-3, -19, 1, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Sonrisa tierna
-      ctx.strokeStyle = "#c06e52";
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.arc(0, -14, 4, 0.1 * Math.PI, 0.9 * Math.PI);
-      ctx.stroke();
-
-      // Mejillas sonrojadas
-      ctx.fillStyle = "rgba(255, 100, 120, 0.35)";
-      ctx.beginPath();
-      ctx.arc(8, -14, 3, 0, Math.PI * 2);
-      ctx.arc(-8, -14, 3, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Cartelito con su nombre
-      ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-      ctx.beginPath();
-      ctx.roundRect(-22, -48, 44, 15, 6);
-      ctx.fill();
-      ctx.fillStyle = "#ff4b72";
-      ctx.font = "bold 9px sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText("Tito 🌸", 0, -37);
-
-      ctx.restore();
-    }
-
-    // Dibujar a Andrea
-    function drawAndrea(ctx, p) {
-      ctx.save();
-      ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
-
-      // Animación suave de respiración
-      const breathe = Math.sin(Date.now() * 0.003) * 1.5;
-
-      // Zapatitos lindos
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(-10, 24, 7, 6);
-      ctx.fillRect(3, 24, 7, 6);
-
-      // Piernitas
-      ctx.fillStyle = "#fcd5b5";
-      ctx.fillRect(-8, 12, 5, 14);
-      ctx.fillRect(3, 12, 5, 14);
-
-      // Vestido lila/rosa hermoso
-      ctx.fillStyle = "#ff7597";
-      ctx.beginPath();
-      ctx.moveTo(-6, -6);
-      ctx.lineTo(6, -6);
-      ctx.lineTo(16, 16);
-      ctx.lineTo(-16, 16);
-      ctx.closePath();
-      ctx.fill();
-
-      // Detalle del cinturón del vestido
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(-8, -2, 16, 3);
-
-      // Brazos
-      ctx.fillStyle = "#fcd5b5";
-      ctx.beginPath();
-      ctx.arc(-10, 0, 3.5, 0, Math.PI * 2);
-      ctx.arc(10, 0, 3.5, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Cuello
-      ctx.fillStyle = "#fcd5b5";
-      ctx.fillRect(-4, -14, 8, 8);
-
-      // Cabeza
-      ctx.fillStyle = "#fcd5b5";
-      ctx.beginPath();
-      ctx.arc(0, -18 + breathe, 14, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Cabello con rulos negros voluminosos
-      drawCurlyHair(ctx, 0, -18 + breathe, true);
-
-      // Ojos tiernos
-      ctx.fillStyle = "#1a1a1a";
-      ctx.beginPath();
-      ctx.arc(-4, -18 + breathe, 2.5, 0, Math.PI * 2);
-      ctx.arc(4, -18 + breathe, 2.5, 0, Math.PI * 2);
-      ctx.fill();
-      // Brillo ojos
-      ctx.fillStyle = "#ffffff";
-      ctx.beginPath();
-      ctx.arc(-3, -19 + breathe, 1, 0, Math.PI * 2);
-      ctx.arc(5, -19 + breathe, 1, 0, Math.PI * 2);
+      ctx.arc(-4, -18, 2, 0, Math.PI * 2);
+      ctx.arc(4, -18, 2, 0, Math.PI * 2);
       ctx.fill();
 
       // Sonrisa
       ctx.strokeStyle = "#c06e52";
       ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.arc(0, -13 + breathe, 4, 0.1 * Math.PI, 0.9 * Math.PI);
+      ctx.arc(0, -14, 3.5, 0.1 * Math.PI, 0.9 * Math.PI);
       ctx.stroke();
 
-      // Sonrojo adorable en las mejillas
-      ctx.fillStyle = "rgba(255, 60, 100, 0.45)";
+      // Mejillas sonrojadas
+      ctx.fillStyle = "rgba(255, 100, 120, 0.4)";
       ctx.beginPath();
-      ctx.arc(-8, -14 + breathe, 4, 0, Math.PI * 2);
-      ctx.arc(8, -14 + breathe, 4, 0, Math.PI * 2);
+      ctx.arc(-7, -15, 2.5, 0, Math.PI * 2);
+      ctx.arc(7, -15, 2.5, 0, Math.PI * 2);
       ctx.fill();
 
-      // Corazoncito flotando sobre Andrea
-      const heartFloat = Math.sin(Date.now() * 0.005) * 4;
+      // Cartel con nombre
+      ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+      ctx.beginPath();
+      ctx.roundRect(-20, -44, 40, 14, 5);
+      ctx.fill();
       ctx.fillStyle = "#ff4b72";
-      ctx.font = "14px sans-serif";
-      ctx.fillText("💖", -6, -42 + heartFloat);
-
-      // Cartelito con su nombre
-      ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-      ctx.beginPath();
-      ctx.roundRect(-26, -58, 52, 16, 6);
-      ctx.fill();
-      ctx.fillStyle = "#795290";
-      ctx.font = "bold 9px sans-serif";
+      ctx.font = "bold 8.5px sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("Andrea 👑", 0, -46);
+      ctx.fillText("Tito 🌸", 0, -34);
 
       ctx.restore();
     }
 
-    // Dibujar Rosa
+    // Dibujar a Andrea esperando al final del camino
+    function drawAndrea(ctx, p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+
+      const breathe = Math.sin(Date.now() * 0.003) * 1.5;
+
+      // Glorieta / Arco de flores donde espera Andrea
+      ctx.strokeStyle = "#ffd6e0";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.arc(0, -10, 36, Math.PI, 0);
+      ctx.stroke();
+
+      // Flores en el arco
+      for (let a = Math.PI; a <= 2 * Math.PI; a += 0.4) {
+        const ax = Math.cos(a) * 36;
+        const ay = -10 + Math.sin(a) * 36;
+        ctx.fillStyle = "#ff4b72";
+        ctx.beginPath();
+        ctx.arc(ax, ay, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Sombra
+      ctx.fillStyle = "rgba(0,0,0,0.2)";
+      ctx.beginPath();
+      ctx.ellipse(0, 20, 18, 9, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Vestido lila/rosa hermoso
+      ctx.fillStyle = "#ff7597";
+      ctx.beginPath();
+      ctx.moveTo(-5, -6);
+      ctx.lineTo(5, -6);
+      ctx.lineTo(14, 16);
+      ctx.lineTo(-14, 16);
+      ctx.closePath();
+      ctx.fill();
+
+      // Cinturón blanco
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(-7, -1, 14, 2.5);
+
+      // Cabeza
+      ctx.fillStyle = "#fcd5b5";
+      ctx.beginPath();
+      ctx.arc(0, -18 + breathe, 12, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Rulos negros voluminosos de Andrea
+      drawCurlyHair(ctx, 0, -18 + breathe, true);
+
+      // Ojos tiernos
+      ctx.fillStyle = "#1a1a1a";
+      ctx.beginPath();
+      ctx.arc(-4, -18 + breathe, 2, 0, Math.PI * 2);
+      ctx.arc(4, -18 + breathe, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Sonrisa
+      ctx.strokeStyle = "#c06e52";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(0, -13 + breathe, 3.5, 0.1 * Math.PI, 0.9 * Math.PI);
+      ctx.stroke();
+
+      // Sonrojo adorable
+      ctx.fillStyle = "rgba(255, 60, 100, 0.45)";
+      ctx.beginPath();
+      ctx.arc(-7, -14 + breathe, 3, 0, Math.PI * 2);
+      ctx.arc(7, -14 + breathe, 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Corazón flotando sobre Andrea
+      const heartFloat = Math.sin(Date.now() * 0.005) * 4;
+      ctx.font = "14px sans-serif";
+      ctx.fillText("💖", -6, -42 + heartFloat);
+
+      // Cartel con nombre
+      ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+      ctx.beginPath();
+      ctx.roundRect(-24, -58, 48, 15, 5);
+      ctx.fill();
+      ctx.fillStyle = "#795290";
+      ctx.font = "bold 9px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Andrea 👑", 0, -47);
+
+      ctx.restore();
+    }
+
+    // Dibujar Rosa al costado del camino
     function drawRose(ctx, r) {
       if (r.collected) return;
 
-      const floatY = Math.sin(Date.now() * 0.004 + r.floatOffset) * 6;
+      const float = Math.sin(Date.now() * 0.005 + r.id) * 4;
       const rx = r.x;
-      const ry = r.y + floatY;
+      const ry = r.y + float;
 
       ctx.save();
-      // Aura mágica
-      ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+      // Pequeño cantero / círculo de tierra suave debajo
+      ctx.fillStyle = "#4a8553";
+      ctx.beginPath();
+      ctx.ellipse(rx, r.y + 12, 16, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Resplandor mágico
+      ctx.fillStyle = "rgba(255, 255, 255, 0.55)";
       ctx.beginPath();
       ctx.arc(rx, ry, 18, 0, Math.PI * 2);
       ctx.fill();
 
-      // Tallo y hojita
-      ctx.fillStyle = "#38b000";
-      ctx.fillRect(rx - 2, ry, 4, 16);
+      // Tallo y hojas
+      ctx.fillStyle = "#2d6a4f";
+      ctx.fillRect(rx - 2, ry, 4, 14);
       ctx.beginPath();
-      ctx.ellipse(rx + 6, ry + 8, 5, 3, 0.3, 0, Math.PI * 2);
+      ctx.ellipse(rx + 6, ry + 6, 5, 3, 0.3, 0, Math.PI * 2);
+      ctx.ellipse(rx - 6, ry + 8, 5, 3, -0.3, 0, Math.PI * 2);
       ctx.fill();
 
-      // Pétalos de la rosa
+      // Capullo de Rosa
       const info = CONFIG.rosas[r.id];
       ctx.fillStyle = info.color;
       ctx.beginPath();
-      ctx.arc(rx, ry - 4, 12, 0, Math.PI * 2);
+      ctx.arc(rx, ry - 3, 11, 0, Math.PI * 2);
       ctx.fill();
 
-      // Detalle espiral de rosa
-      ctx.strokeStyle = "rgba(0, 0, 0, 0.15)";
+      // Espiral de pétalo
+      ctx.strokeStyle = "rgba(0,0,0,0.2)";
       ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.arc(rx, ry - 4, 6, 0.2 * Math.PI, 1.8 * Math.PI);
+      ctx.arc(rx, ry - 3, 5.5, 0.2 * Math.PI, 1.8 * Math.PI);
       ctx.stroke();
 
       ctx.restore();
     }
 
     /* =========================================================================
-       CICLO DE ACTUALIZACIÓN Y DIBUJO
+       ACTUALIZACIÓN Y RENDERIZADO
        ========================================================================= */
-    const keys = { left: false, right: false, jump: false };
+    const keys = { up: false, down: false, left: false, right: false };
 
     function update() {
       if (gameState !== 'PLAYING') return;
 
-      // Movimiento horizontal
-      if (keys.left) {
-        tito.vx = -tito.speed;
-        tito.facing = -1;
-        tito.walkFrame++;
-      } else if (keys.right) {
-        tito.vx = tito.speed;
-        tito.facing = 1;
-        tito.walkFrame++;
-      } else {
-        tito.vx *= 0.7;
+      let dx = 0;
+      let dy = 0;
+
+      if (keys.up) dy -= 1;
+      if (keys.down) dy += 1;
+      if (keys.left) dx -= 1;
+      if (keys.right) dx += 1;
+
+      if (dx !== 0 && dy !== 0) {
+        dx *= 0.7071;
+        dy *= 0.7071;
       }
 
-      // Salto
-      if (keys.jump && tito.isGrounded) {
-        tito.vy = tito.jumpPower;
-        tito.isGrounded = false;
-        playJumpSound();
+      if (dx !== 0 || dy !== 0) {
+        tito.walkFrame++;
       }
 
-      // Gravedad
-      tito.vy += 0.65;
-      tito.x += tito.vx;
-      tito.y += tito.vy;
+      tito.x += dx * tito.speed;
+      tito.y += dy * tito.speed;
 
       // Límites del mundo
-      if (tito.x < 10) tito.x = 10;
-      if (tito.x > WORLD_WIDTH - tito.w - 10) tito.x = WORLD_WIDTH - tito.w - 10;
-
-      // Colisión con suelo
-      tito.isGrounded = false;
-      if (tito.y >= GROUND_Y - tito.h) {
-        tito.y = GROUND_Y - tito.h;
-        tito.vy = 0;
-        tito.isGrounded = true;
-      }
-
-      // Colisión con plataformas flotantes
-      platforms.forEach(plat => {
-        if (
-          tito.x + tito.w > plat.x &&
-          tito.x < plat.x + plat.w &&
-          tito.y + tito.h >= plat.y &&
-          tito.y + tito.h <= plat.y + 14 &&
-          tito.vy >= 0
-        ) {
-          tito.y = plat.y - tito.h;
-          tito.vy = 0;
-          tito.isGrounded = true;
-        }
-      });
+      tito.x = Math.max(30, Math.min(WORLD_WIDTH - 30, tito.x));
+      tito.y = Math.max(andrea.y + 40, Math.min(WORLD_HEIGHT - 50, tito.y));
 
       // Recolección de rosas
       roses.forEach(r => {
         if (!r.collected) {
-          const dist = Math.hypot((tito.x + tito.w / 2) - r.x, (tito.y + tito.h / 2) - r.y);
+          const dist = Math.hypot(tito.x - r.x, tito.y - r.y);
           if (dist < 38) {
             r.collected = true;
             collectedCount++;
             document.getElementById('rose-score').innerText = `${collectedCount}/5`;
-            playRoseSound();
-            if (navigator.vibrate) navigator.vibrate(60);
-            showRoseModal(r.id);
+            playRoseChime();
+            if (navigator.vibrate) navigator.vibrate(50);
+            showSweetToast(r.id);
           }
         }
       });
 
-      // Encuentro con Andrea al final
-      const distToAndrea = Math.hypot(tito.x - andrea.x, tito.y - andrea.y);
-      if (distToAndrea < 60) {
+      // Encuentro con Andrea
+      const distAndrea = Math.hypot(tito.x - andrea.x, tito.y - andrea.y);
+      if (distAndrea < 65) {
         if (collectedCount >= 5) {
-          triggerFinalCelebration();
+          triggerFinalModal();
         } else {
-          document.getElementById('mission-text').innerText = `🌸 ¡Tito, te faltan ${5 - collectedCount} rosas para Andrea!`;
+          document.getElementById('instPill').innerText = `🌸 ¡Tito, te faltan ${5 - collectedCount} rosas a los lados del camino!`;
         }
       }
 
-      // Cámara suave siguiendo a Tito
-      const targetCamX = tito.x - (canvas.width / 2);
-      cameraX += (targetCamX - cameraX) * 0.1;
-      cameraX = Math.max(0, Math.min(cameraX, WORLD_WIDTH - canvas.width));
+      // Cámara vertical siguiendo a Tito
+      const targetCamY = tito.y - (canvas.height * 0.65);
+      cameraY += (targetCamY - cameraY) * 0.1;
+      cameraY = Math.max(0, Math.min(WORLD_HEIGHT - canvas.height, cameraY));
 
-      // Actualizar pétalos de fondo
-      floatingPetals.forEach(p => {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        if (p.y > V_HEIGHT) { p.y = -10; p.x = Math.random() * WORLD_WIDTH; }
-        if (p.x > WORLD_WIDTH) p.x = 0;
+      // Actualizar destellos
+      sparkles.forEach(s => {
+        s.x += s.speedX;
+        s.y += s.speedY;
+        if (s.x < 0) s.x = WORLD_WIDTH;
+        if (s.x > WORLD_WIDTH) s.x = 0;
+        if (s.y < 0) s.y = WORLD_HEIGHT;
+        if (s.y > WORLD_HEIGHT) s.y = 0;
       });
     }
 
     function render() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Escala para ajustar a la pantalla
-      const scale = canvas.height / V_HEIGHT;
-
       ctx.save();
-      // Gradiente de cielo atardecer romántico
-      const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      skyGradient.addColorStop(0, '#ffd1dc');
-      skyGradient.addColorStop(0.5, '#fbc4ab');
-      skyGradient.addColorStop(1, '#ffcad4');
-      ctx.fillStyle = skyGradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.translate(0, -cameraY);
 
-      // Montañas al fondo (Parallax)
-      ctx.fillStyle = "rgba(220, 160, 190, 0.4)";
-      for (let i = 0; i < 6; i++) {
+      // 1. Césped de fondo
+      ctx.fillStyle = "#559e5e";
+      ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+
+      // Flores silvestres decorativas en el césped
+      ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+      for (let y = 50; y < WORLD_HEIGHT; y += 80) {
         ctx.beginPath();
-        const mx = (i * 350) - (cameraX * 0.2);
-        ctx.arc(mx, GROUND_Y * scale + 60, 180 * scale, Math.PI, 0);
+        ctx.arc(45, y, 2.5, 0, Math.PI * 2);
+        ctx.arc(WORLD_WIDTH - 45, y + 40, 2.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // Aplicar cámara en el mundo del juego
-      ctx.save();
-      ctx.scale(scale, scale);
-      ctx.translate(-cameraX, 0);
+      // 2. Sendero empedrado central
+      ctx.fillStyle = "#e0cfb8"; // Tierra / Adoquín suave
+      ctx.beginPath();
+      ctx.rect(PATH_X - (PATH_WIDTH / 2), 0, PATH_WIDTH, WORLD_HEIGHT);
+      ctx.fill();
 
-      // Nubes suaves
-      ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
-      clouds.forEach(c => {
+      // Bordes del sendero con adoquines/piedritas
+      ctx.fillStyle = "#c9b49b";
+      for (let y = 0; y < WORLD_HEIGHT; y += 22) {
+        ctx.fillRect(PATH_X - (PATH_WIDTH / 2) - 4, y, 6, 16);
+        ctx.fillRect(PATH_X + (PATH_WIDTH / 2) - 2, y, 6, 16);
+      }
+
+      // Pequeñas piedras decorativas dentro del camino
+      ctx.fillStyle = "rgba(180, 160, 140, 0.35)";
+      for (let y = 30; y < WORLD_HEIGHT; y += 45) {
         ctx.beginPath();
-        ctx.arc(c.x, c.y, 25 * c.s, 0, Math.PI * 2);
-        ctx.arc(c.x + 20 * c.s, c.y - 10 * c.s, 30 * c.s, 0, Math.PI * 2);
-        ctx.arc(c.x + 45 * c.s, c.y, 25 * c.s, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // Suelo y césped del jardín
-      ctx.fillStyle = "#70c1b3";
-      ctx.fillRect(0, GROUND_Y, WORLD_WIDTH, V_HEIGHT - GROUND_Y);
-
-      // Capa decorativa superior del césped con flores
-      ctx.fillStyle = "#5cb85c";
-      ctx.fillRect(0, GROUND_Y, WORLD_WIDTH, 14);
-
-      // Flores en el pasto
-      for (let fx = 40; fx < WORLD_WIDTH; fx += 55) {
-        ctx.fillStyle = "#ffffff";
-        ctx.beginPath();
-        ctx.arc(fx, GROUND_Y + 7, 3, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = "#ff7597";
-        ctx.beginPath();
-        ctx.arc(fx + 15, GROUND_Y + 9, 2.5, 0, Math.PI * 2);
+        ctx.arc(PATH_X - 25, y, 4, 0, Math.PI * 2);
+        ctx.arc(PATH_X + 20, y + 20, 5, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // Plataformas flotantes decoradas
-      platforms.forEach(plat => {
-        ctx.fillStyle = "#8b5a2b";
+      // 3. Senderitos pequeños que conectan a las rosas a los lados
+      roses.forEach(r => {
+        ctx.fillStyle = "#d8c3aa";
+        if (r.side === 'left') {
+          ctx.fillRect(r.x, r.y + 6, (PATH_X - (PATH_WIDTH / 2)) - r.x + 8, 12);
+        } else {
+          ctx.fillRect(PATH_X + (PATH_WIDTH / 2) - 8, r.y + 6, r.x - (PATH_X + (PATH_WIDTH / 2)) + 8, 12);
+        }
+      });
+
+      // 4. Árboles y arbustos a los costados
+      scenery.forEach(s => {
+        ctx.fillStyle = "#2d6a4f";
         ctx.beginPath();
-        ctx.roundRect(plat.x, plat.y, plat.w, plat.h, 8);
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = "#5cb85c";
+        ctx.fillStyle = "#40916c";
         ctx.beginPath();
-        ctx.roundRect(plat.x, plat.y, plat.w, 6, 4);
+        ctx.arc(s.x - 4, s.y - 4, s.size * 0.75, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      // Dibujar Rosas
+      // 5. Dibujar Rosas a los costados
       roses.forEach(r => drawRose(ctx, r));
 
-      // Dibujar a Andrea
+      // 6. Dibujar Andrea al final
       drawAndrea(ctx, andrea);
 
-      // Dibujar a Tito
+      // 7. Dibujar Tito
       drawTito(ctx, tito);
 
-      // Pétalos flotantes
-      floatingPetals.forEach(p => {
-        ctx.fillStyle = p.color;
+      // 8. Destellos / luciérnagas mágicas
+      sparkles.forEach(s => {
+        ctx.fillStyle = s.color;
         ctx.beginPath();
-        ctx.ellipse(p.x, p.y, p.size, p.size * 0.6, 0.4, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      ctx.restore();
       ctx.restore();
     }
 
     function gameLoop() {
       update();
       render();
-      animationFrameId = requestAnimationFrame(gameLoop);
+      requestAnimationFrame(gameLoop);
     }
 
     /* =========================================================================
-       CONTROLES Y GESTIÓN DE EVENTOS
+       INTERACCIÓN Y MENSAJES CORTOS
        ========================================================================= */
+    let toastTimeout = null;
+    function showSweetToast(roseId) {
+      const r = CONFIG.rosas[roseId];
+      const toast = document.getElementById('sweetToast');
+      document.getElementById('toastTag').innerText = r.tag;
+      document.getElementById('toastTag').style.color = r.color === '#ffffff' ? '#d48b00' : r.color;
+      document.getElementById('toastText').innerText = `"${r.frase}"`;
+
+      toast.classList.add('show');
+
+      if (collectedCount >= 5) {
+        document.getElementById('instPill').innerText = "💖 ¡Ramo completado! ¡Sube a encontrarte con Andrea!";
+      } else {
+        document.getElementById('instPill').innerText = `✨ Llevas ${collectedCount}/5 rosas`;
+      }
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3200);
+    }
+
     function startGame() {
       initAudio();
       startMusic();
@@ -1106,52 +1062,26 @@
       gameLoop();
     }
 
-    function showRoseModal(roseId) {
-      gameState = 'ROSE_PAUSE';
-      const rInfo = CONFIG.rosas[roseId];
-      
-      const badge = document.getElementById('rose-badge');
-      badge.innerText = rInfo.nombre;
-      badge.style.background = rInfo.badgeColor;
-      badge.style.color = rInfo.color === '#ffffff' ? '#333' : rInfo.color;
-
-      document.getElementById('rose-title').innerText = rInfo.titulo;
-      document.getElementById('rose-message').innerText = `"${rInfo.mensaje}"`;
-
-      document.getElementById('modal-rose').classList.add('active');
-
-      if (collectedCount >= 5) {
-        document.getElementById('mission-text').innerText = "💖 ¡Ramo completado! ¡Corre a llevárselo a Andrea!";
-      } else {
-        document.getElementById('mission-text').innerText = `✨ Llevas ${collectedCount}/5 rosas recolectadas`;
-      }
-    }
-
-    function resumeGame() {
-      document.getElementById('modal-rose').classList.remove('active');
-      gameState = 'PLAYING';
-    }
-
-    function triggerFinalCelebration() {
+    function triggerFinalModal() {
       gameState = 'FINAL';
-      playVictoryFanfare();
-      if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
+      playVictoryChime();
+      if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 250]);
       document.getElementById('modal-final').classList.add('active');
     }
 
-    // Botón "No" escurridizo
-    let noDodgeCount = 0;
+    // Botón "No" esquivador
+    let noCount = 0;
     function dodgeNo(e) {
       if (e) e.preventDefault();
-      noDodgeCount++;
+      noCount++;
       const btnNo = document.getElementById('btn-no');
       const btnYes = document.getElementById('btn-yes');
-      const container = document.getElementById('proposalArea');
+      const area = document.getElementById('proposalArea');
 
-      btnNo.innerText = CONFIG.frasesNo[noDodgeCount % CONFIG.frasesNo.length];
+      btnNo.innerText = CONFIG.frasesNo[noCount % CONFIG.frasesNo.length];
 
-      const maxX = container.clientWidth - 110;
-      const maxY = container.clientHeight - 40;
+      const maxX = area.clientWidth - 125;
+      const maxY = area.clientHeight - 40;
       const randX = Math.floor(Math.random() * maxX);
       const randY = Math.floor(Math.random() * maxY);
 
@@ -1159,15 +1089,13 @@
       btnNo.style.left = `${randX}px`;
       btnNo.style.top = `${randY}px`;
 
-      // Crecer botón Sí
-      btnYes.style.transform = `scale(${1 + (noDodgeCount * 0.08)})`;
+      btnYes.style.transform = `scale(${1 + (noCount * 0.08)})`;
       if (navigator.vibrate) navigator.vibrate(30);
     }
 
-    function celebrateProposal() {
-      playVictoryFanfare();
+    function celebrateYes() {
+      playVictoryChime();
       if (navigator.vibrate) navigator.vibrate([150, 50, 150, 50, 300]);
-      
       document.getElementById('final-question').innerHTML = "🎉 ¡SABÍA QUE DIRÍAS QUE SÍ! 🥰💐";
       document.getElementById('proposalArea').style.display = 'none';
       document.getElementById('btnWhatsApp').style.display = 'block';
@@ -1178,43 +1106,69 @@
       window.open(url, '_blank');
     }
 
-    // Controles por Teclado (PC)
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = true;
-      if (e.key === 'ArrowRight' || e.key === 'd') keys.right = true;
-      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === ' ') keys.jump = true;
-    });
-
-    window.addEventListener('keyup', (e) => {
-      if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = false;
-      if (e.key === 'ArrowRight' || e.key === 'd') keys.right = false;
-      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === ' ') keys.jump = false;
-    });
-
-    // Controles Táctiles (Celular)
-    function setupTouchButton(elementId, keyProp) {
-      const btn = document.getElementById(elementId);
+    /* =========================================================================
+       CONTROLES TÁCTILES Y TECLADO
+       ========================================================================= */
+    function bindBtn(id, key) {
+      const el = document.getElementById(id);
       const start = (e) => {
         e.preventDefault();
         initAudio();
-        keys[keyProp] = true;
-        btn.classList.add('active');
+        keys[key] = true;
+        el.classList.add('active');
       };
       const end = (e) => {
         e.preventDefault();
-        keys[keyProp] = false;
-        btn.classList.remove('active');
+        keys[key] = false;
+        el.classList.remove('active');
       };
-      btn.addEventListener('touchstart', start, { passive: false });
-      btn.addEventListener('touchend', end, { passive: false });
-      btn.addEventListener('mousedown', start);
-      btn.addEventListener('mouseup', end);
-      btn.addEventListener('mouseleave', end);
+      el.addEventListener('touchstart', start, { passive: false });
+      el.addEventListener('touchend', end, { passive: false });
+      el.addEventListener('mousedown', start);
+      el.addEventListener('mouseup', end);
+      el.addEventListener('mouseleave', end);
     }
 
-    setupTouchButton('btnLeft', 'left');
-    setupTouchButton('btnRight', 'right');
-    setupTouchButton('btnJump', 'jump');
+    bindBtn('btnUp', 'up');
+    bindBtn('btnDown', 'down');
+    bindBtn('btnLeft', 'left');
+    bindBtn('btnRight', 'right');
+
+    // Teclado en PC
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp' || e.key === 'w') keys.up = true;
+      if (e.key === 'ArrowDown' || e.key === 's') keys.down = true;
+      if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = true;
+      if (e.key === 'ArrowRight' || e.key === 'd') keys.right = true;
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'ArrowUp' || e.key === 'w') keys.up = false;
+      if (e.key === 'ArrowDown' || e.key === 's') keys.down = false;
+      if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = false;
+      if (e.key === 'ArrowRight' || e.key === 'd') keys.right = false;
+    });
+
+    // Control táctil tocando directamente en el mapa (Tap to move)
+    canvas.addEventListener('pointerdown', (e) => {
+      if (gameState !== 'PLAYING') return;
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top + cameraY;
+
+      // Si toca arriba de Tito, se mueve arriba
+      if (clickY < tito.y - 15) keys.up = true;
+      if (clickY > tito.y + 15) keys.down = true;
+      if (clickX < tito.x - 15) keys.left = true;
+      if (clickX > tito.x + 15) keys.right = true;
+    });
+
+    canvas.addEventListener('pointerup', () => {
+      keys.up = false;
+      keys.down = false;
+      keys.left = false;
+      keys.right = false;
+    });
   </script>
 </body>
 </html>
