@@ -343,19 +343,19 @@
       </button>
     </div>
 
-    <!-- MODAL FINAL (Sin párrafos largos, solo la pregunta) -->
+    <!-- MODAL FINAL (Mensaje sincero de que la extrañó) -->
     <div class="modal-overlay" id="modal-final">
       <div class="modal-card">
-        <div style="font-size: 3.5rem; margin-bottom: 8px;">👑💐💋</div>
-        <h2 id="final-question">¿Aceptas tener una cita conmigo? 🥰</h2>
+        <div style="font-size: 3.5rem; margin-bottom: 8px;">🥺💐💖</div>
+        <h2 id="final-question">Te extrañé un montón...<br>¿Tú también me extrañaste? 🥺</h2>
 
         <div class="proposal-buttons" id="proposalArea">
-          <button id="btn-yes" onclick="celebrateYes()">¡SÍ! 💖</button>
+          <button id="btn-yes" onclick="celebrateYes()">¡Sí, mucho! 🥰</button>
           <button id="btn-no" onmouseover="dodgeNo()" ontouchstart="dodgeNo()" onclick="dodgeNo()">No 😜</button>
         </div>
 
         <button class="whatsapp-btn" id="btnWhatsApp" style="display: none;" onclick="openWhatsApp()">
-          Confirmar por WhatsApp 💬
+          Decírselo a Tito por WhatsApp 💬
         </button>
       </div>
     </div>
@@ -370,7 +370,7 @@
       nombreChico: "Tito",
       nombreChica: "Andrea",
       telefonoWhatsApp: "5493765005973", // Número de Tito (+54 9 3765 005973)
-      mensajeWhatsApp: "¡Hola Tito! Jugué a nuestro juego, amé el besito y las rosas... ¡Acepto la cita! 🥰💐✨",
+      mensajeWhatsApp: "¡Hola Tito! Jugué a nuestro juego... ¡Y yo también te extrañé un montón! 🥺🥰💖",
       rosas: [
         { color: "#ff1744" }, // Rojo pasión
         { color: "#ff4081" }, // Rosa intenso
@@ -1262,7 +1262,7 @@
     function celebrateYes() {
       playKissSound();
       if (navigator.vibrate) navigator.vibrate([150, 50, 150, 50, 300]);
-      document.getElementById('final-question').innerHTML = "🎉 ¡SABÍA QUE DIRÍAS QUE SÍ! 🥰💐";
+      document.getElementById('final-question').innerHTML = "🎉 ¡SABÍA QUE ME EXTRAÑABAS! 🥰💖";
       document.getElementById('proposalArea').style.display = 'none';
       document.getElementById('btnWhatsApp').style.display = 'block';
     }
