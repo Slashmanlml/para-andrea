@@ -6,20 +6,24 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Tito & Andrea ✨</title>
+  <title>Tito & Andrea ✨ Una Misión de Amor</title>
   <style>
     :root {
       --primary: #ff2a55;
+      --primary-hover: #ff1242;
+      --secondary: #2ec4b6;
+      --gold: #ffd166;
       --dark: #16101c;
       --card-bg: #ffffff;
       --border-color: #221526;
+      --shadow-color: rgba(34, 21, 38, 0.9);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Arial Rounded MT Bold', 'Comfortaa', -apple-system, sans-serif;
+      font-family: 'Arial Rounded MT Bold', 'Comfortaa', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
@@ -29,13 +33,14 @@
       height: 100%;
       height: 100dvh;
       overflow: hidden;
-      background: #0f0914;
+      background: #0d0714;
     }
 
     body {
       display: flex;
       justify-content: center;
       align-items: center;
+      background: radial-gradient(circle at center, #24142e 0%, #0d0714 100%);
     }
 
     #game-container {
@@ -47,13 +52,13 @@
       max-height: 920px;
       background: #7ecba1;
       overflow: hidden;
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
       border: 4px solid var(--border-color);
     }
 
     @media (min-width: 481px) {
       #game-container {
-        border-radius: 32px;
+        border-radius: 36px;
         height: 94vh;
       }
     }
@@ -65,7 +70,7 @@
       touch-action: none;
     }
 
-    /* HUD Superior Ultra Limpio */
+    /* HUD Superior */
     .top-hud {
       position: absolute;
       top: max(14px, env(safe-area-inset-top, 14px));
@@ -84,16 +89,29 @@
       padding: 6px 16px;
       border-radius: 50px;
       font-weight: 900;
-      font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+      font-size: clamp(0.9rem, 3.4vw, 1.1rem);
       color: var(--primary);
       box-shadow: 0 4px 0 var(--border-color);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      pointer-events: auto;
+      transition: transform 0.15s ease;
+    }
+
+    .counter-badge.pop {
+      transform: scale(1.18);
+      background: #fff0f3;
+    }
+
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: auto;
     }
 
     .audio-btn {
-      pointer-events: auto;
       background: #ffffff;
       border: 3.5px solid var(--border-color);
       border-radius: 50%;
@@ -105,12 +123,106 @@
       font-size: 1.25rem;
       cursor: pointer;
       box-shadow: 0 4px 0 var(--border-color);
-      transition: transform 0.1s;
+      transition: transform 0.1s, background-color 0.2s;
     }
 
     .audio-btn:active {
       transform: translateY(3px);
       box-shadow: 0 1px 0 var(--border-color);
+    }
+
+    /* Mini-Tracker de Progreso Vertical */
+    .journey-tracker {
+      position: absolute;
+      right: 14px;
+      top: 74px;
+      width: 32px;
+      height: 180px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 3px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 0 4px 0 var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      z-index: 25;
+      pointer-events: none;
+    }
+
+    .tracker-track {
+      position: relative;
+      width: 6px;
+      height: 110px;
+      background: #ffe3e8;
+      border-radius: 10px;
+      border: 1.5px solid #221526;
+      margin: 4px 0;
+    }
+
+    .tracker-fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0%;
+      background: var(--primary);
+      border-radius: 10px;
+      transition: height 0.15s ease-out;
+    }
+
+    .tracker-avatar {
+      position: absolute;
+      left: 50%;
+      bottom: 0%;
+      transform: translate(-50%, 50%);
+      font-size: 1.05rem;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+      transition: bottom 0.15s ease-out;
+    }
+
+    .tracker-goal {
+      font-size: 1.1rem;
+      animation: bounceGoal 1.6s infinite ease-in-out;
+    }
+
+    .tracker-start {
+      font-size: 0.95rem;
+    }
+
+    @keyframes bounceGoal {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px) scale(1.1); }
+    }
+
+    /* Notificación de Amor Flotante */
+    .rose-toast {
+      position: absolute;
+      top: 76px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-30px);
+      background: #ffffff;
+      border: 3.5px solid var(--border-color);
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 900;
+      font-size: clamp(0.85rem, 3.2vw, 1rem);
+      color: #ff1744;
+      box-shadow: 0 6px 0 var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 40;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.3);
+      white-space: nowrap;
+    }
+
+    .rose-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     /* Controles D-Pad */
@@ -136,11 +248,11 @@
     .dpad-btn {
       background: #ffffff;
       border: 3.5px solid var(--border-color);
-      border-radius: 16px;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: clamp(1.3rem, 4vw, 1.6rem);
+      font-size: clamp(1.3rem, 4.2vw, 1.6rem);
       font-weight: 900;
       color: var(--primary);
       box-shadow: 0 5px 0 var(--border-color);
@@ -161,19 +273,45 @@
     .btn-down { grid-column: 2; grid-row: 2; }
     .btn-right { grid-column: 3; grid-row: 2; }
 
-    /* Modal Inicio Simple */
+    /* Pantalla de Inicio Estética */
     .start-screen {
       position: absolute;
       inset: 0;
-      background: rgba(15, 9, 20, 0.7);
-      backdrop-filter: blur(4px);
+      background: rgba(18, 10, 26, 0.78);
+      backdrop-filter: blur(6px);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 100;
-      padding: 20px;
-      transition: opacity 0.3s ease;
+      padding: 24px;
+      text-align: center;
+      transition: opacity 0.35s ease;
+    }
+
+    .start-title-box {
+      background: #ffffff;
+      border: 4px solid var(--border-color);
+      border-radius: 28px;
+      padding: 20px 24px;
+      box-shadow: 0 8px 0 var(--border-color);
+      margin-bottom: 24px;
+      max-width: 320px;
+      animation: floatCard 3s ease-in-out infinite;
+    }
+
+    .start-title-box h1 {
+      font-size: clamp(1.5rem, 5.5vw, 1.85rem);
+      color: var(--dark);
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .start-title-box p {
+      font-size: 0.95rem;
+      color: #665270;
+      font-weight: 700;
+      line-height: 1.4;
     }
 
     .start-btn {
@@ -181,15 +319,16 @@
       color: white;
       border: 4px solid var(--border-color);
       border-radius: 50px;
-      padding: 16px 36px;
-      font-size: 1.25rem;
+      padding: 16px 42px;
+      font-size: 1.3rem;
       font-weight: 900;
       cursor: pointer;
       box-shadow: 0 8px 0 var(--border-color);
       display: flex;
       align-items: center;
-      gap: 10px;
-      animation: pulseBtn 1.5s infinite;
+      gap: 12px;
+      animation: pulseBtn 1.6s infinite;
+      transition: transform 0.1s;
     }
 
     .start-btn:active {
@@ -199,22 +338,28 @@
 
     @keyframes pulseBtn {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      50% { transform: scale(1.06); }
     }
 
-    /* Modal Final Limpio */
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Modal Final Limpio & Celebración */
     .modal-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(15, 9, 20, 0.85);
+      background: rgba(15, 9, 20, 0.88);
+      backdrop-filter: blur(4px);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 16px;
       z-index: 100;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.35s ease;
     }
 
     .modal-overlay.active {
@@ -226,13 +371,15 @@
       background: #ffffff;
       border: 4.5px solid var(--border-color);
       border-radius: 32px;
-      padding: clamp(24px, 6vw, 32px) clamp(18px, 5vw, 24px);
+      padding: 24px 20px;
       width: 100%;
-      max-width: 350px;
+      max-width: 360px;
       text-align: center;
       box-shadow: 0 10px 0 var(--border-color);
-      transform: scale(0.88);
-      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.4);
+      transform: scale(0.85);
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.3);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal-overlay.active .modal-card {
@@ -240,57 +387,123 @@
     }
 
     .modal-card h2 {
-      font-size: clamp(1.3rem, 4.8vw, 1.6rem);
+      font-size: clamp(1.25rem, 4.6vw, 1.55rem);
       font-weight: 900;
       color: var(--dark);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       line-height: 1.3;
     }
 
     .proposal-area {
       position: relative;
-      height: 100px;
+      height: 105px;
       width: 100%;
       margin-top: 10px;
     }
 
     #btn-yes {
       position: absolute;
-      left: 8px;
+      left: 10px;
       top: 20px;
       width: 130px;
       z-index: 10;
-      background: #2ec4b6;
+      background: var(--secondary);
       color: #ffffff;
       border: 3.5px solid var(--border-color);
-      padding: 12px 18px;
+      padding: 12px 14px;
       border-radius: 50px;
       font-weight: 900;
       font-size: 1.05rem;
       box-shadow: 0 5px 0 var(--border-color);
       cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.4), box-shadow 0.2s;
+    }
+
+    #btn-yes.super-glow {
+      box-shadow: 0 0 20px rgba(46, 196, 182, 0.9), 0 5px 0 var(--border-color);
+      animation: yesPulse 1.2s infinite;
+    }
+
+    @keyframes yesPulse {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.15); }
     }
 
     #btn-no {
       position: absolute;
-      right: 8px;
+      right: 10px;
       top: 20px;
       width: 130px;
       background: #ff9f1c;
       color: #ffffff;
       border: 3.5px solid var(--border-color);
-      padding: 12px 18px;
+      padding: 12px 14px;
       border-radius: 50px;
       font-weight: 900;
-      font-size: 1rem;
+      font-size: 0.95rem;
       box-shadow: 0 5px 0 var(--border-color);
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.12s;
+      white-space: nowrap;
     }
 
     .btn-yes:active, .btn-no:active {
       transform: translateY(3px);
       box-shadow: 0 2px 0 var(--border-color);
+    }
+
+    /* Cartita Polaroid de Celebración */
+    .celebration-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeInZoom 0.4s ease-out;
+    }
+
+    @keyframes fadeInZoom {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .polaroid-frame {
+      background: #fffdfa;
+      border: 3.5px solid var(--border-color);
+      border-radius: 20px;
+      padding: 16px 14px 18px 14px;
+      box-shadow: 0 6px 0 var(--border-color);
+      margin: 10px 0 16px 0;
+      transform: rotate(-1.5deg);
+      position: relative;
+    }
+
+    .polaroid-pin {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .polaroid-art {
+      font-size: 3rem;
+      margin-bottom: 8px;
+    }
+
+    .polaroid-msg {
+      font-size: 0.98rem;
+      color: #3b2844;
+      font-weight: 800;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .polaroid-sign {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--primary);
+      text-align: right;
+      padding-right: 6px;
     }
 
     .whatsapp-btn {
@@ -304,11 +517,35 @@
       width: 100%;
       box-shadow: 0 6px 0 var(--border-color);
       cursor: pointer;
-      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.1s;
     }
 
     .whatsapp-btn:active {
       transform: translateY(4px);
+      box-shadow: 0 2px 0 var(--border-color);
+    }
+
+    .replay-btn {
+      background: #ffffff;
+      color: #55445d;
+      border: 3px solid var(--border-color);
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-weight: 900;
+      font-size: 0.92rem;
+      width: 100%;
+      box-shadow: 0 4px 0 var(--border-color);
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.1s;
+    }
+
+    .replay-btn:active {
+      transform: translateY(2px);
       box-shadow: 0 2px 0 var(--border-color);
     }
   </style>
@@ -319,18 +556,36 @@
     
     <!-- HUD Superior -->
     <div class="top-hud">
-      <div class="counter-badge">
+      <div class="counter-badge" id="counterBadge">
         <span>💐</span>
         <span id="rose-score">0 / 5</span>
       </div>
-      <button class="audio-btn" id="audioToggle" onclick="toggleAudio()">🎵</button>
+      <div class="hud-right">
+        <button class="audio-btn" id="audioToggle" onclick="toggleAudio()" title="Música / Sonido">🎵</button>
+      </div>
+    </div>
+
+    <!-- Mini-Tracker de Progreso Vertical -->
+    <div class="journey-tracker" id="journeyTracker" style="display: none;">
+      <div class="tracker-goal" title="Andrea te espera al final">👧</div>
+      <div class="tracker-track">
+        <div class="tracker-fill" id="trackerFill"></div>
+        <div class="tracker-avatar" id="trackerAvatar">👦</div>
+      </div>
+      <div class="tracker-start" title="Inicio">🌹</div>
+    </div>
+
+    <!-- Notificación Flotante con Mensajes de Amor -->
+    <div class="rose-toast" id="roseToast">
+      <span id="toastIcon">✨</span>
+      <span id="toastText">¡Tu sonrisa hermosa!</span>
     </div>
 
     <!-- Canvas Principal -->
     <canvas id="gameCanvas"></canvas>
 
-    <!-- Controles táctiles -->
-    <div class="controls-wrapper">
+    <!-- Controles táctiles D-Pad -->
+    <div class="controls-wrapper" id="controlsWrapper">
       <div class="dpad-container">
         <button class="dpad-btn btn-up" id="btnUp">▲</button>
         <button class="dpad-btn btn-left" id="btnLeft">◀</button>
@@ -339,27 +594,55 @@
       </div>
     </div>
 
-    <!-- Pantalla de Inicio Limpia (1 solo botón) -->
+    <!-- Pantalla de Inicio -->
     <div class="start-screen" id="startScreen">
+      <div class="start-title-box">
+        <div style="font-size: 2.8rem; margin-bottom: 4px;">👦✨👧</div>
+        <h1>Tito & Andrea</h1>
+        <p>Junta las 5 rosas mágicas del camino para llegar hasta Andrea 💐💖</p>
+      </div>
       <button class="start-btn" onclick="startGame()">
-        <span>JUGAR</span> 💖
+        <span>¡JUGAR!</span> 💖
       </button>
     </div>
 
-    <!-- MODAL FINAL (Mensaje sincero de que la extrañó) -->
+    <!-- MODAL FINAL (Pregunta de amor + Botón travieso + Cartita) -->
     <div class="modal-overlay" id="modal-final">
       <div class="modal-card">
-        <div style="font-size: 3.5rem; margin-bottom: 8px;">🥺💐💖</div>
-        <h2 id="final-question">Te extrañé un montón...<br>¿Tú también me extrañaste? 🥺</h2>
+        
+        <!-- Fase 1: Pregunta -->
+        <div id="proposalQuestionBlock">
+          <div style="font-size: 3.2rem; margin-bottom: 8px;">🥺💐💖</div>
+          <h2 id="final-question">Te extrañé un montón...<br>¿Tú también me extrañaste? 🥺</h2>
 
-        <div class="proposal-buttons" id="proposalArea">
-          <button id="btn-yes" onclick="celebrateYes()">¡Sí, mucho! 🥰</button>
-          <button id="btn-no" onmouseover="dodgeNo()" ontouchstart="dodgeNo()" onclick="dodgeNo()">No 😜</button>
+          <div class="proposal-area" id="proposalArea">
+            <button id="btn-yes" onclick="celebrateYes()">¡Sí, mucho! 🥰</button>
+            <button id="btn-no" onmouseover="dodgeNo(event)" ontouchstart="dodgeNo(event)" onclick="dodgeNo(event)">No 😜</button>
+          </div>
         </div>
 
-        <button class="whatsapp-btn" id="btnWhatsApp" style="display: none;" onclick="openWhatsApp()">
-          Decírselo a Tito por WhatsApp 💬
-        </button>
+        <!-- Fase 2: Celebración & Cartita Polaroid -->
+        <div class="celebration-box" id="celebrationBox">
+          <h2 style="color: #ff1744; font-size: 1.45rem;">🎉 ¡SABÍA QUE SÍ! 🥰💖</h2>
+          
+          <div class="polaroid-frame">
+            <div class="polaroid-pin">📌</div>
+            <div class="polaroid-art">👩‍❤️‍👨✨</div>
+            <p class="polaroid-msg">
+              "Cada día que pasa te extraño un montón y me haces inmensamente feliz. Gracias por jugar mi jueguito, lo hice con todo mi corazón pensando en vos."
+            </p>
+            <div class="polaroid-sign">— Con amor, Tito ❤️</div>
+          </div>
+
+          <button class="whatsapp-btn" id="btnWhatsApp" onclick="openWhatsApp()">
+            <span>Decírselo a Tito por WhatsApp</span> 💬
+          </button>
+
+          <button class="replay-btn" onclick="restartGame()">
+            <span>Volver a jugar</span> 🔄
+          </button>
+        </div>
+
       </div>
     </div>
 
@@ -367,7 +650,7 @@
 
   <script>
     /* =========================================================================
-       CONFIGURACIÓN LIMPIA
+       CONFIGURACIÓN LIMPIA & PERSONALIZADA
        ========================================================================= */
     const CONFIG = {
       nombreChico: "Tito",
@@ -375,24 +658,26 @@
       telefonoWhatsApp: "5493765005973", // Número de Tito (+54 9 3765 005973)
       mensajeWhatsApp: "¡Hola Tito! Jugué a nuestro juego... ¡Y yo también te extrañé un montón! 🥺🥰💖",
       rosas: [
-        { color: "#ff1744" }, // Rojo pasión
-        { color: "#ff4081" }, // Rosa intenso
-        { color: "#ffd600" }, // Amarillo oro
-        { color: "#ffffff" }, // Blanco puro
-        { color: "#aa00ff" }  // Púrpura mágico
+        { id: 0, color: "#ff1744", compliment: "¡Tu sonrisa hermosa! ✨" },
+        { id: 1, color: "#ff4081", compliment: "¡Tus ojitos bellos! 💫" },
+        { id: 2, color: "#ffd600", compliment: "¡Tus abrazos que curan todo! 🤍" },
+        { id: 3, color: "#ffffff", compliment: "¡Tu risa contagiosa! 🥰" },
+        { id: 4, color: "#aa00ff", compliment: "¡Lo increíble que sos! 💖" }
       ],
       frasesNo: [
         "¿Segura? 👀",
-        "¡Casi! 😜",
-        "¡Bloqueado! 💖",
-        "¡Por acá no! 🌹",
-        "¡Piénsalo! 🥰",
-        "¡Toca el verde! ✨"
+        "¡Esa opción tiene virus! 😂",
+        "¡Ups, se escapó! 💨",
+        "¡Ni lo intentes! 🏃‍♀️",
+        "¡Error 404: El No no existe! 💖",
+        "¡Dale al verde porfi! 🥺",
+        "¡Imposible tocarme! ⚡",
+        "¡Yo sé que sí me extrañaste! 🥰"
       ]
     };
 
     /* =========================================================================
-       AUDIO SINTETIZADO PUCCA
+       AUDIO SINTETIZADO ENRIQUECIDO (Chiptune Romántico + Acordes Lofi)
        ========================================================================= */
     let audioCtx = null;
     let musicPlaying = false;
@@ -427,40 +712,79 @@
 
     function playDashSound() {
       if (!audioCtx) return;
-      playTone(400, 'triangle', 0.08, 0, 0.05);
-      playTone(600, 'triangle', 0.08, 30, 0.05);
+      playTone(420, 'sine', 0.05, 0, 0.025);
     }
 
     function playRoseChime() {
       if (!audioCtx) return;
-      playTone(659.25, 'sine', 0.12, 0);
-      playTone(783.99, 'sine', 0.12, 50);
-      playTone(1046.50, 'sine', 0.25, 100);
+      // Arpegio armónico resplandeciente (Do Mayor 9na)
+      playTone(523.25, 'sine', 0.18, 0, 0.1);
+      playTone(659.25, 'sine', 0.22, 60, 0.12);
+      playTone(783.99, 'sine', 0.26, 120, 0.14);
+      playTone(987.77, 'triangle', 0.32, 180, 0.15);
+      playTone(1046.50, 'sine', 0.45, 240, 0.16);
     }
 
     function playKissSound() {
       if (!audioCtx) return;
-      playTone(520, 'sine', 0.06, 0, 0.12);
-      playTone(880, 'sine', 0.1, 40, 0.14);
-      playTone(1400, 'triangle', 0.3, 90, 0.16);
+      playTone(520, 'sine', 0.08, 0, 0.12);
+      playTone(880, 'sine', 0.12, 40, 0.14);
+      playTone(1320, 'triangle', 0.35, 90, 0.16);
     }
 
+    function playVictoryFanfare() {
+      if (!audioCtx) return;
+      const notes = [523.25, 659.25, 783.99, 1046.5, 1318.5];
+      notes.forEach((n, i) => {
+        playTone(n, 'sine', 0.4, i * 110, 0.14);
+      });
+    }
+
+    function playDodgeSound() {
+      if (!audioCtx) return;
+      playTone(350, 'sine', 0.08, 0, 0.08);
+      playTone(580, 'triangle', 0.1, 40, 0.09);
+    }
+
+    // Melodía romántica polifónica con acordes y línea de bajo cálida
     function startMusic() {
       if (!audioCtx) initAudio();
       musicPlaying = true;
       document.getElementById('audioToggle').innerText = '🔊';
 
       const melody = [
-        523.25, 587.33, 659.25, 783.99, 880, 783.99, 659.25, 587.33,
-        523.25, 659.25, 783.99, 1046.5, 880, 783.99, 659.25, 523.25
+        { m: 523.25, b: 261.63 }, // C4, C3
+        { m: 587.33, b: null },
+        { m: 659.25, b: 329.63 }, // E4, E3
+        { m: 783.99, b: null },
+        { m: 880.00, b: 220.00 }, // A4, A2
+        { m: 783.99, b: null },
+        { m: 659.25, b: 349.23 }, // E4, F3
+        { m: 587.33, b: null },
+
+        { m: 523.25, b: 261.63 },
+        { m: 659.25, b: null },
+        { m: 783.99, b: 392.00 }, // G4, G3
+        { m: 1046.5, b: null },
+        { m: 880.00, b: 220.00 },
+        { m: 783.99, b: null },
+        { m: 659.25, b: 349.23 },
+        { m: 523.25, b: 392.00 }
       ];
+
       let step = 0;
       if (musicInterval) clearInterval(musicInterval);
       musicInterval = setInterval(() => {
         if (!musicPlaying) return;
-        playTone(melody[step], 'triangle', 0.2, 0, 0.035);
+        const current = melody[step];
+        // Voz principal
+        playTone(current.m, 'triangle', 0.22, 0, 0.038);
+        // Bajo de acompañamiento
+        if (current.b) {
+          playTone(current.b, 'sine', 0.38, 0, 0.035);
+        }
         step = (step + 1) % melody.length;
-      }, 230);
+      }, 235);
     }
 
     function toggleAudio() {
@@ -475,7 +799,7 @@
     }
 
     /* =========================================================================
-       MOTOR DEL JUEGO
+       MOTOR DEL JUEGO & MUNDO
        ========================================================================= */
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
@@ -490,31 +814,36 @@
     let collectedCount = 0;
     let cameraY = WORLD_HEIGHT - 650;
     let currentScale = 1;
+    let cameraZoom = 1;
 
-    // Tito (Con mullet de rulos negros real, degradé lateral, sombra de barba definida, cadenita)
+    // Tito (Mullet de rulos negros, degradé lateral, barba/stubble definida, cadenita de oro, ramo progresivo)
     const tito = {
       x: PATH_X,
       y: WORLD_HEIGHT - 120,
       w: 48,
       h: 56,
-      speed: 5.4,
+      speed: 5.5,
       runFrame: 0,
       squash: 1,
       stretch: 1,
       facing: 1,
       heartEyesTimer: 0,
       intenseLove: false,
-      spinAngle: 0
+      spinAngle: 0,
+      blinkTimer: 180
     };
 
-    // Andrea (Con rulos largos, trencitas en la corona, crop top blanco, pollera de jean)
+    // Andrea (Rulos largos, trencitas en la corona, crop top blanco, pollera de jean, vasito térmico rosa)
     const andrea = {
       x: PATH_X,
       y: 110,
       w: 50,
       h: 56,
       jumpY: 0,
-      kissOffset: 0
+      kissOffset: 0,
+      blinkTimer: 210,
+      waveTimer: 0,
+      warningTimer: 0
     };
 
     // Rosas colocadas A LOS COSTADOS
@@ -526,24 +855,67 @@
       { id: 4, x: PATH_X + 110, y: WORLD_HEIGHT - 2250, side: 'right', collected: false }
     ];
 
+    // Partículas y efectos
     const dustPuffs = [];
     const headHearts = [];
     const kissTornado = [];
+    const sparkConfetti = [];
+
+    // Mariposas revoloteando
+    const butterflies = [
+      { x: PATH_X - 120, y: WORLD_HEIGHT - 350, vx: 0.6, vy: 0.3, phase: 0, color: "#ff85a1" },
+      { x: PATH_X + 130, y: WORLD_HEIGHT - 800, vx: -0.5, vy: 0.4, phase: 1.5, color: "#ffd166" },
+      { x: PATH_X - 125, y: WORLD_HEIGHT - 1400, vx: 0.7, vy: -0.3, phase: 3.1, color: "#06d6a0" },
+      { x: PATH_X + 120, y: WORLD_HEIGHT - 1900, vx: -0.6, vy: 0.2, phase: 4.2, color: "#118ab2" },
+      { x: PATH_X - 110, y: WORLD_HEIGHT - 2350, vx: 0.5, vy: -0.4, phase: 5.3, color: "#f72585" }
+    ];
+
+    // Pétalos flotando con la brisa
+    const windPetals = [];
+    for (let i = 0; i < 26; i++) {
+      windPetals.push({
+        x: Math.random() * WORLD_WIDTH,
+        y: Math.random() * WORLD_HEIGHT,
+        speedX: 0.5 + Math.random() * 0.8,
+        speedY: 0.8 + Math.random() * 1.2,
+        size: 3.5 + Math.random() * 3.5,
+        rot: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.05,
+        color: i % 2 === 0 ? "#ffb3c6" : "#ffffff"
+      });
+    }
+
+    // Faroles / Lucecitas mágicas a los costados del sendero
+    const fairyLamps = [];
+    for (let y = 140; y < WORLD_HEIGHT - 80; y += 240) {
+      fairyLamps.push({ x: PATH_X - (PATH_WIDTH / 2) - 10, y: y, glow: 0 });
+      fairyLamps.push({ x: PATH_X + (PATH_WIDTH / 2) + 10, y: y + 120, glow: 0 });
+    }
 
     // Flores de fondo
     const scenery = [];
-    for (let y = 100; y < WORLD_HEIGHT - 50; y += 110) {
+    for (let y = 100; y < WORLD_HEIGHT - 50; y += 105) {
       scenery.push({
-        x: PATH_X - 160 + (Math.random() * 20),
+        x: PATH_X - 160 + (Math.random() * 24),
         y: y + (Math.random() * 30),
         r: 22 + Math.random() * 8,
         color: '#ff70a6'
       });
       scenery.push({
-        x: PATH_X + 160 - (Math.random() * 20),
+        x: PATH_X + 160 - (Math.random() * 24),
         y: y + 55 + (Math.random() * 30),
         r: 22 + Math.random() * 8,
         color: '#ff4d6d'
+      });
+    }
+
+    // Adoquines con pequeñas piedras decorativas
+    const cobblestones = [];
+    for (let y = 30; y < WORLD_HEIGHT; y += 70) {
+      cobblestones.push({
+        y: y,
+        offset: (y % 140 === 0) ? -12 : 12,
+        shade: (y % 210 === 0) ? "#ffd9e0" : "#ffccd5"
       });
     }
 
@@ -562,8 +934,39 @@
     resizeCanvas();
 
     /* =========================================================================
-       SPRITES DETALLADOS Y REALISTAS (TITO CON MULLET & BARBA, ANDREA CON TRENCITAS)
+       SPRITES DETALLADOS & PERSONALIZADOS
        ========================================================================= */
+
+    // DIBUJAR RAMO PROGRESIVO EN MANOS DE TITO
+    function drawBouquet(ctx, count) {
+      if (count <= 0) return;
+      ctx.save();
+      ctx.translate(14, -2);
+
+      // Envoltorio o lazo si ya tiene más de 3
+      if (count >= 3) {
+        ctx.fillStyle = "#ffd166";
+        ctx.beginPath();
+        ctx.ellipse(0, 10, 5, 2.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Distribución de rosas según cuántas tiene
+      const offsets = [
+        { x: 0, y: 0, s: 7, color: CONFIG.rosas[0].color },
+        { x: 6, y: -4, s: 6.5, color: CONFIG.rosas[1].color },
+        { x: -6, y: -4, s: 6.5, color: CONFIG.rosas[2].color },
+        { x: 4, y: -10, s: 6, color: CONFIG.rosas[3].color },
+        { x: -4, y: -10, s: 6.5, color: CONFIG.rosas[4].color }
+      ];
+
+      for (let i = 0; i < Math.min(count, 5); i++) {
+        const o = offsets[i];
+        drawDetailedRoseSprite(ctx, o.x, o.y, o.s, o.color);
+      }
+
+      ctx.restore();
+    }
 
     // DIBUJAR A TITO (Mullet de rulos negros realista, degradé a los lados, sombra de barba nítida, cadenita de oro)
     function drawDetailedTito(ctx, p) {
@@ -576,8 +979,8 @@
 
       ctx.scale(p.facing * p.stretch, p.squash);
 
-      // Sombra
-      ctx.fillStyle = "rgba(18, 12, 22, 0.25)";
+      // Sombra suave en suelo
+      ctx.fillStyle = "rgba(18, 12, 22, 0.28)";
       ctx.beginPath();
       ctx.ellipse(0, 23, 16, 7, 0, 0, Math.PI * 2);
       ctx.fill();
@@ -610,21 +1013,19 @@
 
       // CADENITA DE ORO BRILLANTE ✨
       ctx.strokeStyle = "#ffd700";
-      ctx.lineWidth = 2.2;
+      ctx.lineWidth = 2.4;
       ctx.beginPath();
-      ctx.arc(0, -6, 6, 0.1 * Math.PI, 0.9 * Math.PI);
+      ctx.arc(0, -6, 6.5, 0.1 * Math.PI, 0.9 * Math.PI);
       ctx.stroke();
 
-      // Ramo de rosas en la mano
-      if (collectedCount > 0) {
-        drawDetailedRoseSprite(ctx, 14, -2, 7, "#ff1744");
-      }
+      // Ramo progresivo en la mano
+      drawBouquet(ctx, collectedCount);
 
       // Cuello
       ctx.fillStyle = "#fcd5b5";
       ctx.fillRect(-4, -10, 8, 5);
 
-      // 1. MULLET TRASERO (Rulos largos cayendo por detrás del cuello como en la foto)
+      // 1. MULLET TRASERO (Rulos largos cayendo por detrás del cuello)
       ctx.fillStyle = "#120c16";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 2.5;
@@ -653,27 +1054,27 @@
       ctx.arc(0, -18, 14, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // 3. SOMBRA DE BARBA DEFINIDA (Stubble en mandíbula y mentón como en la foto)
-      ctx.fillStyle = "rgba(40, 25, 30, 0.22)";
+      // 3. SOMBRA DE BARBA DEFINIDA (Stubble en mandíbula y mentón)
+      ctx.fillStyle = "rgba(40, 25, 30, 0.24)";
       ctx.beginPath();
       ctx.arc(0, -15, 12, 0.15 * Math.PI, 0.85 * Math.PI);
       ctx.fill();
 
-      // 4. DEGRADÉ LATERAL CORTO (Fade en los costados de la cabeza)
+      // 4. DEGRADÉ LATERAL CORTO (Fade a los lados de la cabeza)
       ctx.fillStyle = "rgba(18, 12, 22, 0.45)";
       ctx.beginPath();
       ctx.arc(-10, -19, 5, 0, Math.PI * 2);
       ctx.arc(10, -19, 5, 0, Math.PI * 2);
       ctx.fill();
 
-      // 5. RULOS FRONTALES Y SUPERIORES DEFINIDOS
+      // 5. RULOS FRONTALES Y SUPERIORES
       ctx.fillStyle = "#120c16";
       const topMulletCurls = [
         { dx: -11, dy: -14, r: 7 },
         { dx: -4, dy: -18, r: 7.5 },
         { dx: 4, dy: -18, r: 7.5 },
         { dx: 11, dy: -14, r: 7 },
-        { dx: -6, dy: -11, r: 5.5 }, // rulos que caen en la frente
+        { dx: -6, dy: -11, r: 5.5 },
         { dx: 0, dy: -12, r: 6 },
         { dx: 6, dy: -11, r: 5.5 }
       ];
@@ -684,6 +1085,8 @@
       });
 
       // 6. OJOS Y EXPRESIÓN
+      const isBlinking = (p.blinkTimer < 8);
+
       if (p.heartEyesTimer > 0 || p.intenseLove) {
         const pulse = 1 + Math.sin(Date.now() * 0.02) * 0.25;
         ctx.fillStyle = "#ff1744";
@@ -692,7 +1095,7 @@
         drawDetailedHeart(ctx, -5, -18, 6.5 * pulse);
         drawDetailedHeart(ctx, 5, -18, 6.5 * pulse);
 
-        // Sonrisa gigante
+        // Sonrisa alegre
         ctx.fillStyle = "#ff1744";
         ctx.beginPath();
         ctx.arc(0, -12, 4.5, 0, Math.PI);
@@ -704,6 +1107,23 @@
         ctx.ellipse(-8, -13, 3.5, 2, 0, 0, Math.PI * 2);
         ctx.ellipse(8, -13, 3.5, 2, 0, 0, Math.PI * 2);
         ctx.fill();
+      } else if (isBlinking) {
+        // Ojos parpadeando (líneas tiernas)
+        ctx.strokeStyle = "#1b1420";
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.arc(-4.5, -18, 2.5, 0.2 * Math.PI, 0.8 * Math.PI);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(4.5, -18, 2.5, 0.2 * Math.PI, 0.8 * Math.PI);
+        ctx.stroke();
+
+        // Sonrisa tierna
+        ctx.strokeStyle = "#b3543b";
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        ctx.arc(0, -13, 3.5, 0.1 * Math.PI, 0.9 * Math.PI);
+        ctx.stroke();
       } else {
         // Ojos cálidos y definidos
         ctx.fillStyle = "#1b1420";
@@ -727,7 +1147,7 @@
         ctx.stroke();
 
         // Sonrojo
-        ctx.fillStyle = "rgba(255, 64, 129, 0.4)";
+        ctx.fillStyle = "rgba(255, 64, 129, 0.45)";
         ctx.beginPath();
         ctx.arc(-7, -14, 2.5, 0, Math.PI * 2);
         ctx.arc(7, -14, 2.5, 0, Math.PI * 2);
@@ -737,13 +1157,13 @@
       ctx.restore();
     }
 
-    // DIBUJAR A ANDREA (Rulos largos negros con trencitas en la corona, crop top blanco, pollera jean)
+    // DIBUJAR A ANDREA (Rulos largos negros, trencitas en la corona, crop top blanco, pollera jean, vasito térmico)
     function drawDetailedAndrea(ctx, p) {
       ctx.save();
       ctx.translate(p.x, p.y + p.kissOffset - p.jumpY);
 
       // Sombra
-      ctx.fillStyle = "rgba(18, 12, 22, 0.25)";
+      ctx.fillStyle = "rgba(18, 12, 22, 0.28)";
       ctx.beginPath();
       ctx.ellipse(0, 23 + p.jumpY, 18, 8, 0, 0, Math.PI * 2);
       ctx.fill();
@@ -757,7 +1177,7 @@
       ctx.arc(7, 18, 5, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // POLLERA DE JEAN CELESTE (Con detalle de bolsillos)
+      // POLLERA DE JEAN CELESTE
       ctx.fillStyle = "#7cb9e8";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
@@ -785,7 +1205,7 @@
       ctx.roundRect(11, -5, 6, 11, 2);
       ctx.fill(); ctx.stroke();
 
-      // 1. RULOS LARGOS DE ANDREA (Cayendo por los hombros y espalda)
+      // 1. RULOS LARGOS DE ANDREA
       ctx.fillStyle = "#120c16";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 2.5;
@@ -816,13 +1236,13 @@
       ctx.arc(0, -18, 15, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // 3. PARTE SUPERIOR CON TRENCITAS / SECCIONES (El peinado exacto de Andrea en la foto)
+      // 3. PARTE SUPERIOR CON TRENCITAS / SECCIONES
       ctx.fillStyle = "#120c16";
       ctx.beginPath();
       ctx.arc(0, -25, 9, Math.PI, 0);
       ctx.fill(); ctx.stroke();
 
-      // Líneas de las trencitas hacia atrás
+      // Líneas de trencitas
       ctx.strokeStyle = "#38293d";
       ctx.lineWidth = 1.5;
       ctx.beginPath();
@@ -832,14 +1252,27 @@
       ctx.stroke();
 
       // 4. OJOS Y SONRISA CON HOYUELOS
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(-5, -18, 3.2, 0.8 * Math.PI, 0.2 * Math.PI, true);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(5, -18, 3.2, 0.8 * Math.PI, 0.2 * Math.PI, true);
-      ctx.stroke();
+      const isBlinking = (p.blinkTimer < 8);
+
+      if (isBlinking) {
+        ctx.strokeStyle = "#1b1420";
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.arc(-5, -18, 2.5, 0.2 * Math.PI, 0.8 * Math.PI);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(5, -18, 2.5, 0.2 * Math.PI, 0.8 * Math.PI);
+        ctx.stroke();
+      } else {
+        ctx.strokeStyle = "#1b1420";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(-5, -18, 3.2, 0.8 * Math.PI, 0.2 * Math.PI, true);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(5, -18, 3.2, 0.8 * Math.PI, 0.2 * Math.PI, true);
+        ctx.stroke();
+      }
 
       // Sonrisa dulce
       ctx.beginPath();
@@ -853,14 +1286,44 @@
       ctx.ellipse(9, -13, 4, 2.5, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Corazón flotando
+      // Corazón flotando sobre la cabeza
       const heartBounce = Math.sin(Date.now() * 0.008) * 5;
       drawDetailedHeart(ctx, 0, -46 + heartBounce, 8);
+
+      // GLOBITO DE DIÁLOGO SI FALTAN ROSAS
+      if (p.warningTimer > 0) {
+        const remaining = 5 - collectedCount;
+        ctx.save();
+        ctx.font = "900 13px 'Arial Rounded MT Bold', sans-serif";
+        const msg = `¡Tito! Te faltan ${remaining} ${remaining === 1 ? 'rosita' : 'rositas'} 💐🥺`;
+        const textW = ctx.measureText(msg).width;
+
+        ctx.fillStyle = "#ffffff";
+        ctx.strokeStyle = "#221526";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.roundRect(-textW / 2 - 12, -78, textW + 24, 26, 12);
+        ctx.fill(); ctx.stroke();
+
+        // Piquito del globito
+        ctx.beginPath();
+        ctx.moveTo(-4, -52);
+        ctx.lineTo(0, -44);
+        ctx.lineTo(4, -52);
+        ctx.fillStyle = "#ffffff";
+        ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = "#ff1744";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(msg, 0, -65);
+        ctx.restore();
+      }
 
       ctx.restore();
     }
 
-    // DIBUJAR ROSAS REALES CON PÉTALOS EN CAPAS Y TALLO CON HOJAS BOTÁNICAS
+    // DIBUJAR ROSAS REALES CON PÉTALOS EN CAPAS Y TALLO BOTÁNICO
     function drawDetailedRoseSprite(ctx, rx, ry, size, color) {
       ctx.save();
       ctx.translate(rx, ry);
@@ -882,17 +1345,17 @@
       ctx.ellipse(-size * 0.7, size * 1.0, size * 0.45, size * 0.25, -0.3, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // Pétalos exteriores de la rosa
+      // Pétalos exteriores
       ctx.fillStyle = color;
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 2.4;
 
       // Capa base
       ctx.beginPath();
       ctx.arc(0, 0, size, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // Capa de pétalos superpuestos (Rosa abierta)
-      ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+      // Pétalos superpuestos
+      ctx.fillStyle = "rgba(0, 0, 0, 0.14)";
       ctx.beginPath();
       ctx.arc(-size * 0.25, -size * 0.1, size * 0.6, 0.2 * Math.PI, 1.4 * Math.PI);
       ctx.stroke();
@@ -901,7 +1364,7 @@
       ctx.arc(size * 0.25, size * 0.1, size * 0.6, 1.1 * Math.PI, 0.1 * Math.PI);
       ctx.stroke();
 
-      // Espiral central del capullo
+      // Espiral central
       ctx.fillStyle = color;
       ctx.beginPath();
       ctx.arc(0, 0, size * 0.45, 0, Math.PI * 2);
@@ -931,7 +1394,7 @@
       ctx.restore();
     }
 
-    // Dibujar Rosa en el mapa del sendero
+    // Dibujar Rosa en el mapa con cantero y halo resplandeciente
     function drawMapRose(ctx, r) {
       if (r.collected) return;
 
@@ -940,6 +1403,13 @@
       const ry = r.y + float;
 
       ctx.save();
+      // Brillo tenue
+      const glowPulse = 18 + Math.sin(Date.now() * 0.008 + r.id) * 4;
+      ctx.fillStyle = "rgba(255, 240, 245, 0.4)";
+      ctx.beginPath();
+      ctx.arc(rx, ry, glowPulse, 0, Math.PI * 2);
+      ctx.fill();
+
       // Cantero
       ctx.fillStyle = "#ffe4e8";
       ctx.strokeStyle = "#1b1420";
@@ -950,17 +1420,131 @@
 
       // Dibujar la rosa detallada
       const info = CONFIG.rosas[r.id];
-      drawDetailedRoseSprite(ctx, rx, ry, 13, info.color);
+      drawDetailedRoseSprite(ctx, rx, ry, 13.5, info.color);
+
+      ctx.restore();
+    }
+
+    // Dibujar farolito interactivo con poste de madera y luz cálida
+    function drawFairyLamp(ctx, lamp) {
+      ctx.save();
+      ctx.translate(lamp.x, lamp.y);
+
+      // Luz cálida interactiva
+      if (lamp.glow > 0.05) {
+        const rad = 28 + Math.sin(Date.now() * 0.006) * 4;
+        const grad = ctx.createRadialGradient(0, -18, 4, 0, -18, rad);
+        grad.addColorStop(0, `rgba(255, 214, 10, ${lamp.glow * 0.7})`);
+        grad.addColorStop(1, 'rgba(255, 214, 10, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(0, -18, rad, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Poste
+      ctx.fillStyle = "#593d28";
+      ctx.strokeStyle = "#221526";
+      ctx.lineWidth = 2.5;
+      ctx.fillRect(-2, -10, 4, 14);
+      ctx.strokeRect(-2, -10, 4, 14);
+
+      // Farol
+      ctx.fillStyle = lamp.glow > 0.3 ? "#fff3b0" : "#d4a373";
+      ctx.beginPath();
+      ctx.arc(0, -16, 5.5, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // Dibujar mariposa animada
+    function drawButterfly(ctx, b) {
+      ctx.save();
+      ctx.translate(b.x, b.y);
+      const wingScale = Math.sin(Date.now() * 0.015 + b.phase);
+
+      ctx.fillStyle = b.color;
+      ctx.strokeStyle = "#221526";
+      ctx.lineWidth = 1.5;
+
+      // Ala izquierda
+      ctx.beginPath();
+      ctx.ellipse(-4 * Math.abs(wingScale), -2, 5 * Math.abs(wingScale), 7, -0.2, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      // Ala derecha
+      ctx.beginPath();
+      ctx.ellipse(4 * Math.abs(wingScale), -2, 5 * Math.abs(wingScale), 7, 0.2, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      // Cuerpo
+      ctx.fillStyle = "#221526";
+      ctx.fillRect(-1, -6, 2, 8);
 
       ctx.restore();
     }
 
     /* =========================================================================
-       ACTUALIZACIÓN Y FÍSICAS
+       ACTUALIZACIÓN & FÍSICAS
        ========================================================================= */
     const keys = { up: false, down: false, left: false, right: false };
+    let toastTimeout = null;
+
+    function showRoseToast(compliment, color) {
+      const toast = document.getElementById('roseToast');
+      const textEl = document.getElementById('toastText');
+      const iconEl = document.getElementById('toastIcon');
+
+      textEl.innerText = compliment;
+      textEl.style.color = color === "#ffffff" ? "#ff4081" : color;
+      iconEl.innerText = "🌹";
+
+      toast.classList.add('show');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2600);
+    }
 
     function update() {
+      // Temporizadores de pestañeo
+      tito.blinkTimer--;
+      if (tito.blinkTimer <= 0) tito.blinkTimer = 180 + Math.random() * 80;
+
+      andrea.blinkTimer--;
+      if (andrea.blinkTimer <= 0) andrea.blinkTimer = 190 + Math.random() * 90;
+
+      if (andrea.warningTimer > 0) andrea.warningTimer--;
+
+      // Mariposas
+      butterflies.forEach(b => {
+        b.x += Math.sin(Date.now() * 0.002 + b.phase) * 0.8 + b.vx;
+        b.y += Math.cos(Date.now() * 0.002 + b.phase) * 0.5 + b.vy;
+      });
+
+      // Pétalos al viento
+      windPetals.forEach(p => {
+        p.x += p.speedX + Math.sin(Date.now() * 0.002 + p.rot) * 0.4;
+        p.y += p.speedY;
+        p.rot += p.rotSpeed;
+
+        if (p.y > WORLD_HEIGHT) {
+          p.y = 0;
+          p.x = Math.random() * WORLD_WIDTH;
+        }
+        if (p.x > WORLD_WIDTH) {
+          p.x = 0;
+        }
+      });
+
+      // Iluminación de farolitos cerca de Tito
+      fairyLamps.forEach(lamp => {
+        const dist = Math.hypot(tito.x - lamp.x, tito.y - lamp.y);
+        const targetGlow = dist < 120 ? 1 : 0;
+        lamp.glow += (targetGlow - lamp.glow) * 0.1;
+      });
+
       if (gameState === 'PLAYING') {
         let dx = 0;
         let dy = 0;
@@ -1008,21 +1592,30 @@
         roses.forEach(r => {
           if (!r.collected) {
             const dist = Math.hypot(tito.x - r.x, tito.y - r.y);
-            if (dist < 40) {
+            if (dist < 42) {
               r.collected = true;
               collectedCount++;
+              const badge = document.getElementById('counterBadge');
               document.getElementById('rose-score').innerText = `${collectedCount} / 5`;
+              badge.classList.add('pop');
+              setTimeout(() => badge.classList.remove('pop'), 200);
+
               playRoseChime();
-              if (navigator.vibrate) navigator.vibrate(50);
+              if (navigator.vibrate) navigator.vibrate(60);
 
               tito.heartEyesTimer = 160;
 
-              for (let i = 0; i < 14; i++) {
+              // Mensajito flotante de amor
+              const roseInfo = CONFIG.rosas[r.id];
+              showRoseToast(roseInfo.compliment, roseInfo.color);
+
+              // Corazoncitos flotantes
+              for (let i = 0; i < 16; i++) {
                 headHearts.push({
                   x: tito.x + (Math.random() - 0.5) * 20,
                   y: tito.y - 35,
                   vx: (Math.random() - 0.5) * 4,
-                  vy: -Math.random() * 3 - 2,
+                  vy: -Math.random() * 3 - 2.5,
                   size: Math.random() * 6 + 5,
                   alpha: 1
                 });
@@ -1031,15 +1624,25 @@
           }
         });
 
+        // Actualizar mini-tracker de progreso
+        const totalDist = (WORLD_HEIGHT - 120) - (andrea.y + 50);
+        const currentDist = (WORLD_HEIGHT - 120) - tito.y;
+        const progressRatio = Math.max(0, Math.min(1, currentDist / totalDist));
+        document.getElementById('trackerFill').style.height = `${progressRatio * 100}%`;
+        document.getElementById('trackerAvatar').style.bottom = `${progressRatio * 100}%`;
+
         // Encuentro con Andrea
         const distAndrea = Math.hypot(tito.x - andrea.x, tito.y - andrea.y);
-        if (distAndrea < 70) {
+        if (distAndrea < 75) {
           if (collectedCount >= 5) {
             startKissScene();
+          } else {
+            // Andrea avisa con globito de diálogo
+            andrea.warningTimer = 120;
           }
         }
 
-        // Cámara
+        // Cámara fluida
         const viewportVirtualHeight = canvas.height / currentScale;
         const targetCamY = tito.y - (viewportVirtualHeight * 0.65);
         cameraY += (targetCamY - cameraY) * 0.12;
@@ -1050,17 +1653,26 @@
       if (gameState === 'KISS_SCENE') {
         kissTimer++;
 
+        // Suave zoom cinemático
+        cameraZoom += (1.25 - cameraZoom) * 0.05;
+
+        // Tito se acerca exactamente a Andrea
+        tito.x += (andrea.x - tito.x) * 0.1;
+        tito.y += (andrea.y + 22 - tito.y) * 0.1;
+
         if (kissTimer < 25) {
           andrea.jumpY = Math.sin((kissTimer / 25) * Math.PI) * 24;
-          andrea.kissOffset = (kissTimer / 25) * 18;
+          andrea.kissOffset = (kissTimer / 25) * 16;
         } else if (kissTimer === 25) {
           playKissSound();
+          playVictoryFanfare();
           if (navigator.vibrate) navigator.vibrate([100, 50, 200]);
 
-          for (let i = 0; i < 80; i++) {
+          // Explosión de corazones y confeti
+          for (let i = 0; i < 90; i++) {
             kissTornado.push({
               x: tito.x,
-              y: tito.y - 15,
+              y: tito.y - 18,
               angle: Math.random() * Math.PI * 2,
               dist: Math.random() * 10,
               speed: Math.random() * 5 + 3,
@@ -1068,11 +1680,23 @@
               alpha: 1
             });
           }
-        } else if (kissTimer > 25 && kissTimer < 90) {
+
+          for (let i = 0; i < 40; i++) {
+            sparkConfetti.push({
+              x: tito.x,
+              y: tito.y - 20,
+              vx: (Math.random() - 0.5) * 8,
+              vy: -Math.random() * 7 - 3,
+              r: Math.random() * 4 + 3,
+              color: ['#ff1744', '#ffd166', '#06d6a0', '#ff85a1', '#ffffff'][Math.floor(Math.random() * 5)],
+              alpha: 1
+            });
+          }
+        } else if (kissTimer > 25 && kissTimer < 95) {
           tito.intenseLove = true;
-          tito.spinAngle += 0.2;
+          tito.spinAngle += 0.22;
           tito.y -= 0.6;
-        } else if (kissTimer >= 120) {
+        } else if (kissTimer >= 130) {
           triggerFinalModal();
         }
       }
@@ -1098,6 +1722,14 @@
         k.alpha -= 0.015;
         if (k.alpha <= 0) kissTornado.splice(idx, 1);
       });
+
+      sparkConfetti.forEach((c, idx) => {
+        c.x += c.vx;
+        c.y += c.vy;
+        c.vy += 0.2;
+        c.alpha -= 0.018;
+        if (c.alpha <= 0) sparkConfetti.splice(idx, 1);
+      });
     }
 
     let kissTimer = 0;
@@ -1105,33 +1737,45 @@
       gameState = 'KISS_SCENE';
       kissTimer = 0;
       keys.up = false; keys.down = false; keys.left = false; keys.right = false;
+      document.getElementById('controlsWrapper').style.display = 'none';
+      document.getElementById('journeyTracker').style.display = 'none';
     }
 
     function render() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       ctx.save();
-      ctx.scale(currentScale, currentScale);
-      ctx.translate(0, -cameraY);
+      // Escala base y zoom cinemático
+      ctx.scale(currentScale * cameraZoom, currentScale * cameraZoom);
 
-      // Césped
+      if (gameState === 'KISS_SCENE') {
+        const focusX = (tito.x + andrea.x) / 2;
+        const focusY = (tito.y + andrea.y) / 2;
+        const viewW = canvas.width / (currentScale * cameraZoom);
+        const viewH = canvas.height / (currentScale * cameraZoom);
+        ctx.translate(-(focusX - viewW / 2), -(focusY - viewH / 2));
+      } else {
+        ctx.translate(0, -cameraY);
+      }
+
+      // Césped de fondo
       ctx.fillStyle = "#7ecba1";
       ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
-      // Sendero
+      // Sendero empedrado principal
       ctx.fillStyle = "#ffe4e8";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 4;
       ctx.fillRect(PATH_X - (PATH_WIDTH / 2), 0, PATH_WIDTH, WORLD_HEIGHT);
       ctx.strokeRect(PATH_X - (PATH_WIDTH / 2), 0, PATH_WIDTH, WORLD_HEIGHT);
 
-      // Adoquines
-      for (let y = 30; y < WORLD_HEIGHT; y += 70) {
-        ctx.fillStyle = "#ffccd5";
+      // Adoquines decorativos
+      cobblestones.forEach(c => {
+        ctx.fillStyle = c.shade;
         ctx.beginPath();
-        ctx.roundRect(PATH_X - 35, y, 70, 24, 12);
+        ctx.roundRect(PATH_X - 35 + c.offset, c.y, 70, 24, 12);
         ctx.fill(); ctx.stroke();
-      }
+      });
 
       // Senderos pequeños a las rosas
       roses.forEach(r => {
@@ -1146,6 +1790,9 @@
         }
       });
 
+      // Faroles a los costados
+      fairyLamps.forEach(lamp => drawFairyLamp(ctx, lamp));
+
       // Flores decorativas
       scenery.forEach(s => {
         ctx.fillStyle = s.color;
@@ -1158,6 +1805,21 @@
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r * 0.35, 0, Math.PI * 2);
         ctx.fill(); ctx.stroke();
+      });
+
+      // Mariposas revoloteando
+      butterflies.forEach(b => drawButterfly(ctx, b));
+
+      // Pétalos al viento
+      windPetals.forEach(p => {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.size, p.size * 0.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
       });
 
       // Polvo al correr
@@ -1191,17 +1853,33 @@
       });
 
       // Beso cómic animado
-      if (gameState === 'KISS_SCENE' && kissTimer >= 25 && kissTimer < 100) {
+      if (gameState === 'KISS_SCENE' && kissTimer >= 25 && kissTimer < 105) {
         ctx.save();
-        ctx.font = "900 22px 'Arial Rounded MT Bold', sans-serif";
+        const bounceScale = 1 + Math.sin((kissTimer - 25) * 0.15) * 0.12;
+        ctx.translate(tito.x, tito.y - 68);
+        ctx.scale(bounceScale, bounceScale);
+        ctx.font = "900 24px 'Arial Rounded MT Bold', sans-serif";
         ctx.fillStyle = "#ff1744";
         ctx.strokeStyle = "#1b1420";
-        ctx.lineWidth = 5;
+        ctx.lineWidth = 5.5;
         ctx.textAlign = "center";
-        ctx.strokeText("💋 ¡MUACK! 💖", tito.x, tito.y - 65);
-        ctx.fillText("💋 ¡MUACK! 💖", tito.x, tito.y - 65);
+        ctx.strokeText("💋 ¡MUACK! 💖", 0, 0);
+        ctx.fillText("💋 ¡MUACK! 💖", 0, 0);
         ctx.restore();
       }
+
+      // Confeti de chispitas
+      sparkConfetti.forEach(c => {
+        ctx.save();
+        ctx.globalAlpha = c.alpha;
+        ctx.fillStyle = c.color;
+        ctx.strokeStyle = "#221526";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fill(); ctx.stroke();
+        ctx.restore();
+      });
 
       // Tornado de corazones
       kissTornado.forEach(k => {
@@ -1223,12 +1901,13 @@
     }
 
     /* =========================================================================
-       INICIO Y EVENTOS
+       INICIO, FINAL & REINICIO
        ========================================================================= */
     function startGame() {
       initAudio();
       startMusic();
       document.getElementById('startScreen').style.display = 'none';
+      document.getElementById('journeyTracker').style.display = 'flex';
       gameState = 'PLAYING';
       gameLoop();
     }
@@ -1243,6 +1922,8 @@
     function dodgeNo(e) {
       if (e) e.preventDefault();
       noCount++;
+      playDodgeSound();
+
       const btnNo = document.getElementById('btn-no');
       const btnYes = document.getElementById('btn-yes');
       const area = document.getElementById('proposalArea');
@@ -1251,23 +1932,27 @@
 
       const maxX = area.clientWidth - 130;
       const maxY = area.clientHeight - 45;
-      const randX = Math.floor(Math.random() * maxX);
-      const randY = Math.floor(Math.random() * maxY);
+      const randX = Math.max(5, Math.floor(Math.random() * maxX));
+      const randY = Math.max(5, Math.floor(Math.random() * maxY));
 
       btnNo.style.position = 'absolute';
       btnNo.style.left = `${randX}px`;
       btnNo.style.top = `${randY}px`;
 
-      btnYes.style.transform = `scale(${1 + (noCount * 0.08)})`;
-      if (navigator.vibrate) navigator.vibrate(30);
+      // El botón "Sí" crece de forma irresistible y se ilumina
+      btnYes.style.transform = `scale(${Math.min(1 + (noCount * 0.09), 1.4)})`;
+      btnYes.classList.add('super-glow');
+
+      if (navigator.vibrate) navigator.vibrate(35);
     }
 
     function celebrateYes() {
       playKissSound();
+      playVictoryFanfare();
       if (navigator.vibrate) navigator.vibrate([150, 50, 150, 50, 300]);
-      document.getElementById('final-question').innerHTML = "🎉 ¡SABÍA QUE ME EXTRAÑABAS! 🥰💖";
-      document.getElementById('proposalArea').style.display = 'none';
-      document.getElementById('btnWhatsApp').style.display = 'block';
+
+      document.getElementById('proposalQuestionBlock').style.display = 'none';
+      document.getElementById('celebrationBox').style.display = 'flex';
     }
 
     function openWhatsApp() {
@@ -1275,8 +1960,50 @@
       window.open(url, '_blank');
     }
 
+    function restartGame() {
+      // Ocultar modal
+      document.getElementById('modal-final').classList.remove('active');
+      document.getElementById('proposalQuestionBlock').style.display = 'block';
+      document.getElementById('celebrationBox').style.display = 'none';
+
+      const btnNo = document.getElementById('btn-no');
+      const btnYes = document.getElementById('btn-yes');
+      btnNo.style.position = 'absolute';
+      btnNo.style.right = '10px';
+      btnNo.style.left = 'auto';
+      btnNo.style.top = '20px';
+      btnNo.innerText = 'No 😜';
+      btnYes.style.transform = 'scale(1)';
+      btnYes.classList.remove('super-glow');
+      noCount = 0;
+
+      // Reiniciar variables
+      collectedCount = 0;
+      document.getElementById('rose-score').innerText = '0 / 5';
+      roses.forEach(r => r.collected = false);
+
+      tito.x = PATH_X;
+      tito.y = WORLD_HEIGHT - 120;
+      tito.intenseLove = false;
+      tito.spinAngle = 0;
+      tito.heartEyesTimer = 0;
+
+      andrea.jumpY = 0;
+      andrea.kissOffset = 0;
+      andrea.warningTimer = 0;
+
+      cameraY = WORLD_HEIGHT - 650;
+      cameraZoom = 1;
+      kissTimer = 0;
+
+      document.getElementById('controlsWrapper').style.display = 'flex';
+      document.getElementById('journeyTracker').style.display = 'flex';
+
+      gameState = 'PLAYING';
+    }
+
     /* =========================================================================
-       CONTROLES
+       CONTROLES (D-PAD + TECLADO + DESLIZAMIENTO TÁCTIL)
        ========================================================================= */
     function bindBtn(id, key) {
       const el = document.getElementById(id);
@@ -1304,40 +2031,59 @@
     bindBtn('btnRight', 'right');
 
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowUp' || e.key === 'w') keys.up = true;
-      if (e.key === 'ArrowDown' || e.key === 's') keys.down = true;
-      if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = true;
-      if (e.key === 'ArrowRight' || e.key === 'd') keys.right = true;
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.up = true;
+      if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.down = true;
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = true;
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = true;
     });
 
     window.addEventListener('keyup', (e) => {
-      if (e.key === 'ArrowUp' || e.key === 'w') keys.up = false;
-      if (e.key === 'ArrowDown' || e.key === 's') keys.down = false;
-      if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = false;
-      if (e.key === 'ArrowRight' || e.key === 'd') keys.right = false;
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.up = false;
+      if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.down = false;
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = false;
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = false;
     });
+
+    // Control táctil suave deslizando el dedo por la pantalla
+    let touchOrigin = null;
+
+    function handlePointerMoveDir(clientX, clientY) {
+      if (!touchOrigin || gameState !== 'PLAYING') return;
+      const dx = clientX - touchOrigin.x;
+      const dy = clientY - touchOrigin.y;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist > 12) {
+        keys.up = (dy < -8);
+        keys.down = (dy > 8);
+        keys.left = (dx < -8);
+        keys.right = (dx > 8);
+      }
+    }
 
     canvas.addEventListener('pointerdown', (e) => {
       if (gameState !== 'PLAYING') return;
-      const rect = canvas.getBoundingClientRect();
-      const rawX = (e.clientX - rect.left) * (canvas.width / rect.width);
-      const rawY = (e.clientY - rect.top) * (canvas.height / rect.height);
-      
-      const clickX = rawX / currentScale;
-      const clickY = (rawY / currentScale) + cameraY;
-
-      if (clickY < tito.y - 15) keys.up = true;
-      if (clickY > tito.y + 15) keys.down = true;
-      if (clickX < tito.x - 15) keys.left = true;
-      if (clickX > tito.x + 15) keys.right = true;
+      initAudio();
+      touchOrigin = { x: e.clientX, y: e.clientY };
+      handlePointerMoveDir(e.clientX, e.clientY);
     });
 
-    canvas.addEventListener('pointerup', () => {
-      keys.up = false;
-      keys.down = false;
-      keys.left = false;
-      keys.right = false;
+    window.addEventListener('pointermove', (e) => {
+      if (touchOrigin) handlePointerMoveDir(e.clientX, e.clientY);
     });
+
+    const endTouch = () => {
+      if (touchOrigin) {
+        touchOrigin = null;
+        keys.up = false;
+        keys.down = false;
+        keys.left = false;
+        keys.right = false;
+      }
+    };
+
+    window.addEventListener('pointerup', endTouch);
+    window.addEventListener('pointercancel', endTouch);
   </script>
 </body>
 </html>
