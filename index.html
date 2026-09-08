@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Tito & Andrea ✨ Edición Mágica</title>
+  <title>Tito & Andrea ✨ Masterpiece Edition</title>
   <style>
     :root {
       --primary: #ff2a55;
@@ -205,7 +205,7 @@
       50% { transform: translateY(-3px) scale(1.1); }
     }
 
-    /* Notificación de Amor Flotante */
+    /* Notificación Flotante con Mensajes de Amor */
     .rose-toast {
       position: absolute;
       top: 76px;
@@ -364,7 +364,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 14px;
+      padding: 12px;
       z-index: 100;
       opacity: 0;
       pointer-events: none;
@@ -380,14 +380,14 @@
       background: #ffffff;
       border: 4.5px solid var(--border-color);
       border-radius: 32px;
-      padding: 22px 18px;
+      padding: 20px 16px;
       width: 100%;
-      max-width: 370px;
+      max-width: 380px;
       text-align: center;
       box-shadow: 0 10px 0 var(--border-color);
       transform: scale(0.85);
       transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.3);
-      max-height: 92vh;
+      max-height: 94vh;
       overflow-y: auto;
     }
 
@@ -396,10 +396,10 @@
     }
 
     .modal-card h2 {
-      font-size: clamp(1.2rem, 4.5vw, 1.5rem);
+      font-size: clamp(1.2rem, 4.4vw, 1.45rem);
       font-weight: 900;
       color: var(--dark);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       line-height: 1.3;
     }
 
@@ -461,7 +461,100 @@
       box-shadow: 0 2px 0 var(--border-color);
     }
 
-    /* Álbum Polaroid Interactivo de Recuerdos */
+    /* MINIJUEGO: ESTRELLAS DE LOS DESEOS */
+    .wishes-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeInZoom 0.35s ease-out;
+    }
+
+    .wishes-subtitle {
+      font-size: 0.88rem;
+      color: #665270;
+      font-weight: 800;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .wishes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    .wish-card {
+      background: #faf6fc;
+      border: 2.8px solid var(--border-color);
+      border-radius: 16px;
+      padding: 10px 8px;
+      cursor: pointer;
+      box-shadow: 0 3px 0 var(--border-color);
+      transition: all 0.12s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .wish-card:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 var(--border-color);
+    }
+
+    .wish-card.selected {
+      background: #e8f9f6;
+      border-color: #2ec4b6;
+      box-shadow: 0 3px 0 #2ec4b6, 0 0 10px rgba(46, 196, 182, 0.4);
+      transform: scale(1.02);
+    }
+
+    .wish-emoji {
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+    }
+
+    .wish-text {
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.25;
+    }
+
+    .wishes-counter {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .continue-wishes-btn {
+      background: var(--primary);
+      color: white;
+      border: 3.5px solid var(--border-color);
+      padding: 12px;
+      border-radius: 50px;
+      font-weight: 900;
+      font-size: 1rem;
+      width: 100%;
+      box-shadow: 0 5px 0 var(--border-color);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      animation: pulseBtn 1.4s infinite;
+      transition: transform 0.1s;
+    }
+
+    .continue-wishes-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 var(--border-color);
+    }
+
+    /* Álbum Polaroid Interactivo */
     .celebration-box {
       display: none;
       flex-direction: column;
@@ -477,7 +570,7 @@
     .album-wrapper {
       position: relative;
       width: 100%;
-      margin: 8px 0 14px 0;
+      margin: 6px 0 12px 0;
     }
 
     .polaroid-frame {
@@ -489,7 +582,7 @@
       transform: rotate(-1.5deg);
       position: relative;
       transition: all 0.3s ease;
-      min-height: 220px;
+      min-height: 215px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -506,7 +599,7 @@
 
     .polaroid-art {
       font-size: 2.8rem;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .polaroid-title {
@@ -698,16 +791,16 @@
     <!-- Pantalla de Inicio -->
     <div class="start-screen" id="startScreen">
       <div class="start-title-box">
-        <div style="font-size: 2.8rem; margin-bottom: 4px;">👦✨👧</div>
+        <div style="font-size: 2.8rem; margin-bottom: 4px;">👦🐶👧</div>
         <h1>Tito & Andrea</h1>
-        <p>Junta las 5 rosas mágicas del camino para llegar hasta Andrea 💐💖</p>
+        <p>Junta las 5 rosas mágicas con tu fiel perrito para llegar hasta Andrea 💐💖</p>
       </div>
       <button class="start-btn" onclick="startGame()">
         <span>¡JUGAR!</span> 💖
       </button>
     </div>
 
-    <!-- MODAL FINAL (Pregunta + Botón travieso + Álbum Polaroid) -->
+    <!-- MODAL FINAL (Pregunta + Minijuego de Deseos + Álbum Polaroid) -->
     <div class="modal-overlay" id="modal-final">
       <div class="modal-card">
         
@@ -722,9 +815,26 @@
           </div>
         </div>
 
-        <!-- Fase 2: Álbum Polaroid Interactivo -->
+        <!-- Fase 2: Minijuego de las Estrellas de los Deseos -->
+        <div class="wishes-box" id="wishesBlock">
+          <div style="font-size: 2.5rem; margin-bottom: 4px;">🌠✨</div>
+          <h2 style="color: #ff1744; font-size: 1.35rem;">¡Lluvia de Deseos!</h2>
+          <p class="wishes-subtitle">Elige 3 deseos para nuestra próxima cita juntos:</p>
+
+          <div class="wishes-counter" id="wishesCounter">Elegidos: 0 / 3</div>
+
+          <div class="wishes-grid" id="wishesGrid">
+            <!-- Renderizado dinámico de tarjetas -->
+          </div>
+
+          <button class="continue-wishes-btn" id="btnContinueWishes" onclick="finishWishes()">
+            <span>Ver Nuestra Carta & Enviar a Tito</span> 💌
+          </button>
+        </div>
+
+        <!-- Fase 3: Álbum Polaroid Interactivo -->
         <div class="celebration-box" id="celebrationBox">
-          <h2 style="color: #ff1744; font-size: 1.38rem; margin-bottom: 4px;">🎉 ¡SABÍA QUE SÍ! 🥰💖</h2>
+          <h2 style="color: #ff1744; font-size: 1.35rem; margin-bottom: 4px;">🎉 ¡NUESTRA HISTORIA! 🥰💖</h2>
           
           <div class="album-wrapper">
             <div class="polaroid-frame" id="polaroidCard">
@@ -755,7 +865,7 @@
 
           <!-- Botones de Acción -->
           <button class="download-card-btn" onclick="downloadMemoryCard()">
-            <span>📸 Guardar Postal de Recuerdo</span>
+            <span>📸 Guardar Postal con Mis Deseos</span>
           </button>
 
           <button class="whatsapp-btn" id="btnWhatsApp" onclick="openWhatsApp()">
@@ -780,13 +890,21 @@
       nombreChico: "Tito",
       nombreChica: "Andrea",
       telefonoWhatsApp: "5493765005973", // Número de Tito (+54 9 3765 005973)
-      mensajeWhatsApp: "¡Hola Tito! Jugué a nuestro juego... ¡Y yo también te extrañé un montón! 🥺🥰💖",
+      mensajeWhatsAppBase: "¡Hola Tito! Jugué a nuestro juego... ¡Y yo también te extrañé un montón! 🥺🥰💖",
       rosas: [
         { id: 0, color: "#ff1744", compliment: "¡Tu sonrisa hermosa! ✨" },
         { id: 1, color: "#ff4081", compliment: "¡Tus ojitos bellos! 💫" },
         { id: 2, color: "#ffd600", compliment: "¡Tus abrazos que curan todo! 🤍" },
         { id: 3, color: "#ffffff", compliment: "¡Tu risa contagiosa! 🥰" },
         { id: 4, color: "#aa00ff", compliment: "¡Lo increíble que sos! 💖" }
+      ],
+      deseosLista: [
+        { id: 1, emoji: "🍦", text: "Helados y caminata juntos" },
+        { id: 2, emoji: "🎬", text: "Películas, mimos y comida rica" },
+        { id: 3, emoji: "🍕", text: "Cita sorpresa que organice Tito" },
+        { id: 4, emoji: "🫂", text: "Un abrazo eterno de 10 minutos" },
+        { id: 5, emoji: "🌅", text: "Ver el atardecer abrazados" },
+        { id: 6, emoji: "🚗", text: "Una escapada o mini viaje juntos" }
       ],
       polaroidMemories: [
         {
@@ -832,8 +950,10 @@
       ]
     };
 
+    let selectedWishes = [];
+
     /* =========================================================================
-       AUDIO ADAPTATIVO ENRIQUECIDO (Evoluciona con cada rosa)
+       AUDIO ADAPTATIVO ENRIQUECIDO
        ========================================================================= */
     let audioCtx = null;
     let musicPlaying = false;
@@ -873,7 +993,6 @@
 
     function playRoseChime() {
       if (!audioCtx) return;
-      // Arpegio brillante ascendente
       playTone(523.25, 'sine', 0.18, 0, 0.1);
       playTone(659.25, 'sine', 0.22, 60, 0.12);
       playTone(783.99, 'sine', 0.26, 120, 0.14);
@@ -909,25 +1028,30 @@
       playTone(1318.51, 'triangle', 0.35, 160, 0.12);
     }
 
-    // Melodía polifónica adaptativa que florece con más instrumentos por cada rosa
+    function playBarkSound() {
+      if (!audioCtx) return;
+      playTone(600, 'triangle', 0.06, 0, 0.07);
+      playTone(850, 'sine', 0.08, 30, 0.09);
+    }
+
     function startMusic() {
       if (!audioCtx) initAudio();
       musicPlaying = true;
       document.getElementById('audioToggle').innerText = '🔊';
 
       const melody = [
-        { m: 523.25, b: 261.63, arp: 1046.50, cnt: 659.25 }, // C4
+        { m: 523.25, b: 261.63, arp: 1046.50, cnt: 659.25 },
         { m: 587.33, b: null,   arp: 1174.66, cnt: null },
-        { m: 659.25, b: 329.63, arp: 1318.51, cnt: 783.99 }, // E4
+        { m: 659.25, b: 329.63, arp: 1318.51, cnt: 783.99 },
         { m: 783.99, b: null,   arp: 1567.98, cnt: null },
-        { m: 880.00, b: 220.00, arp: 1760.00, cnt: 1046.50 }, // A4
+        { m: 880.00, b: 220.00, arp: 1760.00, cnt: 1046.50 },
         { m: 783.99, b: null,   arp: 1567.98, cnt: null },
-        { m: 659.25, b: 349.23, arp: 1318.51, cnt: 880.00 }, // F4
+        { m: 659.25, b: 349.23, arp: 1318.51, cnt: 880.00 },
         { m: 587.33, b: null,   arp: 1174.66, cnt: null },
 
         { m: 523.25, b: 261.63, arp: 1046.50, cnt: 659.25 },
         { m: 659.25, b: null,   arp: 1318.51, cnt: null },
-        { m: 783.99, b: 392.00, arp: 1567.98, cnt: 987.77 }, // G4
+        { m: 783.99, b: 392.00, arp: 1567.98, cnt: 987.77 },
         { m: 1046.5, b: null,   arp: 2093.00, cnt: null },
         { m: 880.00, b: 220.00, arp: 1760.00, cnt: 1046.50 },
         { m: 783.99, b: null,   arp: 1567.98, cnt: null },
@@ -941,25 +1065,20 @@
         if (!musicPlaying) return;
         const current = melody[step];
 
-        // Capa 1: Melodía principal
         playTone(current.m, 'triangle', 0.22, 0, 0.038);
 
-        // Capa 2 (1+ rosas): Bajo acústico cálido
         if (collectedCount >= 1 && current.b) {
           playTone(current.b, 'sine', 0.38, 0, 0.035);
         }
 
-        // Capa 3 (2+ rosas): Campanitas arpegiadas
         if (collectedCount >= 2 && current.arp && step % 2 === 0) {
           playTone(current.arp, 'sine', 0.15, 30, 0.022);
         }
 
-        // Capa 4 (3+ rosas): Contramelodía dulce
         if (collectedCount >= 3 && current.cnt) {
           playTone(current.cnt, 'triangle', 0.2, 50, 0.025);
         }
 
-        // Capa 5 (4+ rosas): Acorde de armonía resplandeciente
         if (collectedCount >= 4 && step % 4 === 0) {
           playTone(current.m * 1.5, 'sine', 0.35, 10, 0.02);
         }
@@ -999,7 +1118,7 @@
     let heartbeatTick = 0;
     let archCrossed = false;
 
-    // Tito (Mullet de rulos, sombra de barba, cadenita de oro, ramo progresivo)
+    // Tito
     const tito = {
       x: PATH_X,
       y: WORLD_HEIGHT - 120,
@@ -1016,7 +1135,7 @@
       blinkTimer: 180
     };
 
-    // Andrea (Rulos largos, trencitas en la corona, crop top, pollera jean, vasito térmico)
+    // Andrea
     const andrea = {
       x: PATH_X,
       y: 110,
@@ -1028,7 +1147,20 @@
       warningTimer: 0
     };
 
-    // Rosas colocadas A LOS COSTADOS
+    // Perrito Fiel Acompañante
+    const puppy = {
+      x: PATH_X - 25,
+      y: WORLD_HEIGHT - 110,
+      targetX: PATH_X - 25,
+      targetY: WORLD_HEIGHT - 110,
+      facing: 1,
+      jumpY: 0,
+      tailWag: 0,
+      excited: 0,
+      celebrateAngle: 0
+    };
+
+    // Rosas
     const roses = [
       { id: 0, x: PATH_X - 110, y: WORLD_HEIGHT - 450, side: 'left', collected: false },
       { id: 1, x: PATH_X + 110, y: WORLD_HEIGHT - 900, side: 'right', collected: false },
@@ -1044,8 +1176,23 @@
     const kissTornado = [];
     const sparkConfetti = [];
     const fireworkParticles = [];
+    const foregroundPetals = [];
 
-    // Estrellas en el cielo nocturno (parte superior del mapa)
+    // Partículas en primer plano (Foreground Parallax 3D)
+    for (let i = 0; i < 14; i++) {
+      foregroundPetals.push({
+        x: Math.random() * V_WIDTH,
+        y: Math.random() * 800,
+        speedX: 0.8 + Math.random() * 0.9,
+        speedY: 1.2 + Math.random() * 1.4,
+        size: 7 + Math.random() * 6,
+        rot: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.04,
+        alpha: 0.35 + Math.random() * 0.25
+      });
+    }
+
+    // Estrellas en el cielo
     const stars = [];
     for (let i = 0; i < 70; i++) {
       stars.push({
@@ -1057,7 +1204,7 @@
       });
     }
 
-    // Luciérnagas titilantes mágicas
+    // Luciérnagas
     const fireflies = [];
     for (let i = 0; i < 28; i++) {
       fireflies.push({
@@ -1070,7 +1217,7 @@
       });
     }
 
-    // Mariposas revoloteando
+    // Mariposas
     const butterflies = [
       { x: PATH_X - 120, y: WORLD_HEIGHT - 350, vx: 0.6, vy: 0.3, phase: 0, color: "#ff85a1" },
       { x: PATH_X + 130, y: WORLD_HEIGHT - 800, vx: -0.5, vy: 0.4, phase: 1.5, color: "#ffd166" },
@@ -1079,7 +1226,7 @@
       { x: PATH_X - 110, y: WORLD_HEIGHT - 2350, vx: 0.5, vy: -0.4, phase: 5.3, color: "#f72585" }
     ];
 
-    // Pétalos al viento
+    // Pétalos de viento
     const windPetals = [];
     for (let i = 0; i < 26; i++) {
       windPetals.push({
@@ -1094,16 +1241,17 @@
       });
     }
 
-    // Faroles a los costados
+    // Faroles
     const fairyLamps = [];
     for (let y = 140; y < WORLD_HEIGHT - 80; y += 240) {
       fairyLamps.push({ x: PATH_X - (PATH_WIDTH / 2) - 10, y: y, glow: y < 1400 ? 0.8 : 0 });
       fairyLamps.push({ x: PATH_X + (PATH_WIDTH / 2) + 10, y: y + 120, glow: (y + 120) < 1400 ? 0.8 : 0 });
     }
 
-    // Flores de fondo
+    // Flores
     const scenery = [];
     for (let y = 100; y < WORLD_HEIGHT - 50; y += 105) {
+      if (y > 1580 && y < 1720) continue; // no flores adentro del río
       scenery.push({
         x: PATH_X - 160 + (Math.random() * 24),
         y: y + (Math.random() * 30),
@@ -1121,6 +1269,7 @@
     // Adoquines
     const cobblestones = [];
     for (let y = 30; y < WORLD_HEIGHT; y += 70) {
+      if (y > 1590 && y < 1690) continue; // puente de madera en vez de adoquines
       cobblestones.push({
         y: y,
         offset: (y % 140 === 0) ? -12 : 12
@@ -1145,7 +1294,209 @@
        SPRITES DETALLADOS & PERSONALIZADOS
        ========================================================================= */
 
-    // DIBUJAR RAMO PROGRESIVO EN MANOS DE TITO
+    // DIBUJAR PERRITO FIEL ACOMPAÑANTE
+    function drawDetailedPuppy(ctx, p) {
+      ctx.save();
+      ctx.translate(p.x, p.y - p.jumpY);
+      ctx.scale(p.facing, 1);
+
+      // Sombra
+      ctx.fillStyle = "rgba(18, 12, 22, 0.25)";
+      ctx.beginPath();
+      ctx.ellipse(0, 11 + p.jumpY, 11, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Colita alegre batiéndose
+      p.tailWag += 0.25;
+      const tailAngle = Math.sin(p.tailWag) * 0.45;
+      ctx.save();
+      ctx.translate(-9, -2);
+      ctx.rotate(-0.5 + tailAngle);
+      ctx.fillStyle = "#e0a96d";
+      ctx.strokeStyle = "#221526";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(-2, -8, 4, 10, 2);
+      ctx.fill(); ctx.stroke();
+      ctx.restore();
+
+      // Patitas
+      ctx.fillStyle = "#ffffff";
+      ctx.strokeStyle = "#221526";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(-5, 9, 3, 0, Math.PI * 2);
+      ctx.arc(5, 9, 3, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      // Cuerpo esponjoso dorado
+      ctx.fillStyle = "#e0a96d";
+      ctx.strokeStyle = "#221526";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.roundRect(-9, -4, 18, 14, 6);
+      ctx.fill(); ctx.stroke();
+
+      // Pecho blanco
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.ellipse(3, 2, 4, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Collar rojo con medallita de corazón
+      ctx.strokeStyle = "#ff2a55";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(4, -3, 6, 0.2 * Math.PI, 0.8 * Math.PI);
+      ctx.stroke();
+
+      ctx.fillStyle = "#ffd166";
+      ctx.beginPath();
+      ctx.arc(4, 2, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Cabeza
+      ctx.fillStyle = "#e0a96d";
+      ctx.strokeStyle = "#221526";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(6, -8, 8, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      // Orejita caída marrón caramelo
+      ctx.fillStyle = "#b87d4b";
+      ctx.beginPath();
+      ctx.ellipse(3, -10, 3.5, 6, 0.3, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+
+      // Ojo y brillo
+      ctx.fillStyle = "#221526";
+      ctx.beginPath();
+      ctx.arc(7.5, -9, 1.8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(8.2, -9.5, 0.8, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Hocico y naricita
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(11, -6, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#221526";
+      ctx.beginPath();
+      ctx.arc(12.5, -7, 1.4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Corazoncito cuando está emocionado
+      if (p.excited > 0) {
+        drawDetailedHeart(ctx, 4, -22, 6);
+      }
+
+      ctx.restore();
+    }
+
+    // DIBUJAR RIACHUELO Y PUENTE DE MADERA (y = 1640)
+    function drawRiverAndBridge(ctx) {
+      const riverY = 1640;
+      const riverHeight = 85;
+
+      ctx.save();
+
+      // Agua del río con gradiente cristalino
+      const riverGrad = ctx.createLinearGradient(0, riverY, 0, riverY + riverHeight);
+      riverGrad.addColorStop(0, '#2d7d8a');
+      riverGrad.addColorStop(0.5, '#42a5b3');
+      riverGrad.addColorStop(1, '#25636d');
+      ctx.fillStyle = riverGrad;
+      ctx.fillRect(0, riverY, WORLD_WIDTH, riverHeight);
+
+      // Orillas de tierra y piedritas
+      ctx.fillStyle = "#4a3525";
+      ctx.fillRect(0, riverY - 3, WORLD_WIDTH, 4);
+      ctx.fillRect(0, riverY + riverHeight - 1, WORLD_WIDTH, 4);
+
+      // Ondas de agua animadas
+      const flow = (Date.now() * 0.002) % 40;
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+      ctx.lineWidth = 2;
+      for (let x = -40; x < WORLD_WIDTH + 40; x += 60) {
+        ctx.beginPath();
+        const rx = x + flow;
+        ctx.moveTo(rx, riverY + 22);
+        ctx.quadraticCurveTo(rx + 15, riverY + 18, rx + 30, riverY + 22);
+        ctx.stroke();
+
+        ctx.beginPath();
+        const rx2 = x - flow * 0.8;
+        ctx.moveTo(rx2, riverY + 58);
+        ctx.quadraticCurveTo(rx2 + 15, riverY + 54, rx2 + 30, riverY + 58);
+        ctx.stroke();
+      }
+
+      // Nenúfares en el agua
+      const lilies = [
+        { x: 50, y: riverY + 30 },
+        { x: 370, y: riverY + 45 },
+        { x: 395, y: riverY + 25 }
+      ];
+      lilies.forEach(l => {
+        ctx.fillStyle = "#2e7d32";
+        ctx.beginPath();
+        ctx.ellipse(l.x, l.y, 10, 6, 0.2, 0, Math.PI * 1.8);
+        ctx.fill();
+        ctx.fillStyle = "#ff85a1";
+        ctx.beginPath();
+        ctx.arc(l.x + 2, l.y - 2, 3, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // PUENTE DE MADERA RÚSTICO SOBRE EL SENDERO
+      const bx = PATH_X - (PATH_WIDTH / 2) - 8;
+      const bw = PATH_WIDTH + 16;
+      const by = riverY - 12;
+      const bh = riverHeight + 24;
+
+      // Sombra del puente sobre el agua
+      ctx.fillStyle = "rgba(10, 20, 25, 0.45)";
+      ctx.fillRect(bx, by, bw, bh);
+
+      // Tablas de madera del puente
+      for (let py = by; py < by + bh; py += 14) {
+        ctx.fillStyle = ((py % 28) === 0) ? "#b08968" : "#9c6644";
+        ctx.strokeStyle = "#221526";
+        ctx.lineWidth = 2.5;
+        ctx.fillRect(bx, py, bw, 12);
+        ctx.strokeRect(bx, py, bw, 12);
+
+        // Clavos
+        ctx.fillStyle = "#221526";
+        ctx.fillRect(bx + 4, py + 4, 3, 3);
+        ctx.fillRect(bx + bw - 7, py + 4, 3, 3);
+      }
+
+      // Barandas laterales de madera con postes
+      ctx.fillStyle = "#7f4f24";
+      ctx.strokeStyle = "#221526";
+      ctx.lineWidth = 3;
+      ctx.fillRect(bx - 3, by, 7, bh);
+      ctx.strokeRect(bx - 3, by, 7, bh);
+      ctx.fillRect(bx + bw - 4, by, 7, bh);
+      ctx.strokeRect(bx + bw - 4, by, 7, bh);
+
+      // Faroles en las esquinas del puente
+      drawFairyLamp(ctx, { x: bx - 2, y: by + 6, glow: 0.9 });
+      drawFairyLamp(ctx, { x: bx + bw + 2, y: by + 6, glow: 0.9 });
+      drawFairyLamp(ctx, { x: bx - 2, y: by + bh - 6, glow: 0.9 });
+      drawFairyLamp(ctx, { x: bx + bw + 2, y: by + bh - 6, glow: 0.9 });
+
+      ctx.restore();
+    }
+
+    // DIBUJAR RAMO PROGRESIVO
     function drawBouquet(ctx, count) {
       if (count <= 0) return;
       ctx.save();
@@ -1185,13 +1536,11 @@
 
       ctx.scale(p.facing * p.stretch, p.squash);
 
-      // Sombra suave
       ctx.fillStyle = "rgba(18, 12, 22, 0.28)";
       ctx.beginPath();
       ctx.ellipse(0, 23, 16, 7, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Zapatillas blancas
       const isMoving = (keys.up || keys.down || keys.left || keys.right);
       const runAngle = isMoving ? Math.sin(p.runFrame * 0.4) * 8 : 0;
 
@@ -1205,11 +1554,9 @@
       ctx.arc(8, 18 - runAngle, 5.5, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // Pantalón oscuro
       ctx.fillStyle = "#1b1420";
       ctx.fillRect(-10, 8, 20, 11);
 
-      // Remera negra
       ctx.fillStyle = "#151515";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
@@ -1217,21 +1564,17 @@
       ctx.roundRect(-13, -7, 26, 17, 5);
       ctx.fill(); ctx.stroke();
 
-      // Cadenita de oro ✨
       ctx.strokeStyle = "#ffd700";
       ctx.lineWidth = 2.4;
       ctx.beginPath();
       ctx.arc(0, -6, 6.5, 0.1 * Math.PI, 0.9 * Math.PI);
       ctx.stroke();
 
-      // Ramo en la mano
       drawBouquet(ctx, collectedCount);
 
-      // Cuello
       ctx.fillStyle = "#fcd5b5";
       ctx.fillRect(-4, -10, 8, 5);
 
-      // 1. Mullet trasero (rulos largos cayendo por detrás)
       ctx.fillStyle = "#120c16";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 2.5;
@@ -1252,7 +1595,6 @@
         ctx.fill(); ctx.stroke();
       });
 
-      // 2. Cabeza
       ctx.fillStyle = "#fcd5b5";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
@@ -1260,20 +1602,17 @@
       ctx.arc(0, -18, 14, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // 3. Sombra de barba / stubble
       ctx.fillStyle = "rgba(40, 25, 30, 0.24)";
       ctx.beginPath();
       ctx.arc(0, -15, 12, 0.15 * Math.PI, 0.85 * Math.PI);
       ctx.fill();
 
-      // 4. Degradé lateral
       ctx.fillStyle = "rgba(18, 12, 22, 0.45)";
       ctx.beginPath();
       ctx.arc(-10, -19, 5, 0, Math.PI * 2);
       ctx.arc(10, -19, 5, 0, Math.PI * 2);
       ctx.fill();
 
-      // 5. Rulos superiores
       ctx.fillStyle = "#120c16";
       const topMulletCurls = [
         { dx: -11, dy: -14, r: 7 },
@@ -1290,7 +1629,6 @@
         ctx.fill(); ctx.stroke();
       });
 
-      // 6. Ojos y expresiones
       const isBlinking = (p.blinkTimer < 8);
 
       if (p.heartEyesTimer > 0 || p.intenseLove) {
@@ -1360,13 +1698,11 @@
       ctx.save();
       ctx.translate(p.x, p.y + p.kissOffset - p.jumpY);
 
-      // Sombra
       ctx.fillStyle = "rgba(18, 12, 22, 0.28)";
       ctx.beginPath();
       ctx.ellipse(0, 23 + p.jumpY, 18, 8, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Piernitas
       ctx.fillStyle = "#fcd5b5";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3;
@@ -1375,7 +1711,6 @@
       ctx.arc(7, 18, 5, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // Pollera de jean celeste
       ctx.fillStyle = "#7cb9e8";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
@@ -1387,7 +1722,6 @@
       ctx.closePath();
       ctx.fill(); ctx.stroke();
 
-      // Crop top blanco
       ctx.fillStyle = "#ffffff";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
@@ -1395,7 +1729,6 @@
       ctx.roundRect(-10, -8, 20, 11, 4);
       ctx.fill(); ctx.stroke();
 
-      // Vasito térmico rosa 🥤
       ctx.fillStyle = "#ff4081";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 2.5;
@@ -1403,7 +1736,6 @@
       ctx.roundRect(11, -5, 6, 11, 2);
       ctx.fill(); ctx.stroke();
 
-      // Rulos largos
       ctx.fillStyle = "#120c16";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 2.5;
@@ -1426,7 +1758,6 @@
         ctx.fill(); ctx.stroke();
       });
 
-      // Cabeza
       ctx.fillStyle = "#fcd5b5";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 3.5;
@@ -1434,7 +1765,6 @@
       ctx.arc(0, -18, 15, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // Trencitas superiores
       ctx.fillStyle = "#120c16";
       ctx.beginPath();
       ctx.arc(0, -25, 9, Math.PI, 0);
@@ -1448,7 +1778,6 @@
       ctx.moveTo(5, -29);  ctx.lineTo(3, -22);
       ctx.stroke();
 
-      // Ojos y sonrisa
       const isBlinking = (p.blinkTimer < 8);
 
       if (isBlinking) {
@@ -1484,7 +1813,6 @@
       const heartBounce = Math.sin(Date.now() * 0.008) * 5;
       drawDetailedHeart(ctx, 0, -46 + heartBounce, 8);
 
-      // Globito de diálogo si faltan rosas
       if (p.warningTimer > 0) {
         const remaining = 5 - collectedCount;
         ctx.save();
@@ -1516,7 +1844,6 @@
       ctx.restore();
     }
 
-    // DIBUJAR ROSAS REALES
     function drawDetailedRoseSprite(ctx, rx, ry, size, color) {
       ctx.save();
       ctx.translate(rx, ry);
@@ -1636,14 +1963,12 @@
       ctx.restore();
     }
 
-    // ARCO FLORAL MÁGICO EN EL CAMINO (y = 1150)
     function drawFloralArch(ctx) {
       ctx.save();
       const archY = 1150;
       const leftX = PATH_X - (PATH_WIDTH / 2) - 14;
       const rightX = PATH_X + (PATH_WIDTH / 2) + 14;
 
-      // Pilares del arco
       ctx.fillStyle = "#4a3525";
       ctx.strokeStyle = "#221526";
       ctx.lineWidth = 3;
@@ -1652,7 +1977,6 @@
       ctx.fillRect(rightX - 10, archY - 60, 10, 75);
       ctx.strokeRect(rightX - 10, archY - 60, 10, 75);
 
-      // Arco curvado superior
       ctx.beginPath();
       ctx.arc(PATH_X, archY - 50, (PATH_WIDTH / 2) + 14, Math.PI, 0, false);
       ctx.strokeStyle = "#4a3525";
@@ -1662,19 +1986,16 @@
       ctx.lineWidth = 3;
       ctx.stroke();
 
-      // Enredadera y flores sobre el arco
       for (let a = Math.PI; a <= 2 * Math.PI; a += 0.2) {
         const ax = PATH_X + Math.cos(a) * ((PATH_WIDTH / 2) + 14);
         const ay = (archY - 50) + Math.sin(a) * ((PATH_WIDTH / 2) + 14);
 
-        // Lucecita de hada titilante
         const glow = 0.5 + Math.sin(Date.now() * 0.008 + a * 3) * 0.5;
         ctx.fillStyle = `rgba(255, 230, 100, ${glow})`;
         ctx.beginPath();
         ctx.arc(ax, ay, 4, 0, Math.PI * 2);
         ctx.fill();
 
-        // Florecitas decorativas
         ctx.fillStyle = (a > 4.5) ? "#ff70a6" : "#ffd166";
         ctx.beginPath();
         ctx.arc(ax, ay - 3, 3, 0, Math.PI * 2);
@@ -1758,6 +2079,7 @@
       if (andrea.blinkTimer <= 0) andrea.blinkTimer = 190 + Math.random() * 90;
 
       if (andrea.warningTimer > 0) andrea.warningTimer--;
+      if (puppy.excited > 0) puppy.excited--;
 
       // Mariposas
       butterflies.forEach(b => {
@@ -1775,7 +2097,7 @@
         if (f.y > 1400) f.y = 80;
       });
 
-      // Pétalos al viento
+      // Pétalos de viento
       windPetals.forEach(p => {
         p.x += p.speedX + Math.sin(Date.now() * 0.002 + p.rot) * 0.4;
         p.y += p.speedY;
@@ -1787,6 +2109,20 @@
         }
         if (p.x > WORLD_WIDTH) {
           p.x = 0;
+        }
+      });
+
+      // Pétalos en primer plano (Foreground Parallax 3D)
+      foregroundPetals.forEach(fp => {
+        fp.x += fp.speedX;
+        fp.y += fp.speedY;
+        fp.rot += fp.rotSpeed;
+        if (fp.y > 950) {
+          fp.y = -20;
+          fp.x = Math.random() * V_WIDTH;
+        }
+        if (fp.x > V_WIDTH + 20) {
+          fp.x = -20;
         }
       });
 
@@ -1828,7 +2164,6 @@
             playDashSound();
           }
 
-          // Estrellitas mágicas bajo los pies
           if (tito.runFrame % 4 === 0) {
             footstepSparks.push({
               x: tito.x + (Math.random() - 0.5) * 12,
@@ -1851,10 +2186,24 @@
 
         if (tito.heartEyesTimer > 0) tito.heartEyesTimer--;
 
+        // Movimiento e inteligencia del perrito fiel
+        const pTargetX = tito.x - (tito.facing * 30);
+        const pTargetY = tito.y + 12;
+        puppy.x += (pTargetX - puppy.x) * 0.12;
+        puppy.y += (pTargetY - puppy.y) * 0.12;
+        puppy.facing = (tito.x >= puppy.x) ? 1 : -1;
+
+        if (isRunning) {
+          puppy.jumpY = Math.abs(Math.sin(tito.runFrame * 0.4)) * 6;
+        } else {
+          puppy.jumpY = (puppy.excited > 0) ? Math.abs(Math.sin(Date.now() * 0.015)) * 10 : 0;
+        }
+
         // Cruce del arco floral
         if (!archCrossed && tito.y < 1160 && tito.y > 1140) {
           archCrossed = true;
           playArchSound();
+          puppy.excited = 90;
           for (let i = 0; i < 30; i++) {
             sparkConfetti.push({
               x: PATH_X + (Math.random() - 0.5) * PATH_WIDTH,
@@ -1881,6 +2230,8 @@
               setTimeout(() => badge.classList.remove('pop'), 200);
 
               playRoseChime();
+              playBarkSound();
+              puppy.excited = 120;
               if (navigator.vibrate) navigator.vibrate(60);
 
               tito.heartEyesTimer = 160;
@@ -1947,15 +2298,22 @@
         tito.x += (andrea.x - tito.x) * 0.1;
         tito.y += (andrea.y + 22 - tito.y) * 0.1;
 
+        // El perrito festeja corriendo en círculos
+        puppy.celebrateAngle += 0.08;
+        puppy.x = tito.x + Math.cos(puppy.celebrateAngle) * 45;
+        puppy.y = tito.y + Math.sin(puppy.celebrateAngle) * 25;
+        puppy.jumpY = Math.abs(Math.sin(Date.now() * 0.015)) * 8;
+        puppy.excited = 99;
+
         if (kissTimer < 25) {
           andrea.jumpY = Math.sin((kissTimer / 25) * Math.PI) * 24;
           andrea.kissOffset = (kissTimer / 25) * 16;
         } else if (kissTimer === 25) {
           playKissSound();
           playVictoryFanfare();
+          playBarkSound();
           if (navigator.vibrate) navigator.vibrate([100, 50, 200]);
 
-          // Fuegos artificiales de corazones
           spawnHeartFirework(tito.x - 45, tito.y - 75, '#ff1744');
           spawnHeartFirework(tito.x + 45, tito.y - 85, '#ffd166');
           setTimeout(() => spawnHeartFirework(tito.x, tito.y - 120, '#ff4081'), 450);
@@ -2050,17 +2408,17 @@
         ctx.translate(0, -cameraY);
       }
 
-      // 1. FONDO CON TRANSICIÓN DÍA -> ATARDECER -> NOCHE ESTRELLADA
+      // 1. Fondo Día -> Atardecer -> Noche
       const bgGrad = ctx.createLinearGradient(0, 0, 0, WORLD_HEIGHT);
-      bgGrad.addColorStop(0, '#0f091c');     // Noche profunda en la cima
-      bgGrad.addColorStop(0.30, '#1c1736');  // Crepúsculo estrellado
-      bgGrad.addColorStop(0.55, '#394860');  // Atardecer azul violeta
-      bgGrad.addColorStop(0.78, '#5b9e7c');  // Verde atardecer cálido
-      bgGrad.addColorStop(1, '#7ecba1');     // Verde día al inicio
+      bgGrad.addColorStop(0, '#0f091c');
+      bgGrad.addColorStop(0.30, '#1c1736');
+      bgGrad.addColorStop(0.55, '#394860');
+      bgGrad.addColorStop(0.78, '#5b9e7c');
+      bgGrad.addColorStop(1, '#7ecba1');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
-      // Estrellas titilantes en el cielo nocturno
+      // Estrellas
       stars.forEach(s => {
         const twinkle = 0.5 + Math.sin(Date.now() * s.twinkleSpeed + s.phase) * 0.5;
         ctx.fillStyle = `rgba(255, 255, 255, ${twinkle * 0.85})`;
@@ -2069,7 +2427,7 @@
         ctx.fill();
       });
 
-      // Sendero empedrado principal
+      // Sendero empedrado
       ctx.fillStyle = "#ffe4e8";
       ctx.strokeStyle = "#1b1420";
       ctx.lineWidth = 4;
@@ -2100,7 +2458,10 @@
       // Faroles a los costados
       fairyLamps.forEach(lamp => drawFairyLamp(ctx, lamp));
 
-      // Arco floral iluminado
+      // Riachuelo y Puente de Madera (y = 1640)
+      drawRiverAndBridge(ctx);
+
+      // Arco floral iluminado (y = 1150)
       drawFloralArch(ctx);
 
       // Flores decorativas
@@ -2117,7 +2478,7 @@
         ctx.fill(); ctx.stroke();
       });
 
-      // Luciérnagas titilantes
+      // Luciérnagas
       fireflies.forEach(f => {
         const pulse = 0.5 + Math.sin(Date.now() * 0.006 + f.phase) * 0.5;
         const rad = f.r * (1 + pulse);
@@ -2135,10 +2496,10 @@
         ctx.fill();
       });
 
-      // Mariposas revoloteando
+      // Mariposas
       butterflies.forEach(b => drawButterfly(ctx, b));
 
-      // Pétalos al viento
+      // Pétalos de viento
       windPetals.forEach(p => {
         ctx.save();
         ctx.translate(p.x, p.y);
@@ -2163,7 +2524,7 @@
         ctx.restore();
       });
 
-      // Estrellitas bajo los pies al caminar
+      // Estrellitas bajo los pies
       footstepSparks.forEach(s => {
         ctx.save();
         ctx.globalAlpha = s.alpha;
@@ -2176,6 +2537,9 @@
 
       // Rosas en el mapa
       roses.forEach(r => drawMapRose(ctx, r));
+
+      // Perrito fiel
+      drawDetailedPuppy(ctx, puppy);
 
       // Andrea detallada
       drawDetailedAndrea(ctx, andrea);
@@ -2244,6 +2608,21 @@
       });
 
       ctx.restore();
+
+      // 2. CAPA DE PROFUNDIDAD CINEMÁTICA (Foreground Parallax 3D)
+      ctx.save();
+      foregroundPetals.forEach(fp => {
+        ctx.globalAlpha = fp.alpha;
+        ctx.fillStyle = "#ff85a1";
+        ctx.save();
+        ctx.translate(fp.x, fp.y);
+        ctx.rotate(fp.rot);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, fp.size, fp.size * 0.55, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
+      ctx.restore();
     }
 
     function gameLoop() {
@@ -2253,9 +2632,54 @@
     }
 
     /* =========================================================================
-       INICIO, FINAL, ÁLBUM POLAROID & REINICIO
+       MINIJUEGO DE DESEOS & ÁLBUM POLAROID
        ========================================================================= */
     let currentPolaroidIndex = 0;
+
+    function renderWishesGrid() {
+      const grid = document.getElementById('wishesGrid');
+      grid.innerHTML = '';
+
+      CONFIG.deseosLista.forEach(item => {
+        const isSelected = selectedWishes.includes(item.id);
+        const card = document.createElement('div');
+        card.className = `wish-card ${isSelected ? 'selected' : ''}`;
+        card.onclick = () => toggleWish(item.id);
+        card.innerHTML = `
+          <div class="wish-emoji">${item.emoji}</div>
+          <div class="wish-text">${item.text}</div>
+        `;
+        grid.appendChild(card);
+      });
+
+      document.getElementById('wishesCounter').innerText = `Elegidos: ${selectedWishes.length} / 3`;
+      const btnCont = document.getElementById('btnContinueWishes');
+      btnCont.style.display = (selectedWishes.length === 3) ? 'flex' : 'none';
+    }
+
+    function toggleWish(id) {
+      playDashSound();
+      if (selectedWishes.includes(id)) {
+        selectedWishes = selectedWishes.filter(w => w !== id);
+      } else {
+        if (selectedWishes.length < 3) {
+          selectedWishes.push(id);
+        } else {
+          // Reemplaza el primero
+          selectedWishes.shift();
+          selectedWishes.push(id);
+        }
+      }
+      renderWishesGrid();
+      if (navigator.vibrate) navigator.vibrate(30);
+    }
+
+    function finishWishes() {
+      playKissSound();
+      document.getElementById('wishesBlock').style.display = 'none';
+      document.getElementById('celebrationBox').style.display = 'flex';
+      renderPolaroid(0);
+    }
 
     function renderPolaroid(index) {
       const p = CONFIG.polaroidMemories[index];
@@ -2335,24 +2759,24 @@
       playVictoryFanfare();
       if (navigator.vibrate) navigator.vibrate([150, 50, 150, 50, 300]);
 
+      // Abrir el minijuego de deseos
       document.getElementById('proposalQuestionBlock').style.display = 'none';
-      document.getElementById('celebrationBox').style.display = 'flex';
-      renderPolaroid(0);
+      document.getElementById('wishesBlock').style.display = 'flex';
+      renderWishesGrid();
     }
 
-    // DESCARGAR POSTAL DE RECUERDO EN ALTA DEFINICIÓN
+    // DESCARGAR POSTAL DE RECUERDO CON DIBUJO DE TITO, ANDREA, EL PERRITO Y LOS DESEOS
     function downloadMemoryCard() {
       const offCanvas = document.createElement('canvas');
       offCanvas.width = 720;
-      offCanvas.height = 920;
+      offCanvas.height = 960;
       const octx = offCanvas.getContext('2d');
 
-      // Fondo romántico con degradé
-      const grad = octx.createLinearGradient(0, 0, 0, 920);
+      const grad = octx.createLinearGradient(0, 0, 0, 960);
       grad.addColorStop(0, '#ffe5ec');
       grad.addColorStop(1, '#ffb3c6');
       octx.fillStyle = grad;
-      octx.fillRect(0, 0, 720, 920);
+      octx.fillRect(0, 0, 720, 960);
 
       // Marco Polaroid
       octx.fillStyle = '#ffffff';
@@ -2360,52 +2784,65 @@
       octx.shadowBlur = 24;
       octx.shadowOffsetY = 12;
       octx.beginPath();
-      octx.roundRect(50, 50, 620, 810, 26);
+      octx.roundRect(50, 50, 620, 860, 26);
       octx.fill();
       octx.shadowColor = 'transparent';
 
       // Ilustración nocturna
       octx.fillStyle = '#161026';
       octx.beginPath();
-      octx.roundRect(80, 80, 560, 490, 18);
+      octx.roundRect(80, 80, 560, 480, 18);
       octx.fill();
 
-      // Estrellas en el recuadro
-      for (let i = 0; i < 35; i++) {
+      // Estrellas
+      for (let i = 0; i < 40; i++) {
         octx.fillStyle = 'rgba(255, 255, 255, 0.9)';
         octx.beginPath();
-        octx.arc(100 + Math.random() * 520, 100 + Math.random() * 450, Math.random() * 2 + 1, 0, Math.PI * 2);
+        octx.arc(100 + Math.random() * 520, 100 + Math.random() * 440, Math.random() * 2 + 1, 0, Math.PI * 2);
         octx.fill();
       }
 
-      // Dibujar a Andrea y Tito juntos
+      // Dibujar a Andrea, Tito y el Perrito juntos
       octx.save();
-      octx.translate(360, 385);
-      octx.scale(2.2, 2.2);
-      drawDetailedAndrea(octx, { x: 28, y: 0, w: 50, h: 56, jumpY: 0, kissOffset: 0, blinkTimer: 200, warningTimer: 0 });
-      drawDetailedTito(octx, { x: -28, y: 0, w: 48, h: 56, facing: 1, stretch: 1, squash: 1, runFrame: 0, blinkTimer: 200, heartEyesTimer: 100, intenseLove: false, spinAngle: 0 });
+      octx.translate(360, 375);
+      octx.scale(2.1, 2.1);
+      drawDetailedAndrea(octx, { x: 32, y: 0, w: 50, h: 56, jumpY: 0, kissOffset: 0, blinkTimer: 200, warningTimer: 0 });
+      drawDetailedTito(octx, { x: -32, y: 0, w: 48, h: 56, facing: 1, stretch: 1, squash: 1, runFrame: 0, blinkTimer: 200, heartEyesTimer: 100, intenseLove: false, spinAngle: 0 });
+      drawDetailedPuppy(octx, { x: 0, y: 8, facing: 1, jumpY: 0, tailWag: 0, excited: 1 });
       octx.restore();
 
       // Título
-      octx.font = '900 38px "Arial Rounded MT Bold", sans-serif';
+      octx.font = '900 36px "Arial Rounded MT Bold", sans-serif';
       octx.fillStyle = '#221526';
       octx.textAlign = 'center';
-      octx.fillText('Tito & Andrea ✨', 360, 640);
+      octx.fillText('Tito & Andrea ✨', 360, 625);
 
-      // Dedicatoria
-      octx.font = '800 21px "Arial Rounded MT Bold", sans-serif';
+      // Deseos elegidos
+      octx.font = '800 18px "Arial Rounded MT Bold", sans-serif';
       octx.fillStyle = '#4a3b52';
-      octx.fillText('"¡Te extrañé un montón y me haces el más feliz!"', 360, 685);
+      octx.fillText('"¡Te extrañé un montón y me haces el más feliz!"', 360, 665);
 
-      octx.font = '700 18px "Arial Rounded MT Bold", sans-serif';
-      octx.fillStyle = '#886f91';
-      octx.fillText('Misión de amor completada con las 5 rosas 💐💖', 360, 725);
+      if (selectedWishes.length > 0) {
+        octx.font = '700 16px "Arial Rounded MT Bold", sans-serif';
+        octx.fillStyle = '#ff2a55';
+        octx.fillText('Nuestros 3 deseos para la próxima cita: ✨', 360, 705);
 
-      octx.font = '900 24px "Arial Rounded MT Bold", sans-serif';
+        octx.font = '700 15px "Arial Rounded MT Bold", sans-serif';
+        octx.fillStyle = '#665270';
+        let wy = 735;
+        selectedWishes.forEach((wid, idx) => {
+          const item = CONFIG.deseosLista.find(d => d.id === wid);
+          if (item) {
+            octx.fillText(`${idx + 1}. ${item.emoji} ${item.text}`, 360, wy);
+            wy += 24;
+          }
+        });
+      }
+
+      octx.font = '900 23px "Arial Rounded MT Bold", sans-serif';
       octx.fillStyle = '#ff2a55';
-      octx.fillText('Con todo mi amor, Tito ❤️', 360, 790);
+      octx.fillText('Con todo mi amor, Tito ❤️', 360, 845);
 
-      // Descargar archivo
       const link = document.createElement('a');
       link.download = 'tito-y-andrea-recuerdo.png';
       link.href = offCanvas.toDataURL('image/png');
@@ -2413,13 +2850,27 @@
     }
 
     function openWhatsApp() {
-      const url = `https://wa.me/${CONFIG.telefonoWhatsApp}?text=${encodeURIComponent(CONFIG.mensajeWhatsApp)}`;
+      let finalMsg = CONFIG.mensajeWhatsAppBase;
+
+      if (selectedWishes.length > 0) {
+        finalMsg += "\n\nMis 3 deseos para nuestra próxima cita son:\n";
+        selectedWishes.forEach((wid, idx) => {
+          const item = CONFIG.deseosLista.find(d => d.id === wid);
+          if (item) {
+            finalMsg += `${idx + 1}. ${item.emoji} ${item.text}\n`;
+          }
+        });
+        finalMsg += "\n¿Cuándo los cumplimos? 🥰💖";
+      }
+
+      const url = `https://wa.me/${CONFIG.telefonoWhatsApp}?text=${encodeURIComponent(finalMsg)}`;
       window.open(url, '_blank');
     }
 
     function restartGame() {
       document.getElementById('modal-final').classList.remove('active');
       document.getElementById('proposalQuestionBlock').style.display = 'block';
+      document.getElementById('wishesBlock').style.display = 'none';
       document.getElementById('celebrationBox').style.display = 'none';
 
       const btnNo = document.getElementById('btn-no');
@@ -2432,6 +2883,7 @@
       btnYes.style.transform = 'scale(1)';
       btnYes.classList.remove('super-glow');
       noCount = 0;
+      selectedWishes = [];
 
       collectedCount = 0;
       document.getElementById('rose-score').innerText = '0 / 5';
@@ -2442,6 +2894,10 @@
       tito.intenseLove = false;
       tito.spinAngle = 0;
       tito.heartEyesTimer = 0;
+
+      puppy.x = PATH_X - 25;
+      puppy.y = WORLD_HEIGHT - 110;
+      puppy.excited = 0;
 
       andrea.jumpY = 0;
       andrea.kissOffset = 0;
@@ -2500,7 +2956,6 @@
       if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = false;
     });
 
-    // Control táctil deslizando el dedo por la pantalla
     let touchOrigin = null;
 
     function handlePointerMoveDir(clientX, clientY) {
