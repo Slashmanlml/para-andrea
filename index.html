@@ -6,24 +6,26 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Tito & Andrea ✨ Edición de Ensueño</title>
+  <title>Nuestro Banco del Recreo 🏫💌 Tito & Andrea</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,800;1,400&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #ff2a55;
-      --primary-hover: #ff1242;
-      --secondary: #2ec4b6;
-      --gold: #ffd166;
-      --dark: #16101c;
-      --card-bg: #ffffff;
-      --border-color: #221526;
-      --shadow-color: rgba(34, 21, 38, 0.9);
+      --primary: #e63946;
+      --gold: #ffb703;
+      --paper: #fffcf2;
+      --paper-line: #dcd3b8;
+      --ink: #2b2520;
+      --wood: #8b5a2b;
+      --dark: #1f1424;
+      --rose: #f4a261;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Arial Rounded MT Bold', 'Comfortaa', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
@@ -33,33 +35,35 @@
       height: 100%;
       height: 100dvh;
       overflow: hidden;
-      background: #0d0714;
+      background: #0f0a17;
+      font-family: 'Nunito', sans-serif;
     }
 
     body {
       display: flex;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(circle at center, #24142e 0%, #0d0714 100%);
+      background: radial-gradient(circle at center, #271438 0%, #0d0614 100%);
     }
 
     #game-container {
       position: relative;
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
       height: 100%;
       height: 100dvh;
-      max-height: 920px;
-      background: #7ecba1;
+      max-height: 940px;
+      background: #181024;
       overflow: hidden;
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
-      border: 4px solid var(--border-color);
+      border: 3px solid rgba(255, 255, 255, 0.1);
     }
 
-    @media (min-width: 481px) {
+    @media (min-width: 521px) {
       #game-container {
-        border-radius: 36px;
-        height: 94vh;
+        border-radius: 32px;
+        height: 95vh;
+        border: 4px solid rgba(255, 215, 120, 0.25);
       }
     }
 
@@ -70,8 +74,8 @@
       touch-action: none;
     }
 
-    /* HUD Superior */
-    .top-hud {
+    /* HUD */
+    .hud {
       position: absolute;
       top: max(14px, env(safe-area-inset-top, 14px));
       left: 14px;
@@ -79,293 +83,142 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 30;
+      z-index: 20;
       pointer-events: none;
     }
 
-    .counter-badge {
-      background: #ffffff;
-      border: 3.5px solid var(--border-color);
-      padding: 6px 16px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: clamp(0.9rem, 3.4vw, 1.1rem);
-      color: var(--primary);
-      box-shadow: 0 4px 0 var(--border-color);
+    .badge {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(139, 90, 43, 0.3);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: #3d2b1f;
       display: flex;
       align-items: center;
       gap: 8px;
-      pointer-events: auto;
-      transition: transform 0.15s ease;
-    }
-
-    .counter-badge.pop {
-      transform: scale(1.18);
-      background: #fff0f3;
-    }
-
-    .hud-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
       pointer-events: auto;
     }
 
-    .audio-btn {
-      background: #ffffff;
-      border: 3.5px solid var(--border-color);
-      border-radius: 50%;
-      width: clamp(42px, 11vw, 48px);
-      height: clamp(42px, 11vw, 48px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      cursor: pointer;
-      box-shadow: 0 4px 0 var(--border-color);
-      transition: transform 0.1s, background-color 0.2s;
-    }
-
-    .audio-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 var(--border-color);
-    }
-
-    /* Mini-Tracker de Progreso Vertical */
-    .journey-tracker {
-      position: absolute;
-      right: 14px;
-      top: 74px;
-      width: 34px;
-      height: 180px;
-      background: rgba(255, 255, 255, 0.94);
-      border: 3px solid var(--border-color);
-      border-radius: 20px;
-      box-shadow: 0 4px 0 var(--border-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding: 6px 0;
-      z-index: 25;
-      pointer-events: none;
-    }
-
-    .tracker-track {
-      position: relative;
-      width: 6px;
-      height: 110px;
-      background: #ffe3e8;
-      border-radius: 10px;
-      border: 1.5px solid #221526;
-      margin: 4px 0;
-    }
-
-    .tracker-fill {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 0%;
-      background: linear-gradient(to top, #ff2a55, #ffd166);
-      border-radius: 10px;
-      transition: height 0.15s ease-out;
-    }
-
-    .tracker-avatar {
-      position: absolute;
-      left: 50%;
-      bottom: 0%;
-      transform: translate(-50%, 50%);
-      font-size: 1.05rem;
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
-      transition: bottom 0.15s ease-out;
-    }
-
-    .tracker-avatar.pulsing {
-      animation: heartbeatPulse 0.6s infinite alternate;
-    }
-
-    @keyframes heartbeatPulse {
-      0% { transform: translate(-50%, 50%) scale(1); }
-      100% { transform: translate(-50%, 50%) scale(1.35); }
-    }
-
-    .tracker-goal {
+    .badge-icon {
       font-size: 1.15rem;
-      animation: bounceGoal 1.6s infinite ease-in-out;
     }
 
-    .tracker-start {
-      font-size: 0.95rem;
-    }
-
-    @keyframes bounceGoal {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px) scale(1.1); }
-    }
-
-    /* Notificación Flotante con Mensajes de Amor */
-    .rose-toast {
-      position: absolute;
-      top: 76px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-30px);
-      background: #ffffff;
-      border: 3.5px solid var(--border-color);
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: clamp(0.85rem, 3.2vw, 1rem);
-      color: #ff1744;
-      box-shadow: 0 6px 0 var(--border-color);
+    .hud-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(139, 90, 43, 0.3);
       display: flex;
       align-items: center;
-      gap: 8px;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 40;
-      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.3);
-      white-space: nowrap;
-    }
-
-    .rose-toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* Controles D-Pad */
-    .controls-wrapper {
-      position: absolute;
-      bottom: max(14px, env(safe-area-inset-bottom, 14px));
-      left: 0;
-      right: 0;
-      display: flex;
       justify-content: center;
-      z-index: 30;
+      font-size: 1.15rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      pointer-events: auto;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .hud-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Floating Interaction Prompt */
+    #interact-prompt {
+      position: absolute;
+      bottom: 125px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.95);
+      background: linear-gradient(135deg, #fffcf2, #faedcd);
+      border: 3px solid #8b5a2b;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-weight: 800;
+      color: #382414;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      z-index: 25;
+      animation: gentleBounce 1.5s infinite ease-in-out;
+    }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-6px); }
+    }
+
+    /* On-Screen Touch Controls */
+    .controls {
+      position: absolute;
+      bottom: max(20px, env(safe-area-inset-bottom, 20px));
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
       pointer-events: none;
     }
 
-    .dpad-container {
-      display: grid;
-      grid-template-columns: repeat(3, clamp(54px, 15vw, 68px));
-      grid-template-rows: repeat(2, clamp(44px, 12vw, 54px));
-      gap: 6px;
+    .dpad-group {
+      display: flex;
+      gap: 14px;
       pointer-events: auto;
     }
 
-    .dpad-btn {
-      background: #ffffff;
-      border: 3.5px solid var(--border-color);
-      border-radius: 18px;
+    .ctrl-btn {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border: 3px solid rgba(139, 90, 43, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: clamp(1.3rem, 4.2vw, 1.6rem);
-      font-weight: 900;
-      color: var(--primary);
-      box-shadow: 0 5px 0 var(--border-color);
+      font-size: 1.4rem;
+      color: #382414;
       cursor: pointer;
-      user-select: none;
-      transition: all 0.08s;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      transition: transform 0.1s ease, background 0.15s;
     }
 
-    .dpad-btn:active, .dpad-btn.active {
-      transform: translateY(4px);
-      box-shadow: 0 1px 0 var(--border-color);
-      background: var(--primary);
-      color: #ffffff;
+    .ctrl-btn:active {
+      transform: scale(0.9);
+      background: #faedcd;
     }
 
-    .btn-up { grid-column: 2; grid-row: 1; }
-    .btn-left { grid-column: 1; grid-row: 2; }
-    .btn-down { grid-column: 2; grid-row: 2; }
-    .btn-right { grid-column: 3; grid-row: 2; }
-
-    /* Pantalla de Inicio */
-    .start-screen {
-      position: absolute;
-      inset: 0;
-      background: rgba(18, 10, 26, 0.78);
-      backdrop-filter: blur(6px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-      padding: 24px;
-      text-align: center;
-      transition: opacity 0.35s ease;
+    .walk-hint {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      padding: 6px 12px;
+      border-radius: 20px;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      pointer-events: none;
+      opacity: 0.85;
     }
 
-    .start-title-box {
-      background: #ffffff;
-      border: 4px solid var(--border-color);
-      border-radius: 28px;
-      padding: 20px 24px;
-      box-shadow: 0 8px 0 var(--border-color);
-      margin-bottom: 24px;
-      max-width: 320px;
-      animation: floatCard 3s ease-in-out infinite;
-    }
-
-    .start-title-box h1 {
-      font-size: clamp(1.5rem, 5.5vw, 1.85rem);
-      color: var(--dark);
-      font-weight: 900;
-      margin-bottom: 6px;
-    }
-
-    .start-title-box p {
-      font-size: 0.95rem;
-      color: #665270;
-      font-weight: 700;
-      line-height: 1.4;
-    }
-
-    .start-btn {
-      background: var(--primary);
-      color: white;
-      border: 4px solid var(--border-color);
-      border-radius: 50px;
-      padding: 16px 42px;
-      font-size: 1.3rem;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 8px 0 var(--border-color);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      animation: pulseBtn 1.6s infinite;
-      transition: transform 0.1s;
-    }
-
-    .start-btn:active {
-      transform: translateY(6px);
-      box-shadow: 0 2px 0 var(--border-color);
-    }
-
-    @keyframes pulseBtn {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.06); }
-    }
-
-    @keyframes floatCard {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    /* Modal Final */
+    /* MODAL OVERLAYS */
     .modal-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(15, 9, 20, 0.88);
-      backdrop-filter: blur(5px);
+      background: rgba(18, 10, 26, 0.75);
+      backdrop-filter: blur(8px);
       display: flex;
-      justify-content: center;
       align-items: center;
-      padding: 12px;
-      z-index: 100;
+      justify-content: center;
+      padding: 20px;
+      z-index: 50;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.35s ease;
@@ -376,2977 +229,1628 @@
       pointer-events: auto;
     }
 
-    .modal-card {
-      background: #ffffff;
-      border: 4.5px solid var(--border-color);
-      border-radius: 32px;
-      padding: 20px 16px;
+    /* Start Screen */
+    .start-card {
+      background: linear-gradient(145deg, #fffcf2 0%, #faedcd 100%);
+      border: 3px solid #8b5a2b;
+      border-radius: 24px;
+      padding: 28px 24px;
+      max-width: 380px;
       width: 100%;
-      max-width: 385px;
       text-align: center;
-      box-shadow: 0 10px 0 var(--border-color);
-      transform: scale(0.85);
-      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.3);
-      max-height: 94vh;
-      overflow-y: auto;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8);
+      position: relative;
     }
 
-    .modal-overlay.active .modal-card {
+    .start-card h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      color: #4a2810;
+      margin-bottom: 6px;
+    }
+
+    .start-card .subtitle {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      color: #e63946;
+      margin-bottom: 16px;
+    }
+
+    .start-card p {
+      color: #533e2d;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    .start-card .icon-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 1.8rem;
+      margin-bottom: 18px;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #e63946, #d62828);
+      color: #ffffff;
+      border: none;
+      padding: 13px 28px;
+      border-radius: 50px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(230, 57, 70, 0.45);
+      transition: transform 0.15s ease, box-shadow 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .primary-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Cartita Modal (Letter Sheet) */
+    .letter-sheet {
+      background: #fffdf5;
+      background-image: repeating-linear-gradient(
+        transparent,
+        transparent 28px,
+        rgba(214, 198, 169, 0.55) 28px,
+        rgba(214, 198, 169, 0.55) 30px
+      );
+      border: 3px solid #b38b59;
+      border-radius: 18px;
+      padding: 36px 24px 24px 34px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 20px 48px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.2);
+      position: relative;
+      border-left: 8px solid #c97a7e;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    .modal-overlay.active .letter-sheet {
       transform: scale(1);
     }
 
-    .modal-card h2 {
-      font-size: clamp(1.2rem, 4.4vw, 1.45rem);
-      font-weight: 900;
-      color: var(--dark);
-      margin-bottom: 10px;
-      line-height: 1.3;
+    .letter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 16px;
+      border-bottom: 2px dashed rgba(179, 139, 89, 0.4);
+      padding-bottom: 8px;
     }
 
-    .proposal-area {
+    .letter-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      color: #9d2b38;
+      font-weight: 700;
+    }
+
+    .letter-date {
+      font-size: 0.8rem;
+      color: #7b624f;
+      font-style: italic;
+    }
+
+    .letter-body {
+      font-family: 'Caveat', cursive;
+      font-size: 1.45rem;
+      line-height: 1.6;
+      color: #2b2520;
+      min-height: 120px;
+      margin-bottom: 20px;
+    }
+
+    .letter-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .letter-sign {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.35rem;
+      color: #e63946;
+      font-weight: 700;
+    }
+
+    .close-letter-btn {
+      background: #8b5a2b;
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Grand Final Envelope Modal */
+    .grand-card {
+      background: linear-gradient(160deg, #fffcf5 0%, #f7ecd5 100%);
+      border: 3px solid #d4af37;
+      border-radius: 24px;
+      padding: 24px;
+      max-width: 420px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 25px rgba(255, 215, 0, 0.25);
       position: relative;
-      height: 105px;
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    #btn-yes {
-      position: absolute;
-      left: 10px;
-      top: 20px;
-      width: 130px;
-      z-index: 10;
-      background: var(--secondary);
-      color: #ffffff;
-      border: 3.5px solid var(--border-color);
-      padding: 12px 14px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: 1.05rem;
-      box-shadow: 0 5px 0 var(--border-color);
-      cursor: pointer;
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.4), box-shadow 0.2s;
-    }
-
-    #btn-yes.super-glow {
-      box-shadow: 0 0 20px rgba(46, 196, 182, 0.9), 0 5px 0 var(--border-color);
-      animation: yesPulse 1.2s infinite;
-    }
-
-    @keyframes yesPulse {
-      0%, 100% { filter: brightness(1); }
-      50% { filter: brightness(1.15); }
-    }
-
-    #btn-no {
-      position: absolute;
-      right: 10px;
-      top: 20px;
-      width: 130px;
-      background: #ff9f1c;
-      color: #ffffff;
-      border: 3.5px solid var(--border-color);
-      padding: 12px 14px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: 0.95rem;
-      box-shadow: 0 5px 0 var(--border-color);
-      cursor: pointer;
-      transition: all 0.12s;
-      white-space: nowrap;
-    }
-
-    .btn-yes:active, .btn-no:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 var(--border-color);
-    }
-
-    /* SOBRE CON SELLO DE LACRE DE CERA */
-    .envelope-box {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeInZoom 0.35s ease-out;
-    }
-
-    .vintage-envelope {
-      position: relative;
-      width: 100%;
-      height: 180px;
-      background: #fdfaf3;
-      border: 3.5px solid var(--border-color);
-      border-radius: 18px;
-      box-shadow: 0 6px 0 var(--border-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 12px 0;
-      cursor: pointer;
-      overflow: hidden;
-    }
-
-    .envelope-lines {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      border-top: 2px dashed #e8dec8;
-      border-bottom: 2px dashed #e8dec8;
-      margin: 10px;
-      border-radius: 8px;
-    }
-
-    .envelope-label {
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: #7a6350;
-      margin-bottom: 8px;
-      z-index: 2;
-    }
-
-    .wax-seal {
-      width: 68px;
-      height: 68px;
-      background: radial-gradient(circle at 35% 35%, #ff4b72, #b80028 75%);
-      border: 3px solid #82001c;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.4);
-      z-index: 5;
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      animation: waxPulse 1.8s infinite ease-in-out;
-    }
-
-    .wax-seal:hover {
-      transform: scale(1.08);
-    }
-
-    .wax-seal:active {
-      transform: scale(0.95);
-    }
-
-    .wax-heart {
-      font-size: 1.8rem;
-      color: #ffffff;
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4));
-    }
-
-    @keyframes waxPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    /* MINIJUEGO: ESTRELLAS DE LOS DESEOS */
-    .wishes-box {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeInZoom 0.35s ease-out;
-    }
-
-    .wishes-subtitle {
-      font-size: 0.88rem;
-      color: #665270;
-      font-weight: 800;
-      margin-bottom: 12px;
-      line-height: 1.3;
-    }
-
-    .wishes-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      width: 100%;
-      margin-bottom: 12px;
-    }
-
-    .wish-card {
-      background: #faf6fc;
-      border: 2.8px solid var(--border-color);
-      border-radius: 16px;
-      padding: 10px 8px;
-      cursor: pointer;
-      box-shadow: 0 3px 0 var(--border-color);
-      transition: all 0.12s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       text-align: center;
     }
 
-    .wish-card:active {
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 var(--border-color);
+    .wax-seal {
+      width: 72px;
+      height: 72px;
+      background: radial-gradient(circle at 35% 35%, #e63946, #9b1d28);
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(155, 29, 40, 0.45), inset 0 2px 4px rgba(255,255,255,0.4);
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border: 2px dashed rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
 
-    .wish-card.selected {
-      background: #e8f9f6;
-      border-color: #2ec4b6;
-      box-shadow: 0 3px 0 #2ec4b6, 0 0 10px rgba(46, 196, 182, 0.4);
-      transform: scale(1.02);
+    .wax-seal:hover {
+      transform: scale(1.08) rotate(3deg);
     }
 
-    .wish-emoji {
-      font-size: 1.6rem;
+    .grand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      color: #4a2810;
       margin-bottom: 4px;
     }
 
-    .wish-text {
-      font-size: 0.82rem;
-      font-weight: 900;
-      color: var(--dark);
-      line-height: 1.25;
+    .grand-subtitle {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.35rem;
+      color: #e63946;
+      margin-bottom: 14px;
     }
 
-    .wishes-counter {
-      font-size: 0.95rem;
-      font-weight: 900;
-      color: var(--primary);
-      margin-bottom: 10px;
+    .grand-message {
+      font-family: 'Caveat', cursive;
+      font-size: 1.38rem;
+      line-height: 1.5;
+      color: #2b2520;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.65);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      border-left: 4px solid #e63946;
     }
 
-    .continue-wishes-btn {
-      background: var(--primary);
-      color: white;
-      border: 3.5px solid var(--border-color);
-      padding: 12px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: 1rem;
-      width: 100%;
-      box-shadow: 0 5px 0 var(--border-color);
+    .promises-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .promise-item {
+      background: #ffffff;
+      border: 1.5px solid #ebd9be;
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: #443224;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
       cursor: pointer;
-      display: none;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+
+    .promise-item.checked {
+      border-color: #e63946;
+      background: #fff8f8;
+    }
+
+    .promise-item .p-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .actions-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .action-btn-whatsapp {
+      background: #25d366;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.98rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .action-btn-whatsapp:active {
+      transform: scale(0.96);
+    }
+
+    .action-btn-secondary {
+      background: #ffffff;
+      color: #8b5a2b;
+      border: 2px solid #8b5a2b;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      animation: pulseBtn 1.4s infinite;
-      transition: transform 0.1s;
+      cursor: pointer;
     }
 
-    .continue-wishes-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 var(--border-color);
-    }
-
-    /* Álbum Polaroid */
-    .celebration-box {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeInZoom 0.4s ease-out;
-    }
-
-    @keyframes fadeInZoom {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .album-wrapper {
-      position: relative;
-      width: 100%;
-      margin: 6px 0 12px 0;
-    }
-
-    .polaroid-frame {
-      background: #fffdfa;
-      border: 3.5px solid var(--border-color);
-      border-radius: 20px;
-      padding: 14px 12px 16px 12px;
-      box-shadow: 0 6px 0 var(--border-color);
-      transform: rotate(-1.5deg);
-      position: relative;
-      transition: all 0.3s ease;
-      min-height: 215px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .polaroid-pin {
+    /* Floating speech bubbles on characters */
+    .char-dialogue {
       position: absolute;
-      top: -10px;
+      background: #ffffff;
+      border: 2px solid #8b5a2b;
+      padding: 6px 14px;
+      border-radius: 16px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #382414;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+      pointer-events: none;
+      z-index: 15;
+      white-space: nowrap;
+      display: none;
+      animation: dialogPop 0.3s ease;
+    }
+
+    .char-dialogue::after {
+      content: '';
+      position: absolute;
+      bottom: -7px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 1.3rem;
-      line-height: 1;
+      border-width: 7px 6px 0;
+      border-style: solid;
+      border-color: #8b5a2b transparent;
+      display: block;
+      width: 0;
     }
 
-    .polaroid-art {
-      font-size: 2.8rem;
-      margin-bottom: 4px;
-    }
-
-    .polaroid-title {
-      font-size: 1.05rem;
-      font-weight: 900;
-      color: var(--primary);
-      margin-bottom: 4px;
-    }
-
-    .polaroid-msg {
-      font-size: 0.92rem;
-      color: #3b2844;
-      font-weight: 800;
-      line-height: 1.4;
-      margin-bottom: 8px;
-    }
-
-    .polaroid-sign {
-      font-size: 0.98rem;
-      font-weight: 900;
-      color: #665270;
-      text-align: right;
-      padding-right: 6px;
-    }
-
-    /* Controles del Álbum */
-    .album-nav {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .album-arrow {
-      background: #ffffff;
-      border: 2.5px solid var(--border-color);
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      font-size: 1.1rem;
-      font-weight: 900;
-      color: var(--dark);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 0 var(--border-color);
-    }
-
-    .album-arrow:active {
-      transform: translateY(2px);
-      box-shadow: none;
-    }
-
-    .album-dots {
-      display: flex;
-      gap: 6px;
-    }
-
-    .album-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #e0d5e8;
-      border: 1.5px solid var(--border-color);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .album-dot.active {
-      background: var(--primary);
-      transform: scale(1.25);
-    }
-
-    /* Botones de Acción */
-    .download-card-btn {
-      background: #ffd166;
-      color: #332211;
-      border: 3.5px solid var(--border-color);
-      padding: 12px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: 0.96rem;
-      width: 100%;
-      box-shadow: 0 5px 0 var(--border-color);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 8px;
-      transition: transform 0.1s;
-    }
-
-    .download-card-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 var(--border-color);
-    }
-
-    .whatsapp-btn {
-      background: #25d366 !important;
-      color: white;
-      border: 3.5px solid var(--border-color);
-      padding: 13px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: 1rem;
-      width: 100%;
-      box-shadow: 0 5px 0 var(--border-color);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: transform 0.1s;
-    }
-
-    .whatsapp-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 var(--border-color);
-    }
-
-    .replay-btn {
-      background: #ffffff;
-      color: #55445d;
-      border: 3px solid var(--border-color);
-      padding: 9px 16px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: 0.9rem;
-      width: 100%;
-      box-shadow: 0 4px 0 var(--border-color);
-      cursor: pointer;
-      margin-top: 8px;
-      transition: transform 0.1s;
-    }
-
-    .replay-btn:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 var(--border-color);
+    @keyframes dialogPop {
+      0% { opacity: 0; transform: translateY(6px) scale(0.9); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
   </style>
 </head>
 <body>
 
-  <div id="game-container">
-    
-    <!-- HUD Superior -->
-    <div class="top-hud">
-      <div class="counter-badge" id="counterBadge">
-        <span>💐</span>
-        <span id="rose-score">0 / 5</span>
-      </div>
-      <div class="hud-right">
-        <button class="audio-btn" id="audioToggle" onclick="toggleAudio()" title="Música / Sonido">🎵</button>
-      </div>
+<div id="game-container">
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="badge" id="badge-letters">
+      <span class="badge-icon">💌</span>
+      <span>Cartitas: <b id="letter-counter">0/4</b></span>
     </div>
-
-    <!-- Mini-Tracker de Progreso Vertical -->
-    <div class="journey-tracker" id="journeyTracker" style="display: none;">
-      <div class="tracker-goal" title="Andrea te espera al final">👧</div>
-      <div class="tracker-track">
-        <div class="tracker-fill" id="trackerFill"></div>
-        <div class="tracker-avatar" id="trackerAvatar">👦</div>
-      </div>
-      <div class="tracker-start" title="Inicio">🌹</div>
+    <div style="display:flex; gap:10px;">
+      <button class="hud-btn" id="btn-audio" title="Música / Sonido">🎵</button>
+      <button class="hud-btn" id="btn-reset" title="Volver al inicio">🔄</button>
     </div>
-
-    <!-- Notificación Flotante con Mensajes de Amor -->
-    <div class="rose-toast" id="roseToast">
-      <span id="toastIcon">✨</span>
-      <span id="toastText">¡Tu sonrisa hermosa!</span>
-    </div>
-
-    <!-- Canvas Principal -->
-    <canvas id="gameCanvas"></canvas>
-
-    <!-- Controles táctiles D-Pad -->
-    <div class="controls-wrapper" id="controlsWrapper">
-      <div class="dpad-container">
-        <button class="dpad-btn btn-up" id="btnUp">▲</button>
-        <button class="dpad-btn btn-left" id="btnLeft">◀</button>
-        <button class="dpad-btn btn-down" id="btnDown">▼</button>
-        <button class="dpad-btn btn-right" id="btnRight">▶</button>
-      </div>
-    </div>
-
-    <!-- Pantalla de Inicio -->
-    <div class="start-screen" id="startScreen">
-      <div class="start-title-box">
-        <div style="font-size: 2.8rem; margin-bottom: 4px;">👦🐶👧</div>
-        <h1>Tito & Andrea</h1>
-        <p>Junta las 5 rosas mágicas con tu fiel perrito para llegar hasta Andrea bajo la luna 💐💖</p>
-      </div>
-      <button class="start-btn" onclick="startGame()">
-        <span>¡JUGAR!</span> 💖
-      </button>
-    </div>
-
-    <!-- MODAL FINAL (Pregunta + Sobre de Lacre + Deseos + Álbum) -->
-    <div class="modal-overlay" id="modal-final">
-      <div class="modal-card">
-        
-        <!-- Fase 1: Pregunta de amor -->
-        <div id="proposalQuestionBlock">
-          <div style="font-size: 3.2rem; margin-bottom: 8px;">🥺💐💖</div>
-          <h2 id="final-question">Te extrañé un montón...<br>¿Tú también me extrañaste? 🥺</h2>
-
-          <div class="proposal-area" id="proposalArea">
-            <button id="btn-yes" onclick="celebrateYes()">¡Sí, mucho! 🥰</button>
-            <button id="btn-no" onmouseover="dodgeNo(event)" ontouchstart="dodgeNo(event)" onclick="dodgeNo(event)">No 😜</button>
-          </div>
-        </div>
-
-        <!-- Fase 2: Sobre Artesanal con Sello de Lacre de Cera -->
-        <div class="envelope-box" id="envelopeBlock">
-          <h2 style="color: #ff1744; font-size: 1.35rem;">💌 Una Carta Especial</h2>
-          <p style="font-size: 0.88rem; color: #665270; font-weight: 800; margin-bottom: 4px;">Toca el sello de lacre para abrirla:</p>
-          
-          <div class="vintage-envelope" onclick="breakWaxSeal()">
-            <div class="envelope-lines"></div>
-            <div class="envelope-label">Para: Andrea 🌸 &bull; De: Tito ❤️</div>
-            <div class="wax-seal" id="waxSeal">
-              <span class="wax-heart">❤️</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Fase 3: Minijuego de las Estrellas de los Deseos -->
-        <div class="wishes-box" id="wishesBlock">
-          <div style="font-size: 2.5rem; margin-bottom: 4px;">🌠✨</div>
-          <h2 style="color: #ff1744; font-size: 1.35rem;">¡Lluvia de Deseos!</h2>
-          <p class="wishes-subtitle">Elige 3 deseos para nuestra próxima cita juntos:</p>
-
-          <div class="wishes-counter" id="wishesCounter">Elegidos: 0 / 3</div>
-
-          <div class="wishes-grid" id="wishesGrid">
-            <!-- Renderizado dinámico de tarjetas -->
-          </div>
-
-          <button class="continue-wishes-btn" id="btnContinueWishes" onclick="finishWishes()">
-            <span>Ver Nuestra Historia & Enviar a Tito</span> 💌
-          </button>
-        </div>
-
-        <!-- Fase 4: Álbum Polaroid Interactivo -->
-        <div class="celebration-box" id="celebrationBox">
-          <h2 style="color: #ff1744; font-size: 1.35rem; margin-bottom: 4px;">🎉 ¡NUESTRA HISTORIA! 🥰💖</h2>
-          
-          <div class="album-wrapper">
-            <div class="polaroid-frame" id="polaroidCard">
-              <div class="polaroid-pin" id="polaroidPin">📌</div>
-              <div>
-                <div class="polaroid-art" id="polaroidArt">👩‍❤️‍👨✨</div>
-                <div class="polaroid-title" id="polaroidTitle">Nuestra Historia</div>
-                <p class="polaroid-msg" id="polaroidMsg">
-                  "Cada día que pasa te extraño un montón y me haces inmensamente feliz. Hice este jueguito con todo mi amor pensando en vos."
-                </p>
-              </div>
-              <div class="polaroid-sign" id="polaroidSign">— Con amor, Tito ❤️</div>
-            </div>
-
-            <!-- Navegación del Álbum -->
-            <div class="album-nav">
-              <button class="album-arrow" onclick="prevPolaroid()">‹</button>
-              <div class="album-dots" id="albumDots">
-                <span class="album-dot active" onclick="goPolaroid(0)"></span>
-                <span class="album-dot" onclick="goPolaroid(1)"></span>
-                <span class="album-dot" onclick="goPolaroid(2)"></span>
-                <span class="album-dot" onclick="goPolaroid(3)"></span>
-                <span class="album-dot" onclick="goPolaroid(4)"></span>
-              </div>
-              <button class="album-arrow" onclick="nextPolaroid()">›</button>
-            </div>
-          </div>
-
-          <!-- Botones de Acción -->
-          <button class="download-card-btn" onclick="downloadMemoryCard()">
-            <span>📸 Guardar Postal con Mis Deseos</span>
-          </button>
-
-          <button class="whatsapp-btn" id="btnWhatsApp" onclick="openWhatsApp()">
-            <span>Decírselo a Tito por WhatsApp</span> 💬
-          </button>
-
-          <button class="replay-btn" onclick="restartGame()">
-            <span>Volver a jugar</span> 🔄
-          </button>
-        </div>
-
-      </div>
-    </div>
-
   </div>
 
-  <script>
-    /* =========================================================================
-       CONFIGURACIÓN LIMPIA & PERSONALIZADA
-       ========================================================================= */
-    const CONFIG = {
-      nombreChico: "Tito",
-      nombreChica: "Andrea",
-      telefonoWhatsApp: "5493765005973", // Número de Tito (+54 9 3765 005973)
-      mensajeWhatsAppBase: "¡Hola Tito! Jugué a nuestro juego... ¡Y yo también te extrañé un montón! 🥺🥰💖",
-      rosas: [
-        { id: 0, color: "#ff1744", compliment: "¡Tu sonrisa hermosa! ✨" },
-        { id: 1, color: "#ff4081", compliment: "¡Tus ojitos bellos! 💫" },
-        { id: 2, color: "#ffd600", compliment: "¡Tus abrazos que curan todo! 🤍" },
-        { id: 3, color: "#ffffff", compliment: "¡Tu risa contagiosa! 🥰" },
-        { id: 4, color: "#aa00ff", compliment: "¡Lo increíble que sos! 💖" }
-      ],
-      deseosLista: [
-        { id: 1, emoji: "🍦", text: "Helados y caminata juntos" },
-        { id: 2, emoji: "🎬", text: "Películas, mimos y comida rica" },
-        { id: 3, emoji: "🍕", text: "Cita sorpresa que organice Tito" },
-        { id: 4, emoji: "🫂", text: "Un abrazo eterno de 10 minutos" },
-        { id: 5, emoji: "🌅", text: "Ver el atardecer abrazados" },
-        { id: 6, emoji: "🚗", text: "Una escapada o mini viaje juntos" }
-      ],
-      polaroidMemories: [
-        {
-          art: "🌹✨",
-          title: "1. Tu Sonrisa",
-          msg: "Esa sonrisa tuya ilumina absolutamente todo a tu alrededor y me alegra el día cada vez que la veo.",
-          pin: "📌"
-        },
-        {
-          art: "💫👀",
-          title: "2. Tus Ojitos",
-          msg: "Tus ojitos tienen la mirada más dulce y tierna del mundo. No hay forma de no enamorarse de ellos.",
-          pin: "⭐"
-        },
-        {
-          art: "🤍🫂",
-          title: "3. Tus Abrazos",
-          msg: "Tus abrazos tienen magia: curan cualquier día difícil y me hacen sentir exactamente donde quiero estar.",
-          pin: "🌸"
-        },
-        {
-          art: "🥰🎶",
-          title: "4. Tu Risa",
-          msg: "Tu risa contagiosa es mi sonido favorito del planeta. Me encanta hacer cualquier tontería con tal de escucharte reír.",
-          pin: "🎀"
-        },
-        {
-          art: "👩‍❤️‍👨💖",
-          title: "5. Lo Increíble Que Sos",
-          msg: "Gracias por ser como sos. Te extrañé un montón cada día y este jueguito lo hice con todo mi corazón para vos.",
-          pin: "💖"
-        }
-      ],
-      frasesNo: [
-        "¿Segura? 👀",
-        "¡Esa opción tiene virus! 😂",
-        "¡Ups, se escapó! 💨",
-        "¡Ni lo intentes! 🏃‍♀️",
-        "¡Error 404: El No no existe! 💖",
-        "¡Dale al verde porfi! 🥺",
-        "¡Imposible tocarme! ⚡",
-        "¡Yo sé que sí me extrañaste! 🥰"
-      ]
-    };
+  <!-- Interact Prompt -->
+  <button id="interact-prompt">
+    <span>✉️</span>
+    <span>Abrir Cartita</span>
+  </button>
 
-    let selectedWishes = [];
+  <!-- Touch Controls -->
+  <div class="controls">
+    <div class="dpad-group">
+      <button class="ctrl-btn" id="btn-left" aria-label="Izquierda">◀</button>
+      <button class="ctrl-btn" id="btn-right" aria-label="Derecha">▶</button>
+    </div>
+    <div class="walk-hint">Toca o usa ◀ ▶ para caminar</div>
+  </div>
 
-    /* =========================================================================
-       AUDIO ADAPTATIVO & VALS EN 3/4
-       ========================================================================= */
-    let audioCtx = null;
-    let musicPlaying = false;
-    let musicInterval = null;
-    let waltzInterval = null;
+  <!-- Character Floating Dialogue -->
+  <div class="char-dialogue" id="speech-bubble"></div>
 
-    function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+  <!-- START MODAL -->
+  <div class="modal-overlay active" id="modal-start">
+    <div class="start-card">
+      <div class="icon-row">🏫 🌳 💌</div>
+      <h1>Nuestro Recreo</h1>
+      <div class="subtitle">Tito & Andrea</div>
+      <p>
+        ¿Te acordás cuando sonaba el timbre de la escuela y corríamos a ese banco de madera para hablar todo el recreo?<br><br>
+        Recorré el camino, descubrí las cartitas que dejé para vos y encontrémonos donde todo comenzó.
+      </p>
+      <button class="primary-btn" id="btn-start-game">
+        <span>Comenzar Paseo</span>
+        <span>✨</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- LETTER MODAL -->
+  <div class="modal-overlay" id="modal-letter">
+    <div class="letter-sheet">
+      <div class="letter-header">
+        <div class="letter-title" id="modal-letter-title">El Timbre del Recreo</div>
+        <div class="letter-date">Recuerdo escolar</div>
+      </div>
+      <div class="letter-body" id="modal-letter-body"></div>
+      <div class="letter-footer">
+        <div class="letter-sign">Con amor, Tito ❤️</div>
+        <button class="close-letter-btn" id="btn-close-letter">Guardar en el corazón</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAND FINAL ENVELOPE MODAL -->
+  <div class="modal-overlay" id="modal-grand">
+    <div class="grand-card">
+      <div class="wax-seal" id="wax-seal-btn" title="Tocar el sello para abrir">T&A</div>
+      <h2 class="grand-title">Nuestro Banco del Recreo</h2>
+      <div class="grand-subtitle">Donde el tiempo no existía</div>
+      
+      <div class="grand-message" id="grand-msg-text">
+        Andrea de mi vida,<br><br>
+        Pasaron las clases, cambiaron los años, pero cada vez que te veo sonreír con tus rulitos y tus trenzas... siento la misma emoción que cuando corría a buscarte al banco de la escuela.<br><br>
+        Esos 15 minutos de recreo se volvieron mi lugar favorito del mundo. Gracias por ser mi calma, mi risa y mi amor.
+      </div>
+
+      <div class="promises-list">
+        <div class="promise-item checked">
+          <span class="p-icon">🌸</span>
+          <span>Recordar siempre de dónde venimos y lo lindo que fue encontrarte.</span>
+        </div>
+        <div class="promise-item checked">
+          <span class="p-icon">☕</span>
+          <span>Compartir cada charla, cada mate y cada día a tu lado.</span>
+        </div>
+        <div class="promise-item checked">
+          <span class="p-icon">💖</span>
+          <span>Elegirte en cada recreo que nos regale la vida.</span>
+        </div>
+      </div>
+
+      <div class="actions-stack">
+        <a class="action-btn-whatsapp" id="btn-whatsapp" target="_blank" rel="noopener noreferrer">
+          <span>💌</span>
+          <span>Enviarle un mensajito a Tito</span>
+        </a>
+        <button class="action-btn-secondary" id="btn-download-polaroid">
+          <span>📷</span>
+          <span>Descargar Foto Recuerdo</span>
+        </button>
+        <button class="action-btn-secondary" id="btn-stay-bench">
+          <span>✨</span>
+          <span>Quedarnos juntos en el banco</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   CONFIGURACIÓN Y DATOS DE LA HISTORIA
+   ========================================================================== */
+const LETTERS_DATA = [
+  {
+    id: 1,
+    x: 350,
+    title: "El Timbre del Recreo 🔔",
+    text: "¿Te acordás de cómo sonaba ese timbre? En clase yo solo miraba el reloj contando los minutos. Cuando tocaba la campana salía volando por este pasillo solo para verte llegar.",
+    read: false
+  },
+  {
+    id: 2,
+    x: 740,
+    title: "Los Quince Minutos ⏳",
+    text: "Quince minutos que se sentían como dos segundos. Nos sentábamos y empezábamos a charlar sin parar. El mundo afuera desaparecía y nunca alcanzaban las palabras.",
+    read: false
+  },
+  {
+    id: 3,
+    x: 1350,
+    title: "Tu Risa y Tus Rulos ✨",
+    text: "Me encantaba verte llegar con tus rulitos despeinados por el viento, tus trenzas y esa sonrisa que iluminaba todo el patio. Eras y sos lo más lindo de mis días.",
+    read: false
+  },
+  {
+    id: 4,
+    x: 1750,
+    title: "Lo Que Nunca Cambió ❤️",
+    text: "La escuela terminó, crecimos y el mundo siguió girando... pero todo lo que sentí en ese banco con vos se quedó grabado en mi corazón para siempre. Te quiero con toda mi alma.",
+    read: false
+  }
+];
+
+const BENCH_X = 2120; // Posición del banco escolar en el patio
+const WORLD_WIDTH = 2500;
+const WHATSAPP_PHONE = "5493765005973";
+const WHATSAPP_TEXT = encodeURIComponent("Tito... leí todas las cartitas en el banco de la escuela 💌 Me hiciste acordar tanto a nuestros recreos. Te quiero con todo mi corazón ❤️");
+
+/* ==========================================================================
+   MOTOR DE AUDIO ACÚSTICO (PIANO & CELESTA EMOTIVO - SIN PITIDOS ARCADE)
+   ========================================================================== */
+class EmotionalAudioEngine {
+  constructor() {
+    this.ctx = null;
+    this.isMuted = false;
+    this.isPlaying = false;
+    this.timer = null;
+    this.currentChord = 0;
+
+    // Progresión romántica y conmovedora en Re Mayor (D - F#m/C# - Bm - G / A)
+    this.chords = [
+      { bass: 146.83, notes: [293.66, 369.99, 440.00, 587.33] }, // D / Dmaj
+      { bass: 138.59, notes: [277.18, 369.99, 440.00, 554.37] }, // F#m/C#
+      { bass: 123.47, notes: [246.94, 293.66, 369.99, 440.00] }, // Bm7
+      { bass: 98.00,  notes: [246.94, 293.66, 392.00, 493.88] }, // Gmaj7
+      { bass: 146.83, notes: [293.66, 369.99, 440.00, 659.25] }, // Dadd9
+      { bass: 123.47, notes: [293.66, 369.99, 440.00, 587.33] }, // Bm
+      { bass: 98.00,  notes: [293.66, 369.99, 440.00, 587.33] }, // Gmaj9
+      { bass: 110.00, notes: [293.66, 329.63, 440.00, 587.33] }  // Asus4
+    ];
+  }
+
+  init() {
+    if (this.ctx) return;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    this.ctx = new AudioContext();
+
+    this.masterFilter = this.ctx.createBiquadFilter();
+    this.masterFilter.type = 'lowpass';
+    this.masterFilter.frequency.value = 2800;
+
+    this.masterGain = this.ctx.createGain();
+    this.masterGain.gain.value = 0.45;
+
+    this.delayNode = this.ctx.createDelay();
+    this.delayNode.delayTime.value = 0.35;
+    this.delayFeedback = this.ctx.createGain();
+    this.delayFeedback.gain.value = 0.28;
+
+    this.delayNode.connect(this.delayFeedback);
+    this.delayFeedback.connect(this.delayNode);
+
+    this.masterFilter.connect(this.masterGain);
+    this.masterFilter.connect(this.delayNode);
+    this.delayNode.connect(this.masterGain);
+
+    this.masterGain.connect(this.ctx.destination);
+  }
+
+  start() {
+    this.init();
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume();
     }
+    if (this.isPlaying) return;
+    this.isPlaying = true;
+    this.currentChord = 0;
+    this.scheduleNextArpeggio();
+  }
 
-    function playTone(freq, type, duration, delay = 0, vol = 0.08) {
-      if (!audioCtx) return;
+  scheduleNextArpeggio() {
+    if (!this.isPlaying || this.isMuted) return;
+
+    const chord = this.chords[this.currentChord % this.chords.length];
+    this.currentChord++;
+
+    this.playPianoNote(chord.bass, 0.4, 3.2, 0.35);
+
+    chord.notes.forEach((freq, i) => {
+      const delay = (i * 0.28) + (Math.random() * 0.05);
       setTimeout(() => {
-        try {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = type;
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start();
-          osc.stop(audioCtx.currentTime + duration);
-        } catch (e) {}
-      }, delay);
+        if (!this.isPlaying || this.isMuted) return;
+        this.playPianoNote(freq, 0.22, 2.5, 0.28);
+      }, delay * 1000);
+    });
+
+    if (Math.random() > 0.4) {
+      setTimeout(() => {
+        if (!this.isPlaying || this.isMuted) return;
+        const melodyNotes = [587.33, 659.25, 739.99, 880.00];
+        const randomNote = melodyNotes[Math.floor(Math.random() * melodyNotes.length)];
+        this.playCelestaNote(randomNote, 0.12, 1.8);
+      }, 1200);
     }
 
-    function playDashSound() {
-      if (!audioCtx) return;
-      playTone(420, 'sine', 0.05, 0, 0.025);
-    }
+    this.timer = setTimeout(() => {
+      this.scheduleNextArpeggio();
+    }, 2800);
+  }
 
-    function playRoseChime() {
-      if (!audioCtx) return;
-      playTone(523.25, 'sine', 0.18, 0, 0.1);
-      playTone(659.25, 'sine', 0.22, 60, 0.12);
-      playTone(783.99, 'sine', 0.26, 120, 0.14);
-      playTone(987.77, 'triangle', 0.32, 180, 0.15);
-      playTone(1046.50, 'sine', 0.45, 240, 0.16);
-    }
+  playPianoNote(freq, volume = 0.25, duration = 2.0, warmth = 0.3) {
+    if (!this.ctx || this.isMuted) return;
 
-    function playKissSound() {
-      if (!audioCtx) return;
-      playTone(520, 'sine', 0.08, 0, 0.12);
-      playTone(880, 'sine', 0.12, 40, 0.14);
-      playTone(1320, 'triangle', 0.35, 90, 0.16);
-    }
+    const now = this.ctx.currentTime;
+    
+    const osc1 = this.ctx.createOscillator();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(freq, now);
 
-    function playVictoryFanfare() {
-      if (!audioCtx) return;
-      const notes = [523.25, 659.25, 783.99, 1046.5, 1318.5];
-      notes.forEach((n, i) => {
-        playTone(n, 'sine', 0.45, i * 110, 0.14);
-      });
-    }
+    const osc2 = this.ctx.createOscillator();
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(freq * 2, now);
 
-    function playDodgeSound() {
-      if (!audioCtx) return;
-      playTone(350, 'sine', 0.08, 0, 0.08);
-      playTone(580, 'triangle', 0.1, 40, 0.09);
-    }
+    const noteFilter = this.ctx.createBiquadFilter();
+    noteFilter.type = 'lowpass';
+    noteFilter.frequency.setValueAtTime(1200, now);
+    noteFilter.frequency.exponentialRampToValueAtTime(350, now + duration);
 
-    function playArchSound() {
-      if (!audioCtx) return;
-      playTone(783.99, 'sine', 0.2, 0, 0.08);
-      playTone(1046.50, 'sine', 0.28, 80, 0.1);
-      playTone(1318.51, 'triangle', 0.35, 160, 0.12);
-    }
+    const noteGain = this.ctx.createGain();
+    noteGain.gain.setValueAtTime(0.0001, now);
+    noteGain.gain.linearRampToValueAtTime(volume, now + 0.015);
+    noteGain.gain.exponentialRampToValueAtTime(volume * 0.4, now + 0.3);
+    noteGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
-    function playBarkSound() {
-      if (!audioCtx) return;
-      playTone(600, 'triangle', 0.06, 0, 0.07);
-      playTone(850, 'sine', 0.08, 30, 0.09);
-    }
+    const osc2Gain = this.ctx.createGain();
+    osc2Gain.gain.value = warmth;
 
-    function playWaxSealSound() {
-      if (!audioCtx) return;
-      playTone(280, 'sine', 0.08, 0, 0.12);
-      playTone(520, 'triangle', 0.12, 30, 0.14);
-      playTone(880, 'sine', 0.25, 70, 0.16);
-    }
+    osc1.connect(noteGain);
+    osc2.connect(osc2Gain);
+    osc2Gain.connect(noteGain);
+    noteGain.connect(noteFilter);
+    noteFilter.connect(this.masterFilter);
 
-    // Melodía polifónica adaptativa
-    function startMusic() {
-      if (!audioCtx) initAudio();
-      musicPlaying = true;
-      document.getElementById('audioToggle').innerText = '🔊';
+    osc1.start(now);
+    osc2.start(now);
+    osc1.stop(now + duration + 0.1);
+    osc2.stop(now + duration + 0.1);
+  }
 
-      const melody = [
-        { m: 523.25, b: 261.63, arp: 1046.50, cnt: 659.25 },
-        { m: 587.33, b: null,   arp: 1174.66, cnt: null },
-        { m: 659.25, b: 329.63, arp: 1318.51, cnt: 783.99 },
-        { m: 783.99, b: null,   arp: 1567.98, cnt: null },
-        { m: 880.00, b: 220.00, arp: 1760.00, cnt: 1046.50 },
-        { m: 783.99, b: null,   arp: 1567.98, cnt: null },
-        { m: 659.25, b: 349.23, arp: 1318.51, cnt: 880.00 },
-        { m: 587.33, b: null,   arp: 1174.66, cnt: null },
+  playCelestaNote(freq, volume = 0.15, duration = 1.6) {
+    if (!this.ctx || this.isMuted) return;
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now);
 
-        { m: 523.25, b: 261.63, arp: 1046.50, cnt: 659.25 },
-        { m: 659.25, b: null,   arp: 1318.51, cnt: null },
-        { m: 783.99, b: 392.00, arp: 1567.98, cnt: 987.77 },
-        { m: 1046.5, b: null,   arp: 2093.00, cnt: null },
-        { m: 880.00, b: 220.00, arp: 1760.00, cnt: 1046.50 },
-        { m: 783.99, b: null,   arp: 1567.98, cnt: null },
-        { m: 659.25, b: 349.23, arp: 1318.51, cnt: 880.00 },
-        { m: 523.25, b: 392.00, arp: 1046.50, cnt: 783.99 }
-      ];
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.linearRampToValueAtTime(volume, now + 0.008);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
-      let step = 0;
-      if (musicInterval) clearInterval(musicInterval);
-      musicInterval = setInterval(() => {
-        if (!musicPlaying) return;
-        const current = melody[step];
+    osc.connect(gain);
+    gain.connect(this.masterFilter);
 
-        playTone(current.m, 'triangle', 0.22, 0, 0.038);
+    osc.start(now);
+    osc.stop(now + duration);
+  }
 
-        if (collectedCount >= 1 && current.b) {
-          playTone(current.b, 'sine', 0.38, 0, 0.035);
-        }
-
-        if (collectedCount >= 2 && current.arp && step % 2 === 0) {
-          playTone(current.arp, 'sine', 0.15, 30, 0.022);
-        }
-
-        if (collectedCount >= 3 && current.cnt) {
-          playTone(current.cnt, 'triangle', 0.2, 50, 0.025);
-        }
-
-        if (collectedCount >= 4 && step % 4 === 0) {
-          playTone(current.m * 1.5, 'sine', 0.35, 10, 0.02);
-        }
-
-        step = (step + 1) % melody.length;
-      }, 235);
-    }
-
-    // Vals romántico en 3/4 para la escena de baile
-    function startWaltzMusic() {
-      if (musicInterval) clearInterval(musicInterval);
-      const waltzChords = [
-        { bass: 261.63, chord: 523.25, lead: 659.25 }, // C
-        { bass: 220.00, chord: 440.00, lead: 659.25 }, // Am
-        { bass: 174.61, chord: 349.23, lead: 523.25 }, // F
-        { bass: 196.00, chord: 392.00, lead: 587.33 }  // G
-      ];
-
-      let beat = 0;
-      let measure = 0;
-      if (waltzInterval) clearInterval(waltzInterval);
-      waltzInterval = setInterval(() => {
-        if (!musicPlaying) return;
-        const current = waltzChords[measure % waltzChords.length];
-
-        if (beat === 0) {
-          // Pulso 1: Bajo rotundo
-          playTone(current.bass, 'sine', 0.45, 0, 0.05);
-          playTone(current.lead, 'triangle', 0.4, 30, 0.045);
-        } else {
-          // Pulsos 2 y 3: Acordes suaves de vals
-          playTone(current.chord, 'triangle', 0.2, 0, 0.03);
-          playTone(current.chord * 1.25, 'sine', 0.2, 20, 0.025);
-        }
-
-        beat++;
-        if (beat >= 3) {
-          beat = 0;
-          measure++;
-        }
-      }, 240);
-    }
-
-    function toggleAudio() {
-      initAudio();
-      musicPlaying = !musicPlaying;
-      if (musicPlaying) {
-        startMusic();
-      } else {
-        clearInterval(musicInterval);
-        if (waltzInterval) clearInterval(waltzInterval);
-        document.getElementById('audioToggle').innerText = '🔇';
+  playPaperRustle() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
+      const bufferSize = this.ctx.sampleRate * 0.15;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
       }
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 1800;
+      filter.Q.value = 1.5;
+
+      const gain = this.ctx.createGain();
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+      noise.start(now);
+    } catch(e) {}
+  }
+
+  playWaxChime() {
+    if (!this.ctx || this.isMuted) return;
+    const notes = [587.33, 739.99, 880.00, 1174.66];
+    notes.forEach((f, idx) => {
+      setTimeout(() => {
+        this.playCelestaNote(f, 0.2, 2.2);
+      }, idx * 120);
+    });
+  }
+
+  toggle() {
+    this.isMuted = !this.isMuted;
+    if (!this.isMuted && !this.isPlaying) {
+      this.start();
     }
-
-    /* =========================================================================
-       MOTOR DEL JUEGO & MUNDO
-       ========================================================================= */
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-
-    const V_WIDTH = 440;
-    const WORLD_WIDTH = 440;
-    const WORLD_HEIGHT = 2600;
-    const PATH_X = WORLD_WIDTH / 2;
-    const PATH_WIDTH = 140;
-
-    let gameState = 'START';
-    let collectedCount = 0;
-    let cameraY = WORLD_HEIGHT - 650;
-    let currentScale = 1;
-    let cameraZoom = 1;
-    let heartbeatTick = 0;
-    let archCrossed = false;
-    let danceTimer = 0;
-
-    // Tito
-    const tito = {
-      x: PATH_X,
-      y: WORLD_HEIGHT - 120,
-      w: 48,
-      h: 56,
-      speed: 5.5,
-      runFrame: 0,
-      squash: 1,
-      stretch: 1,
-      facing: 1,
-      heartEyesTimer: 0,
-      intenseLove: false,
-      spinAngle: 0,
-      blinkTimer: 180
-    };
-
-    // Andrea
-    const andrea = {
-      x: PATH_X,
-      y: 110,
-      w: 50,
-      h: 56,
-      jumpY: 0,
-      kissOffset: 0,
-      blinkTimer: 210,
-      warningTimer: 0
-    };
-
-    // Perrito Fiel
-    const puppy = {
-      x: PATH_X - 25,
-      y: WORLD_HEIGHT - 110,
-      targetX: PATH_X - 25,
-      targetY: WORLD_HEIGHT - 110,
-      facing: 1,
-      jumpY: 0,
-      tailWag: 0,
-      excited: 0,
-      celebrateAngle: 0
-    };
-
-    // Rosas
-    const roses = [
-      { id: 0, x: PATH_X - 110, y: WORLD_HEIGHT - 450, side: 'left', collected: false },
-      { id: 1, x: PATH_X + 110, y: WORLD_HEIGHT - 900, side: 'right', collected: false },
-      { id: 2, x: PATH_X - 110, y: WORLD_HEIGHT - 1350, side: 'left', collected: false },
-      { id: 3, x: PATH_X + 110, y: WORLD_HEIGHT - 1800, side: 'right', collected: false },
-      { id: 4, x: PATH_X + 110, y: WORLD_HEIGHT - 2250, side: 'right', collected: false }
-    ];
-
-    // Partículas y efectos
-    const dustPuffs = [];
-    const footstepSparks = [];
-    const headHearts = [];
-    const kissTornado = [];
-    const sparkConfetti = [];
-    const fireworkParticles = [];
-    const foregroundPetals = [];
-    const waltzSparkles = [];
-
-    // Partículas en primer plano (Foreground Parallax 3D)
-    for (let i = 0; i < 14; i++) {
-      foregroundPetals.push({
-        x: Math.random() * V_WIDTH,
-        y: Math.random() * 800,
-        speedX: 0.8 + Math.random() * 0.9,
-        speedY: 1.2 + Math.random() * 1.4,
-        size: 7 + Math.random() * 6,
-        rot: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 0.04,
-        alpha: 0.35 + Math.random() * 0.25
-      });
-    }
-
-    // Estrellas
-    const stars = [];
-    for (let i = 0; i < 75; i++) {
-      stars.push({
-        x: Math.random() * WORLD_WIDTH,
-        y: Math.random() * 1300,
-        r: Math.random() * 1.8 + 0.8,
-        twinkleSpeed: 0.02 + Math.random() * 0.04,
-        phase: Math.random() * Math.PI * 2
-      });
-    }
-
-    // Luciérnagas
-    const fireflies = [];
-    for (let i = 0; i < 28; i++) {
-      fireflies.push({
-        x: Math.random() * WORLD_WIDTH,
-        y: 100 + Math.random() * 1400,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: (Math.random() - 0.5) * 0.5,
-        phase: Math.random() * Math.PI * 2,
-        r: 3 + Math.random() * 2
-      });
-    }
-
-    // Mariposas
-    const butterflies = [
-      { x: PATH_X - 120, y: WORLD_HEIGHT - 350, vx: 0.6, vy: 0.3, phase: 0, color: "#ff85a1" },
-      { x: PATH_X + 130, y: WORLD_HEIGHT - 800, vx: -0.5, vy: 0.4, phase: 1.5, color: "#ffd166" },
-      { x: PATH_X - 125, y: WORLD_HEIGHT - 1400, vx: 0.7, vy: -0.3, phase: 3.1, color: "#06d6a0" },
-      { x: PATH_X + 120, y: WORLD_HEIGHT - 1900, vx: -0.6, vy: 0.2, phase: 4.2, color: "#118ab2" },
-      { x: PATH_X - 110, y: WORLD_HEIGHT - 2350, vx: 0.5, vy: -0.4, phase: 5.3, color: "#f72585" }
-    ];
-
-    // Pétalos de viento
-    const windPetals = [];
-    for (let i = 0; i < 26; i++) {
-      windPetals.push({
-        x: Math.random() * WORLD_WIDTH,
-        y: Math.random() * WORLD_HEIGHT,
-        speedX: 0.5 + Math.random() * 0.8,
-        speedY: 0.8 + Math.random() * 1.2,
-        size: 3.5 + Math.random() * 3.5,
-        rot: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 0.05,
-        color: i % 2 === 0 ? "#ffb3c6" : "#ffffff"
-      });
-    }
-
-    // Faroles
-    const fairyLamps = [];
-    for (let y = 140; y < WORLD_HEIGHT - 80; y += 240) {
-      fairyLamps.push({ x: PATH_X - (PATH_WIDTH / 2) - 10, y: y, glow: y < 1400 ? 0.8 : 0 });
-      fairyLamps.push({ x: PATH_X + (PATH_WIDTH / 2) + 10, y: y + 120, glow: (y + 120) < 1400 ? 0.8 : 0 });
-    }
-
-    // Flores
-    const scenery = [];
-    for (let y = 100; y < WORLD_HEIGHT - 50; y += 105) {
-      if (y > 1580 && y < 1720) continue;
-      scenery.push({
-        x: PATH_X - 160 + (Math.random() * 24),
-        y: y + (Math.random() * 30),
-        r: 22 + Math.random() * 8,
-        color: '#ff70a6'
-      });
-      scenery.push({
-        x: PATH_X + 160 - (Math.random() * 24),
-        y: y + 55 + (Math.random() * 30),
-        r: 22 + Math.random() * 8,
-        color: '#ff4d6d'
-      });
-    }
-
-    // Adoquines
-    const cobblestones = [];
-    for (let y = 30; y < WORLD_HEIGHT; y += 70) {
-      if (y > 1590 && y < 1690) continue;
-      cobblestones.push({
-        y: y,
-        offset: (y % 140 === 0) ? -12 : 12
-      });
-    }
-
-    function resizeCanvas() {
-      const container = document.getElementById('game-container');
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      currentScale = (width / V_WIDTH) * dpr;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 150));
-    resizeCanvas();
-
-    /* =========================================================================
-       ELEMENTOS DEL MUNDO (LUNA GIGANTE, SAKURA, RÍO Y PUENTE)
-       ========================================================================= */
-
-    // DIBUJAR LA GRAN LUNA LLENA MÍSTICA (x = PATH_X - 110, y = 120)
-    function drawGiantMoon(ctx) {
-      const mx = PATH_X - 105;
-      const my = 120;
-      const mr = 56;
-
-      ctx.save();
-      // Halo místico resplandeciente
-      const moonHalo = ctx.createRadialGradient(mx, my, mr * 0.8, mx, my, mr * 2.4);
-      moonHalo.addColorStop(0, 'rgba(255, 252, 230, 0.45)');
-      moonHalo.addColorStop(0.5, 'rgba(230, 240, 255, 0.2)');
-      moonHalo.addColorStop(1, 'rgba(230, 240, 255, 0)');
-      ctx.fillStyle = moonHalo;
-      ctx.beginPath();
-      ctx.arc(mx, my, mr * 2.4, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Superficie de la luna
-      ctx.fillStyle = '#fffdf0';
-      ctx.beginPath();
-      ctx.arc(mx, my, mr, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Cráteres suaves y cráter en relieve
-      ctx.fillStyle = 'rgba(215, 210, 235, 0.35)';
-      const craters = [
-        { x: mx - 18, y: my - 14, r: 12 },
-        { x: mx + 16, y: my - 16, r: 9 },
-        { x: mx + 8,  y: my + 18, r: 14 },
-        { x: mx - 20, y: my + 20, r: 8 },
-        { x: mx + 24, y: my + 6,  r: 7 }
-      ];
-      craters.forEach(c => {
-        ctx.beginPath();
-        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      ctx.restore();
-    }
-
-    // DIBUJAR ÁRBOL DE CEREZO (SAKURA) CON FAROLITOS MECLÉNDOSE
-    function drawSakuraTree(ctx) {
-      const tx = PATH_X + 115;
-      const ty = 125;
-
-      ctx.save();
-
-      // Tronco y ramas
-      ctx.fillStyle = "#3d2817";
-      ctx.strokeStyle = "#221526";
-      ctx.lineWidth = 3;
-
-      ctx.beginPath();
-      ctx.moveTo(tx - 12, ty + 50);
-      ctx.quadraticCurveTo(tx - 4, ty + 10, tx - 14, ty - 20);
-      ctx.lineTo(tx + 14, ty - 20);
-      ctx.quadraticCurveTo(tx + 6, ty + 10, tx + 14, ty + 50);
-      ctx.closePath();
-      ctx.fill(); ctx.stroke();
-
-      // Copa frondosa de flores de Sakura
-      const blossomPuffs = [
-        { dx: -24, dy: -36, r: 26, c: '#ff85a1' },
-        { dx: 18,  dy: -40, r: 28, c: '#ff70a6' },
-        { dx: -2,  dy: -55, r: 32, c: '#ffa6c1' },
-        { dx: -38, dy: -18, r: 22, c: '#ffb3c6' },
-        { dx: 36,  dy: -22, r: 24, c: '#ff99b6' },
-        { dx: 0,   dy: -32, r: 34, c: '#ff7597' }
-      ];
-
-      blossomPuffs.forEach(b => {
-        ctx.fillStyle = b.c;
-        ctx.beginPath();
-        ctx.arc(tx + b.dx, ty + b.dy, b.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // Farolitos chinos colgantes en el árbol
-      const lanternSwing = Math.sin(Date.now() * 0.003) * 4;
-      const lanterns = [
-        { x: tx - 22 + lanternSwing, y: ty - 6 },
-        { x: tx + 24 - lanternSwing, y: ty - 10 }
-      ];
-
-      lanterns.forEach(l => {
-        // Cuerda
-        ctx.strokeStyle = "#221526";
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(l.x, ty - 24);
-        ctx.lineTo(l.x, l.y);
-        ctx.stroke();
-
-        // Luz tenue
-        const lGrad = ctx.createRadialGradient(l.x, l.y + 6, 2, l.x, l.y + 6, 24);
-        lGrad.addColorStop(0, 'rgba(255, 220, 80, 0.7)');
-        lGrad.addColorStop(1, 'rgba(255, 220, 80, 0)');
-        ctx.fillStyle = lGrad;
-        ctx.beginPath();
-        ctx.arc(l.x, l.y + 6, 24, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Farolito rojo/dorado
-        ctx.fillStyle = "#ff2a55";
-        ctx.beginPath();
-        ctx.roundRect(l.x - 5, l.y, 10, 14, 4);
-        ctx.fill(); ctx.stroke();
-      });
-
-      ctx.restore();
-    }
-
-    // DIBUJAR PERRITO FIEL
-    function drawDetailedPuppy(ctx, p) {
-      ctx.save();
-      ctx.translate(p.x, p.y - p.jumpY);
-      ctx.scale(p.facing, 1);
-
-      ctx.fillStyle = "rgba(18, 12, 22, 0.25)";
-      ctx.beginPath();
-      ctx.ellipse(0, 11 + p.jumpY, 11, 5, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      p.tailWag += 0.25;
-      const tailAngle = Math.sin(p.tailWag) * 0.45;
-      ctx.save();
-      ctx.translate(-9, -2);
-      ctx.rotate(-0.5 + tailAngle);
-      ctx.fillStyle = "#e0a96d";
-      ctx.strokeStyle = "#221526";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.roundRect(-2, -8, 4, 10, 2);
-      ctx.fill(); ctx.stroke();
-      ctx.restore();
-
-      ctx.fillStyle = "#ffffff";
-      ctx.strokeStyle = "#221526";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(-5, 9, 3, 0, Math.PI * 2);
-      ctx.arc(5, 9, 3, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#e0a96d";
-      ctx.strokeStyle = "#221526";
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.roundRect(-9, -4, 18, 14, 6);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#ffffff";
-      ctx.beginPath();
-      ctx.ellipse(3, 2, 4, 5, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.strokeStyle = "#ff2a55";
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.arc(4, -3, 6, 0.2 * Math.PI, 0.8 * Math.PI);
-      ctx.stroke();
-
-      ctx.fillStyle = "#ffd166";
-      ctx.beginPath();
-      ctx.arc(4, 2, 2, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#e0a96d";
-      ctx.strokeStyle = "#221526";
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.arc(6, -8, 8, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#b87d4b";
-      ctx.beginPath();
-      ctx.ellipse(3, -10, 3.5, 6, 0.3, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#221526";
-      ctx.beginPath();
-      ctx.arc(7.5, -9, 1.8, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#ffffff";
-      ctx.beginPath();
-      ctx.arc(8.2, -9.5, 0.8, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#ffffff";
-      ctx.beginPath();
-      ctx.arc(11, -6, 3.5, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#221526";
-      ctx.beginPath();
-      ctx.arc(12.5, -7, 1.4, 0, Math.PI * 2);
-      ctx.fill();
-
-      if (p.excited > 0) {
-        drawDetailedHeart(ctx, 4, -22, 6);
-      }
-
-      ctx.restore();
-    }
-
-    // DIBUJAR RIACHUELO Y PUENTE DE MADERA (y = 1640)
-    function drawRiverAndBridge(ctx) {
-      const riverY = 1640;
-      const riverHeight = 85;
-
-      ctx.save();
-
-      const riverGrad = ctx.createLinearGradient(0, riverY, 0, riverY + riverHeight);
-      riverGrad.addColorStop(0, '#2d7d8a');
-      riverGrad.addColorStop(0.5, '#42a5b3');
-      riverGrad.addColorStop(1, '#25636d');
-      ctx.fillStyle = riverGrad;
-      ctx.fillRect(0, riverY, WORLD_WIDTH, riverHeight);
-
-      ctx.fillStyle = "#4a3525";
-      ctx.fillRect(0, riverY - 3, WORLD_WIDTH, 4);
-      ctx.fillRect(0, riverY + riverHeight - 1, WORLD_WIDTH, 4);
-
-      const flow = (Date.now() * 0.002) % 40;
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
-      ctx.lineWidth = 2;
-      for (let x = -40; x < WORLD_WIDTH + 40; x += 60) {
-        ctx.beginPath();
-        const rx = x + flow;
-        ctx.moveTo(rx, riverY + 22);
-        ctx.quadraticCurveTo(rx + 15, riverY + 18, rx + 30, riverY + 22);
-        ctx.stroke();
-
-        ctx.beginPath();
-        const rx2 = x - flow * 0.8;
-        ctx.moveTo(rx2, riverY + 58);
-        ctx.quadraticCurveTo(rx2 + 15, riverY + 54, rx2 + 30, riverY + 58);
-        ctx.stroke();
-      }
-
-      const lilies = [
-        { x: 50, y: riverY + 30 },
-        { x: 370, y: riverY + 45 },
-        { x: 395, y: riverY + 25 }
-      ];
-      lilies.forEach(l => {
-        ctx.fillStyle = "#2e7d32";
-        ctx.beginPath();
-        ctx.ellipse(l.x, l.y, 10, 6, 0.2, 0, Math.PI * 1.8);
-        ctx.fill();
-        ctx.fillStyle = "#ff85a1";
-        ctx.beginPath();
-        ctx.arc(l.x + 2, l.y - 2, 3, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      const bx = PATH_X - (PATH_WIDTH / 2) - 8;
-      const bw = PATH_WIDTH + 16;
-      const by = riverY - 12;
-      const bh = riverHeight + 24;
-
-      ctx.fillStyle = "rgba(10, 20, 25, 0.45)";
-      ctx.fillRect(bx, by, bw, bh);
-
-      for (let py = by; py < by + bh; py += 14) {
-        ctx.fillStyle = ((py % 28) === 0) ? "#b08968" : "#9c6644";
-        ctx.strokeStyle = "#221526";
-        ctx.lineWidth = 2.5;
-        ctx.fillRect(bx, py, bw, 12);
-        ctx.strokeRect(bx, py, bw, 12);
-
-        ctx.fillStyle = "#221526";
-        ctx.fillRect(bx + 4, py + 4, 3, 3);
-        ctx.fillRect(bx + bw - 7, py + 4, 3, 3);
-      }
-
-      ctx.fillStyle = "#7f4f24";
-      ctx.strokeStyle = "#221526";
-      ctx.lineWidth = 3;
-      ctx.fillRect(bx - 3, by, 7, bh);
-      ctx.strokeRect(bx - 3, by, 7, bh);
-      ctx.fillRect(bx + bw - 4, by, 7, bh);
-      ctx.strokeRect(bx + bw - 4, by, 7, bh);
-
-      drawFairyLamp(ctx, { x: bx - 2, y: by + 6, glow: 0.9 });
-      drawFairyLamp(ctx, { x: bx + bw + 2, y: by + 6, glow: 0.9 });
-      drawFairyLamp(ctx, { x: bx - 2, y: by + bh - 6, glow: 0.9 });
-      drawFairyLamp(ctx, { x: bx + bw + 2, y: by + bh - 6, glow: 0.9 });
-
-      ctx.restore();
-    }
-
-    // DIBUJAR RAMO PROGRESIVO
-    function drawBouquet(ctx, count) {
-      if (count <= 0) return;
-      ctx.save();
-      ctx.translate(14, -2);
-
-      if (count >= 3) {
-        ctx.fillStyle = "#ffd166";
-        ctx.beginPath();
-        ctx.ellipse(0, 10, 5, 2.5, 0, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      const offsets = [
-        { x: 0, y: 0, s: 7, color: CONFIG.rosas[0].color },
-        { x: 6, y: -4, s: 6.5, color: CONFIG.rosas[1].color },
-        { x: -6, y: -4, s: 6.5, color: CONFIG.rosas[2].color },
-        { x: 4, y: -10, s: 6, color: CONFIG.rosas[3].color },
-        { x: -4, y: -10, s: 6.5, color: CONFIG.rosas[4].color }
-      ];
-
-      for (let i = 0; i < Math.min(count, 5); i++) {
-        const o = offsets[i];
-        drawDetailedRoseSprite(ctx, o.x, o.y, o.s, o.color);
-      }
-
-      ctx.restore();
-    }
-
-    // DIBUJAR A TITO
-    function drawDetailedTito(ctx, p) {
-      ctx.save();
-      ctx.translate(p.x, p.y);
-
-      if (p.intenseLove) {
-        ctx.rotate(p.spinAngle);
-      }
-
-      ctx.scale(p.facing * p.stretch, p.squash);
-
-      ctx.fillStyle = "rgba(18, 12, 22, 0.28)";
-      ctx.beginPath();
-      ctx.ellipse(0, 23, 16, 7, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      const isMoving = (keys.up || keys.down || keys.left || keys.right);
-      const runAngle = isMoving ? Math.sin(p.runFrame * 0.4) * 8 : 0;
-
-      ctx.fillStyle = "#ffffff";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(-8, 18 + runAngle, 5.5, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(8, 18 - runAngle, 5.5, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#1b1420";
-      ctx.fillRect(-10, 8, 20, 11);
-
-      ctx.fillStyle = "#151515";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3.5;
-      ctx.beginPath();
-      ctx.roundRect(-13, -7, 26, 17, 5);
-      ctx.fill(); ctx.stroke();
-
-      ctx.strokeStyle = "#ffd700";
-      ctx.lineWidth = 2.4;
-      ctx.beginPath();
-      ctx.arc(0, -6, 6.5, 0.1 * Math.PI, 0.9 * Math.PI);
-      ctx.stroke();
-
-      drawBouquet(ctx, collectedCount);
-
-      ctx.fillStyle = "#fcd5b5";
-      ctx.fillRect(-4, -10, 8, 5);
-
-      ctx.fillStyle = "#120c16";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 2.5;
-
-      const backMulletCurls = [
-        { dx: -13, dy: -4, r: 6.5 },
-        { dx: 13, dy: -4, r: 6.5 },
-        { dx: -11, dy: 3, r: 6 },
-        { dx: 11, dy: 3, r: 6 },
-        { dx: -7, dy: 9, r: 5.5 },
-        { dx: 7, dy: 9, r: 5.5 },
-        { dx: -2, dy: 11, r: 5 },
-        { dx: 2, dy: 11, r: 5 }
-      ];
-      backMulletCurls.forEach(c => {
-        ctx.beginPath();
-        ctx.arc(c.dx, -18 + c.dy, c.r, 0, Math.PI * 2);
-        ctx.fill(); ctx.stroke();
-      });
-
-      ctx.fillStyle = "#fcd5b5";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3.5;
-      ctx.beginPath();
-      ctx.arc(0, -18, 14, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "rgba(40, 25, 30, 0.24)";
-      ctx.beginPath();
-      ctx.arc(0, -15, 12, 0.15 * Math.PI, 0.85 * Math.PI);
-      ctx.fill();
-
-      ctx.fillStyle = "rgba(18, 12, 22, 0.45)";
-      ctx.beginPath();
-      ctx.arc(-10, -19, 5, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#120c16";
-      const topMulletCurls = [
-        { dx: -11, dy: -14, r: 7 },
-        { dx: -4, dy: -18, r: 7.5 },
-        { dx: 4, dy: -18, r: 7.5 },
-        { dx: 11, dy: -14, r: 7 },
-        { dx: -6, dy: -11, r: 5.5 },
-        { dx: 0, dy: -12, r: 6 },
-        { dx: 6, dy: -11, r: 5.5 }
-      ];
-      topMulletCurls.forEach(c => {
-        ctx.beginPath();
-        ctx.arc(c.dx, -18 + c.dy, c.r, 0, Math.PI * 2);
-        ctx.fill(); ctx.stroke();
-      });
-
-      const isBlinking = (p.blinkTimer < 8);
-
-      if (p.heartEyesTimer > 0 || p.intenseLove) {
-        const pulse = 1 + Math.sin(Date.now() * 0.02) * 0.25;
-        ctx.fillStyle = "#ff1744";
-        ctx.strokeStyle = "#1b1420";
-        ctx.lineWidth = 2;
-        drawDetailedHeart(ctx, -5, -18, 6.5 * pulse);
-        drawDetailedHeart(ctx, 5, -18, 6.5 * pulse);
-
-        ctx.fillStyle = "#ff1744";
-        ctx.beginPath();
-        ctx.arc(0, -12, 4.5, 0, Math.PI);
-        ctx.fill(); ctx.stroke();
-
-        ctx.fillStyle = "#ff4081";
-        ctx.beginPath();
-        ctx.ellipse(-8, -13, 3.5, 2, 0, 0, Math.PI * 2);
-        ctx.ellipse(8, -13, 3.5, 2, 0, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (isBlinking) {
-        ctx.strokeStyle = "#1b1420";
-        ctx.lineWidth = 2.2;
-        ctx.beginPath();
-        ctx.arc(-4.5, -18, 2.5, 0.2 * Math.PI, 0.8 * Math.PI);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(4.5, -18, 2.5, 0.2 * Math.PI, 0.8 * Math.PI);
-        ctx.stroke();
-
-        ctx.strokeStyle = "#b3543b";
-        ctx.lineWidth = 1.6;
-        ctx.beginPath();
-        ctx.arc(0, -13, 3.5, 0.1 * Math.PI, 0.9 * Math.PI);
-        ctx.stroke();
-      } else {
-        ctx.fillStyle = "#1b1420";
-        ctx.beginPath();
-        ctx.arc(-4.5, -18, 2.4, 0, Math.PI * 2);
-        ctx.arc(4.5, -18, 2.4, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = "#ffffff";
-        ctx.beginPath();
-        ctx.arc(-3.5, -19, 1, 0, Math.PI * 2);
-        ctx.arc(5.5, -19, 1, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.strokeStyle = "#b3543b";
-        ctx.lineWidth = 1.6;
-        ctx.beginPath();
-        ctx.arc(0, -13, 3.5, 0.1 * Math.PI, 0.9 * Math.PI);
-        ctx.stroke();
-
-        ctx.fillStyle = "rgba(255, 64, 129, 0.45)";
-        ctx.beginPath();
-        ctx.arc(-7, -14, 2.5, 0, Math.PI * 2);
-        ctx.arc(7, -14, 2.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.restore();
-    }
-
-    // DIBUJAR A ANDREA
-    function drawDetailedAndrea(ctx, p) {
-      ctx.save();
-      ctx.translate(p.x, p.y + p.kissOffset - p.jumpY);
-
-      ctx.fillStyle = "rgba(18, 12, 22, 0.28)";
-      ctx.beginPath();
-      ctx.ellipse(0, 23 + p.jumpY, 18, 8, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#fcd5b5";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(-7, 18, 5, 0, Math.PI * 2);
-      ctx.arc(7, 18, 5, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#7cb9e8";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3.5;
-      ctx.beginPath();
-      ctx.moveTo(-11, 2);
-      ctx.lineTo(11, 2);
-      ctx.lineTo(15, 14);
-      ctx.lineTo(-15, 14);
-      ctx.closePath();
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#ffffff";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3.5;
-      ctx.beginPath();
-      ctx.roundRect(-10, -8, 20, 11, 4);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#ff4081";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.roundRect(11, -5, 6, 11, 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#120c16";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 2.5;
-
-      const andreaLongCurls = [
-        { dx: -15, dy: -7, r: 7.5 },
-        { dx: 15, dy: -7, r: 7.5 },
-        { dx: -17, dy: 1, r: 8 },
-        { dx: 17, dy: 1, r: 8 },
-        { dx: -16, dy: 9, r: 7.5 },
-        { dx: 16, dy: 9, r: 7.5 },
-        { dx: -13, dy: 17, r: 6.5 },
-        { dx: 13, dy: 17, r: 6.5 },
-        { dx: -10, dy: 23, r: 5.5 },
-        { dx: 10, dy: 23, r: 5.5 }
-      ];
-      andreaLongCurls.forEach(c => {
-        ctx.beginPath();
-        ctx.arc(c.dx, -18 + c.dy, c.r, 0, Math.PI * 2);
-        ctx.fill(); ctx.stroke();
-      });
-
-      ctx.fillStyle = "#fcd5b5";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3.5;
-      ctx.beginPath();
-      ctx.arc(0, -18, 15, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#120c16";
-      ctx.beginPath();
-      ctx.arc(0, -25, 9, Math.PI, 0);
-      ctx.fill(); ctx.stroke();
-
-      ctx.strokeStyle = "#38293d";
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(-5, -29); ctx.lineTo(-3, -22);
-      ctx.moveTo(0, -30);  ctx.lineTo(0, -22);
-      ctx.moveTo(5, -29);  ctx.lineTo(3, -22);
-      ctx.stroke();
-
-      const isBlinking = (p.blinkTimer < 8);
-
-      if (isBlinking) {
-        ctx.strokeStyle = "#1b1420";
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.arc(-5, -18, 2.5, 0.2 * Math.PI, 0.8 * Math.PI);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(5, -18, 2.5, 0.2 * Math.PI, 0.8 * Math.PI);
-        ctx.stroke();
-      } else {
-        ctx.strokeStyle = "#1b1420";
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(-5, -18, 3.2, 0.8 * Math.PI, 0.2 * Math.PI, true);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(5, -18, 3.2, 0.8 * Math.PI, 0.2 * Math.PI, true);
-        ctx.stroke();
-      }
-
-      ctx.beginPath();
-      ctx.arc(0, -12, 4, 0.1 * Math.PI, 0.9 * Math.PI);
-      ctx.stroke();
-
-      ctx.fillStyle = "#ff4081";
-      ctx.beginPath();
-      ctx.ellipse(-9, -13, 4, 2.5, 0, 0, Math.PI * 2);
-      ctx.ellipse(9, -13, 4, 2.5, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      const heartBounce = Math.sin(Date.now() * 0.008) * 5;
-      drawDetailedHeart(ctx, 0, -46 + heartBounce, 8);
-
-      if (p.warningTimer > 0) {
-        const remaining = 5 - collectedCount;
-        ctx.save();
-        ctx.font = "900 13px 'Arial Rounded MT Bold', sans-serif";
-        const msg = `¡Tito! Te faltan ${remaining} ${remaining === 1 ? 'rosita' : 'rositas'} 💐🥺`;
-        const textW = ctx.measureText(msg).width;
-
-        ctx.fillStyle = "#ffffff";
-        ctx.strokeStyle = "#221526";
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.roundRect(-textW / 2 - 12, -78, textW + 24, 26, 12);
-        ctx.fill(); ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(-4, -52);
-        ctx.lineTo(0, -44);
-        ctx.lineTo(4, -52);
-        ctx.fillStyle = "#ffffff";
-        ctx.fill(); ctx.stroke();
-
-        ctx.fillStyle = "#ff1744";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(msg, 0, -65);
-        ctx.restore();
-      }
-
-      ctx.restore();
-    }
-
-    function drawDetailedRoseSprite(ctx, rx, ry, size, color) {
-      ctx.save();
-      ctx.translate(rx, ry);
-
-      ctx.fillStyle = "#2e7d32";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 2;
-      ctx.fillRect(-1.5, size * 0.4, 3, size * 1.3);
-      ctx.strokeRect(-1.5, size * 0.4, 3, size * 1.3);
-
-      ctx.beginPath();
-      ctx.ellipse(size * 0.7, size * 0.8, size * 0.45, size * 0.25, 0.3, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.beginPath();
-      ctx.ellipse(-size * 0.7, size * 1.0, size * 0.45, size * 0.25, -0.3, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = color;
-      ctx.lineWidth = 2.4;
-
-      ctx.beginPath();
-      ctx.arc(0, 0, size, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "rgba(0, 0, 0, 0.14)";
-      ctx.beginPath();
-      ctx.arc(-size * 0.25, -size * 0.1, size * 0.6, 0.2 * Math.PI, 1.4 * Math.PI);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(size * 0.25, size * 0.1, size * 0.6, 1.1 * Math.PI, 0.1 * Math.PI);
-      ctx.stroke();
-
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(0, 0, size * 0.45, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(0, -size * 0.05, size * 0.25, 0.2 * Math.PI, 1.8 * Math.PI);
-      ctx.stroke();
-
-      ctx.restore();
-    }
-
-    function drawDetailedHeart(ctx, hx, hy, size) {
-      ctx.save();
-      ctx.translate(hx, hy);
-      ctx.fillStyle = "#ff1744";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 2.2;
-
-      ctx.beginPath();
-      const d = size;
-      ctx.moveTo(0, 0);
-      ctx.bezierCurveTo(-d / 2, -d / 2, -d, d / 3, 0, d);
-      ctx.bezierCurveTo(d, d / 3, d / 2, -d / 2, 0, 0);
-      ctx.fill();
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    function drawMapRose(ctx, r) {
-      if (r.collected) return;
-
-      const float = Math.sin(Date.now() * 0.006 + r.id) * 5;
-      const rx = r.x;
-      const ry = r.y + float;
-
-      ctx.save();
-      const glowPulse = 18 + Math.sin(Date.now() * 0.008 + r.id) * 4;
-      ctx.fillStyle = "rgba(255, 240, 245, 0.4)";
-      ctx.beginPath();
-      ctx.arc(rx, ry, glowPulse, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#ffe4e8";
-      ctx.strokeStyle = "#1b1420";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.ellipse(rx, r.y + 16, 20, 9, 0, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      const info = CONFIG.rosas[r.id];
-      drawDetailedRoseSprite(ctx, rx, ry, 13.5, info.color);
-
-      ctx.restore();
-    }
-
-    function drawFairyLamp(ctx, lamp) {
-      ctx.save();
-      ctx.translate(lamp.x, lamp.y);
-
-      if (lamp.glow > 0.05) {
-        const rad = 28 + Math.sin(Date.now() * 0.006) * 4;
-        const grad = ctx.createRadialGradient(0, -18, 4, 0, -18, rad);
-        grad.addColorStop(0, `rgba(255, 214, 10, ${lamp.glow * 0.7})`);
-        grad.addColorStop(1, 'rgba(255, 214, 10, 0)');
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(0, -18, rad, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.fillStyle = "#593d28";
-      ctx.strokeStyle = "#221526";
-      ctx.lineWidth = 2.5;
-      ctx.fillRect(-2, -10, 4, 14);
-      ctx.strokeRect(-2, -10, 4, 14);
-
-      ctx.fillStyle = lamp.glow > 0.3 ? "#fff3b0" : "#d4a373";
-      ctx.beginPath();
-      ctx.arc(0, -16, 5.5, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.restore();
-    }
-
-    function drawFloralArch(ctx) {
-      const archY = 1150;
-      const leftX = PATH_X - (PATH_WIDTH / 2) - 14;
-      const rightX = PATH_X + (PATH_WIDTH / 2) + 14;
-
-      ctx.save();
-      ctx.fillStyle = "#4a3525";
-      ctx.strokeStyle = "#221526";
-      ctx.lineWidth = 3;
-      ctx.fillRect(leftX, archY - 60, 10, 75);
-      ctx.strokeRect(leftX, archY - 60, 10, 75);
-      ctx.fillRect(rightX - 10, archY - 60, 10, 75);
-      ctx.strokeRect(rightX - 10, archY - 60, 10, 75);
-
-      ctx.beginPath();
-      ctx.arc(PATH_X, archY - 50, (PATH_WIDTH / 2) + 14, Math.PI, 0, false);
-      ctx.strokeStyle = "#4a3525";
-      ctx.lineWidth = 12;
-      ctx.stroke();
-      ctx.strokeStyle = "#221526";
-      ctx.lineWidth = 3;
-      ctx.stroke();
-
-      for (let a = Math.PI; a <= 2 * Math.PI; a += 0.2) {
-        const ax = PATH_X + Math.cos(a) * ((PATH_WIDTH / 2) + 14);
-        const ay = (archY - 50) + Math.sin(a) * ((PATH_WIDTH / 2) + 14);
-
-        const glow = 0.5 + Math.sin(Date.now() * 0.008 + a * 3) * 0.5;
-        ctx.fillStyle = `rgba(255, 230, 100, ${glow})`;
-        ctx.beginPath();
-        ctx.arc(ax, ay, 4, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = (a > 4.5) ? "#ff70a6" : "#ffd166";
-        ctx.beginPath();
-        ctx.arc(ax, ay - 3, 3, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.restore();
-    }
-
-    function drawButterfly(ctx, b) {
-      ctx.save();
-      ctx.translate(b.x, b.y);
-      const wingScale = Math.sin(Date.now() * 0.015 + b.phase);
-
-      ctx.fillStyle = b.color;
-      ctx.strokeStyle = "#221526";
-      ctx.lineWidth = 1.5;
-
-      ctx.beginPath();
-      ctx.ellipse(-4 * Math.abs(wingScale), -2, 5 * Math.abs(wingScale), 7, -0.2, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.beginPath();
-      ctx.ellipse(4 * Math.abs(wingScale), -2, 5 * Math.abs(wingScale), 7, 0.2, 0, Math.PI * 2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "#221526";
-      ctx.fillRect(-1, -6, 2, 8);
-
-      ctx.restore();
-    }
-
-    function spawnHeartFirework(cx, cy, color) {
-      const count = 38;
-      for (let i = 0; i < count; i++) {
-        const t = (i / count) * Math.PI * 2;
-        const hx = 16 * Math.pow(Math.sin(t), 3);
-        const hy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-        const speed = 0.32 + Math.random() * 0.12;
-
-        fireworkParticles.push({
-          x: cx,
-          y: cy,
-          vx: hx * speed,
-          vy: hy * speed,
-          color: color,
-          alpha: 1,
-          decay: 0.014 + Math.random() * 0.008,
-          size: 3.5 + Math.random() * 2
-        });
-      }
-    }
-
-    /* =========================================================================
-       ACTUALIZACIÓN & FÍSICAS
-       ========================================================================= */
-    const keys = { up: false, down: false, left: false, right: false };
-    let toastTimeout = null;
-
-    function showRoseToast(compliment, color) {
-      const toast = document.getElementById('roseToast');
-      const textEl = document.getElementById('toastText');
-      const iconEl = document.getElementById('toastIcon');
-
-      textEl.innerText = compliment;
-      textEl.style.color = color === "#ffffff" ? "#ff4081" : color;
-      iconEl.innerText = "🌹";
-
-      toast.classList.add('show');
-      if (toastTimeout) clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2600);
-    }
-
-    function update() {
-      tito.blinkTimer--;
-      if (tito.blinkTimer <= 0) tito.blinkTimer = 180 + Math.random() * 80;
-
-      andrea.blinkTimer--;
-      if (andrea.blinkTimer <= 0) andrea.blinkTimer = 190 + Math.random() * 90;
-
-      if (andrea.warningTimer > 0) andrea.warningTimer--;
-      if (puppy.excited > 0) puppy.excited--;
-
-      // Mariposas
-      butterflies.forEach(b => {
-        b.x += Math.sin(Date.now() * 0.002 + b.phase) * 0.8 + b.vx;
-        b.y += Math.cos(Date.now() * 0.002 + b.phase) * 0.5 + b.vy;
-      });
-
-      // Luciérnagas
-      fireflies.forEach(f => {
-        f.x += f.vx + Math.sin(Date.now() * 0.003 + f.phase) * 0.5;
-        f.y += f.vy + Math.cos(Date.now() * 0.003 + f.phase) * 0.4;
-        if (f.x < 10) f.x = WORLD_WIDTH - 10;
-        if (f.x > WORLD_WIDTH - 10) f.x = 10;
-        if (f.y < 50) f.y = 1350;
-        if (f.y > 1400) f.y = 80;
-      });
-
-      // Pétalos de viento
-      windPetals.forEach(p => {
-        p.x += p.speedX + Math.sin(Date.now() * 0.002 + p.rot) * 0.4;
-        p.y += p.speedY;
-        p.rot += p.rotSpeed;
-
-        if (p.y > WORLD_HEIGHT) {
-          p.y = 0;
-          p.x = Math.random() * WORLD_WIDTH;
-        }
-        if (p.x > WORLD_WIDTH) {
-          p.x = 0;
-        }
-      });
-
-      // Parallax foreground
-      foregroundPetals.forEach(fp => {
-        fp.x += fp.speedX;
-        fp.y += fp.speedY;
-        fp.rot += fp.rotSpeed;
-        if (fp.y > 950) {
-          fp.y = -20;
-          fp.x = Math.random() * V_WIDTH;
-        }
-        if (fp.x > V_WIDTH + 20) {
-          fp.x = -20;
-        }
-      });
-
-      // Farolitos
-      fairyLamps.forEach(lamp => {
-        const dist = Math.hypot(tito.x - lamp.x, tito.y - lamp.y);
-        const targetGlow = (dist < 120 || lamp.y < 1300) ? 1 : 0;
-        lamp.glow += (targetGlow - lamp.glow) * 0.1;
-      });
-
-      if (gameState === 'PLAYING') {
-        let dx = 0;
-        let dy = 0;
-
-        if (keys.up) dy -= 1;
-        if (keys.down) dy += 1;
-        if (keys.left) { dx -= 1; tito.facing = -1; }
-        if (keys.right) { dx += 1; tito.facing = 1; }
-
-        if (dx !== 0 && dy !== 0) {
-          dx *= 0.7071;
-          dy *= 0.7071;
-        }
-
-        const isRunning = (dx !== 0 || dy !== 0);
-
-        if (isRunning) {
-          tito.runFrame++;
-          tito.squash = 1 + Math.sin(tito.runFrame * 0.4) * 0.12;
-          tito.stretch = 1 - Math.sin(tito.runFrame * 0.4) * 0.1;
-
-          if (tito.runFrame % 5 === 0) {
-            dustPuffs.push({
-              x: tito.x - (tito.facing * 10),
-              y: tito.y + 16,
-              r: 6 + Math.random() * 4,
-              alpha: 1
-            });
-            playDashSound();
-          }
-
-          if (tito.runFrame % 4 === 0) {
-            footstepSparks.push({
-              x: tito.x + (Math.random() - 0.5) * 12,
-              y: tito.y + 18,
-              r: 2.5 + Math.random() * 2,
-              color: Math.random() > 0.5 ? "#ffd166" : "#ff85a1",
-              alpha: 1
-            });
-          }
-        } else {
-          tito.squash = 1;
-          tito.stretch = 1;
-        }
-
-        tito.x += dx * tito.speed;
-        tito.y += dy * tito.speed;
-
-        tito.x = Math.max(35, Math.min(WORLD_WIDTH - 35, tito.x));
-        tito.y = Math.max(andrea.y + 40, Math.min(WORLD_HEIGHT - 50, tito.y));
-
-        if (tito.heartEyesTimer > 0) tito.heartEyesTimer--;
-
-        // Movimiento del perrito
-        const pTargetX = tito.x - (tito.facing * 30);
-        const pTargetY = tito.y + 12;
-        puppy.x += (pTargetX - puppy.x) * 0.12;
-        puppy.y += (pTargetY - puppy.y) * 0.12;
-        puppy.facing = (tito.x >= puppy.x) ? 1 : -1;
-
-        if (isRunning) {
-          puppy.jumpY = Math.abs(Math.sin(tito.runFrame * 0.4)) * 6;
-        } else {
-          puppy.jumpY = (puppy.excited > 0) ? Math.abs(Math.sin(Date.now() * 0.015)) * 10 : 0;
-        }
-
-        // Cruce del arco floral
-        if (!archCrossed && tito.y < 1160 && tito.y > 1140) {
-          archCrossed = true;
-          playArchSound();
-          puppy.excited = 90;
-          for (let i = 0; i < 30; i++) {
-            sparkConfetti.push({
-              x: PATH_X + (Math.random() - 0.5) * PATH_WIDTH,
-              y: 1140,
-              vx: (Math.random() - 0.5) * 6,
-              vy: -Math.random() * 5 - 2,
-              r: Math.random() * 3.5 + 2,
-              color: ['#ffd166', '#ff85a1', '#06d6a0', '#ffffff'][Math.floor(Math.random() * 4)],
-              alpha: 1
-            });
-          }
-        }
-
-        // Recolección de rosas
-        roses.forEach(r => {
-          if (!r.collected) {
-            const dist = Math.hypot(tito.x - r.x, tito.y - r.y);
-            if (dist < 42) {
-              r.collected = true;
-              collectedCount++;
-              const badge = document.getElementById('counterBadge');
-              document.getElementById('rose-score').innerText = `${collectedCount} / 5`;
-              badge.classList.add('pop');
-              setTimeout(() => badge.classList.remove('pop'), 200);
-
-              playRoseChime();
-              playBarkSound();
-              puppy.excited = 120;
-              if (navigator.vibrate) navigator.vibrate(60);
-
-              tito.heartEyesTimer = 160;
-
-              const roseInfo = CONFIG.rosas[r.id];
-              showRoseToast(roseInfo.compliment, roseInfo.color);
-
-              for (let i = 0; i < 16; i++) {
-                headHearts.push({
-                  x: tito.x + (Math.random() - 0.5) * 20,
-                  y: tito.y - 35,
-                  vx: (Math.random() - 0.5) * 4,
-                  vy: -Math.random() * 3 - 2.5,
-                  size: Math.random() * 6 + 5,
-                  alpha: 1
-                });
-              }
-            }
-          }
-        });
-
-        // Mini-tracker
-        const totalDist = (WORLD_HEIGHT - 120) - (andrea.y + 50);
-        const currentDist = (WORLD_HEIGHT - 120) - tito.y;
-        const progressRatio = Math.max(0, Math.min(1, currentDist / totalDist));
-        document.getElementById('trackerFill').style.height = `${progressRatio * 100}%`;
-        document.getElementById('trackerAvatar').style.bottom = `${progressRatio * 100}%`;
-
-        // Latido háptico
-        const distAndrea = Math.hypot(tito.x - andrea.x, tito.y - andrea.y);
-        const trackerAvatar = document.getElementById('trackerAvatar');
-
-        if (distAndrea < 320 && distAndrea > 75) {
-          heartbeatTick++;
-          trackerAvatar.classList.add('pulsing');
-          if (heartbeatTick % 70 === 0) {
-            if (navigator.vibrate) navigator.vibrate([40, 60, 45]);
-          }
-        } else {
-          trackerAvatar.classList.remove('pulsing');
-        }
-
-        // Encuentro
-        if (distAndrea < 75) {
-          if (collectedCount >= 5) {
-            startKissScene();
-          } else {
-            andrea.warningTimer = 120;
-          }
-        }
-
-        // Cámara
-        const viewportVirtualHeight = canvas.height / currentScale;
-        const targetCamY = tito.y - (viewportVirtualHeight * 0.65);
-        cameraY += (targetCamY - cameraY) * 0.12;
-        cameraY = Math.max(0, Math.min(WORLD_HEIGHT - viewportVirtualHeight, cameraY));
-      }
-
-      // Cinemática del Beso
-      if (gameState === 'KISS_SCENE') {
-        kissTimer++;
-        cameraZoom += (1.28 - cameraZoom) * 0.05;
-
-        tito.x += (andrea.x - tito.x) * 0.1;
-        tito.y += (andrea.y + 22 - tito.y) * 0.1;
-
-        puppy.celebrateAngle += 0.08;
-        puppy.x = tito.x + Math.cos(puppy.celebrateAngle) * 45;
-        puppy.y = tito.y + Math.sin(puppy.celebrateAngle) * 25;
-        puppy.jumpY = Math.abs(Math.sin(Date.now() * 0.015)) * 8;
-        puppy.excited = 99;
-
-        if (kissTimer < 25) {
-          andrea.jumpY = Math.sin((kissTimer / 25) * Math.PI) * 24;
-          andrea.kissOffset = (kissTimer / 25) * 16;
-        } else if (kissTimer === 25) {
-          playKissSound();
-          playVictoryFanfare();
-          playBarkSound();
-          if (navigator.vibrate) navigator.vibrate([100, 50, 200]);
-
-          spawnHeartFirework(tito.x - 45, tito.y - 75, '#ff1744');
-          spawnHeartFirework(tito.x + 45, tito.y - 85, '#ffd166');
-          setTimeout(() => spawnHeartFirework(tito.x, tito.y - 120, '#ff4081'), 450);
-
-          for (let i = 0; i < 90; i++) {
-            kissTornado.push({
-              x: tito.x,
-              y: tito.y - 18,
-              angle: Math.random() * Math.PI * 2,
-              dist: Math.random() * 10,
-              speed: Math.random() * 5 + 3,
-              size: Math.random() * 8 + 6,
-              alpha: 1
-            });
-          }
-        } else if (kissTimer > 25 && kissTimer < 95) {
-          tito.intenseLove = true;
-          tito.spinAngle += 0.22;
-          tito.y -= 0.6;
-        } else if (kissTimer >= 105) {
-          // Iniciar la hermosa escena del vals
-          startDanceScene();
-        }
-      }
-
-      // CINEMÁTICA DEL VALS ROMÁNTICO BAJO LA LUNA
-      if (gameState === 'DANCE_SCENE') {
-        danceTimer++;
-        tito.intenseLove = false;
-
-        const danceCenterY = andrea.y + 12;
-        const waltzAngle = danceTimer * 0.045;
-        const waltzRadius = 24;
-
-        // Tito y Andrea bailando tomados de las manos en círculo suave
-        tito.x = PATH_X + Math.cos(waltzAngle) * waltzRadius;
-        tito.y = danceCenterY + Math.sin(waltzAngle) * 8;
-        tito.facing = (Math.cos(waltzAngle) > 0) ? -1 : 1;
-
-        andrea.x = PATH_X - Math.cos(waltzAngle) * waltzRadius;
-        andrea.y = danceCenterY - Math.sin(waltzAngle) * 8;
-
-        // Balanceo tierno
-        andrea.jumpY = Math.abs(Math.sin(danceTimer * 0.09)) * 6;
-        tito.squash = 1 + Math.sin(danceTimer * 0.09) * 0.08;
-
-        // Perrito sentado contemplándolos feliz
-        puppy.x = PATH_X - 60;
-        puppy.y = andrea.y + 24;
-        puppy.facing = 1;
-        puppy.jumpY = 0;
-        puppy.tailWag += 0.15;
-        puppy.excited = 99;
-
-        // Destellos dorados del vals
-        if (danceTimer % 3 === 0) {
-          waltzSparkles.push({
-            x: PATH_X + (Math.random() - 0.5) * 70,
-            y: danceCenterY + (Math.random() - 0.5) * 40,
-            r: Math.random() * 3.5 + 2,
-            color: ['#ffd166', '#ff85a1', '#ffffff', '#ffd700'][Math.floor(Math.random() * 4)],
-            alpha: 1
-          });
-        }
-
-        if (danceTimer >= 170) {
-          triggerFinalModal();
-        }
-      }
-
-      // Partículas
-      dustPuffs.forEach((d, idx) => {
-        d.r += 0.4;
-        d.alpha -= 0.05;
-        if (d.alpha <= 0) dustPuffs.splice(idx, 1);
-      });
-
-      footstepSparks.forEach((s, idx) => {
-        s.alpha -= 0.035;
-        s.y += 0.2;
-        if (s.alpha <= 0) footstepSparks.splice(idx, 1);
-      });
-
-      headHearts.forEach((h, idx) => {
-        h.x += h.vx;
-        h.y += h.vy;
-        h.vy += 0.06;
-        h.alpha -= 0.02;
-        if (h.alpha <= 0) headHearts.splice(idx, 1);
-      });
-
-      kissTornado.forEach((k, idx) => {
-        k.dist += k.speed;
-        k.angle += 0.1;
-        k.alpha -= 0.015;
-        if (k.alpha <= 0) kissTornado.splice(idx, 1);
-      });
-
-      sparkConfetti.forEach((c, idx) => {
-        c.x += c.vx;
-        c.y += c.vy;
-        c.vy += 0.2;
-        c.alpha -= 0.018;
-        if (c.alpha <= 0) sparkConfetti.splice(idx, 1);
-      });
-
-      fireworkParticles.forEach((p, idx) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.03;
-        p.alpha -= p.decay;
-        if (p.alpha <= 0) fireworkParticles.splice(idx, 1);
-      });
-
-      waltzSparkles.forEach((w, idx) => {
-        w.alpha -= 0.02;
-        w.y -= 0.5;
-        if (w.alpha <= 0) waltzSparkles.splice(idx, 1);
-      });
-    }
-
-    let kissTimer = 0;
-    function startKissScene() {
-      gameState = 'KISS_SCENE';
-      kissTimer = 0;
-      keys.up = false; keys.down = false; keys.left = false; keys.right = false;
-      document.getElementById('controlsWrapper').style.display = 'none';
-      document.getElementById('journeyTracker').style.display = 'none';
-    }
-
-    function startDanceScene() {
-      gameState = 'DANCE_SCENE';
-      danceTimer = 0;
-      startWaltzMusic();
-    }
-
-    function render() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      ctx.save();
-      ctx.scale(currentScale * cameraZoom, currentScale * cameraZoom);
-
-      if (gameState === 'KISS_SCENE' || gameState === 'DANCE_SCENE') {
-        const focusX = (tito.x + andrea.x) / 2;
-        const focusY = (tito.y + andrea.y) / 2;
-        const viewW = canvas.width / (currentScale * cameraZoom);
-        const viewH = canvas.height / (currentScale * cameraZoom);
-        ctx.translate(-(focusX - viewW / 2), -(focusY - viewH / 2));
-      } else {
-        ctx.translate(0, -cameraY);
-      }
-
-      // 1. Fondo Día -> Atardecer -> Noche
-      const bgGrad = ctx.createLinearGradient(0, 0, 0, WORLD_HEIGHT);
-      bgGrad.addColorStop(0, '#0a0514');
-      bgGrad.addColorStop(0.28, '#181232');
-      bgGrad.addColorStop(0.55, '#35435b');
-      bgGrad.addColorStop(0.78, '#5b9e7c');
-      bgGrad.addColorStop(1, '#7ecba1');
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-
-      // Estrellas
-      stars.forEach(s => {
-        const twinkle = 0.5 + Math.sin(Date.now() * s.twinkleSpeed + s.phase) * 0.5;
-        ctx.fillStyle = `rgba(255, 255, 255, ${twinkle * 0.85})`;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // LA GRAN LUNA LLENA MÍSTICA EN LA CIMA
-      drawGiantMoon(ctx);
-
-      // Sendero empedrado
-      ctx.fillStyle = "#ffe4e8";
-      ctx.strokeStyle = "#1b1420";
+    return !this.isMuted;
+  }
+}
+
+const audio = new EmotionalAudioEngine();
+
+/* ==========================================================================
+   SISTEMA DE JUEGO & CANVAS
+   ========================================================================== */
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const container = document.getElementById('game-container');
+
+let W = 480;
+let H = 800;
+let cameraX = 0;
+
+// Estado de Tito
+const tito = {
+  x: 100,
+  y: 0,
+  vx: 0,
+  speed: 3.2,
+  direction: 1,
+  isMoving: false,
+  isSitting: false,
+  stepTimer: 0,
+  width: 44,
+  height: 72
+};
+
+// Estado de Andrea
+const andrea = {
+  x: BENCH_X + 22,
+  y: 0,
+  isSitting: true,
+  smileTimer: 0,
+  headOnShoulder: false
+};
+
+// Partículas y Ambiente
+const petals = [];
+const dustMotes = [];
+for (let i = 0; i < 40; i++) {
+  petals.push({
+    x: Math.random() * WORLD_WIDTH,
+    y: Math.random() * 800,
+    size: 4 + Math.random() * 5,
+    speedY: 0.6 + Math.random() * 0.8,
+    speedX: 0.5 + Math.random() * 0.9,
+    angle: Math.random() * Math.PI * 2,
+    angleSpeed: (Math.random() - 0.5) * 0.04,
+    color: Math.random() > 0.4 ? 'rgba(255, 183, 197, 0.75)' : 'rgba(255, 214, 165, 0.75)'
+  });
+}
+for (let i = 0; i < 25; i++) {
+  dustMotes.push({
+    x: Math.random() * 1100,
+    y: Math.random() * 600,
+    radius: 1 + Math.random() * 2,
+    alpha: 0.2 + Math.random() * 0.5,
+    speedY: -0.2 - Math.random() * 0.3
+  });
+}
+
+// Control Input
+const keys = { left: false, right: false };
+let targetWalkX = null;
+let currentNearbyLetter = null;
+let benchReached = false;
+let magicSunsetTriggered = false;
+
+/* ==========================================================================
+   RESIZE CANVAS
+   ========================================================================== */
+function resizeCanvas() {
+  const rect = container.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  W = rect.width;
+  H = rect.height;
+  canvas.width = Math.floor(W * dpr);
+  canvas.height = Math.floor(H * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const groundY = H - 110;
+  tito.y = groundY;
+  andrea.y = groundY;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+/* ==========================================================================
+   DIBUJO DE ESCENARIOS (PASILLO ESCOLAR -> PATIO & BANCO)
+   ========================================================================== */
+function drawSchoolScene(groundY) {
+  const sunsetGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+  if (!magicSunsetTriggered) {
+    sunsetGrad.addColorStop(0, '#5a3d7a');
+    sunsetGrad.addColorStop(0.5, '#bd6377');
+    sunsetGrad.addColorStop(0.85, '#f4a261');
+    sunsetGrad.addColorStop(1, '#ffd166');
+  } else {
+    sunsetGrad.addColorStop(0, '#3a1c54');
+    sunsetGrad.addColorStop(0.4, '#c74465');
+    sunsetGrad.addColorStop(0.75, '#ff8e43');
+    sunsetGrad.addColorStop(1, '#ffe382');
+  }
+  ctx.fillStyle = sunsetGrad;
+  ctx.fillRect(-cameraX, 0, WORLD_WIDTH + 500, groundY);
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+  for (let cx = 200; cx < WORLD_WIDTH; cx += 500) {
+    ctx.beginPath();
+    ctx.arc(cx - cameraX * 0.2, groundY * 0.28, 45, 0, Math.PI * 2);
+    ctx.arc(cx + 40 - cameraX * 0.2, groundY * 0.25, 60, 0, Math.PI * 2);
+    ctx.arc(cx + 90 - cameraX * 0.2, groundY * 0.28, 45, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  const hallwayEndX = 1050;
+
+  const wallGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+  wallGrad.addColorStop(0, '#ded0b6');
+  wallGrad.addColorStop(0.65, '#f2e8cf');
+  wallGrad.addColorStop(1, '#c8b693');
+  ctx.fillStyle = wallGrad;
+  ctx.fillRect(-cameraX, 0, hallwayEndX, groundY);
+
+  ctx.fillStyle = '#7a4f2b';
+  ctx.fillRect(-cameraX, groundY - 14, hallwayEndX, 14);
+
+  for (let wx = 120; wx < hallwayEndX; wx += 280) {
+    const screenWx = wx - cameraX;
+    if (screenWx > -200 && screenWx < W + 200) {
+      ctx.fillStyle = 'rgba(255, 238, 187, 0.45)';
+      ctx.fillRect(screenWx, groundY * 0.15, 120, groundY * 0.45);
+      ctx.strokeStyle = '#8b6848';
       ctx.lineWidth = 4;
-      ctx.fillRect(PATH_X - (PATH_WIDTH / 2), 0, PATH_WIDTH, WORLD_HEIGHT);
-      ctx.strokeRect(PATH_X - (PATH_WIDTH / 2), 0, PATH_WIDTH, WORLD_HEIGHT);
+      ctx.strokeRect(screenWx, groundY * 0.15, 120, groundY * 0.45);
+      ctx.beginPath();
+      ctx.moveTo(screenWx + 60, groundY * 0.15);
+      ctx.lineTo(screenWx + 60, groundY * 0.60);
+      ctx.moveTo(screenWx, groundY * 0.35);
+      ctx.lineTo(screenWx + 120, groundY * 0.35);
+      ctx.stroke();
 
-      // Adoquines decorativos
-      cobblestones.forEach(c => {
-        ctx.fillStyle = (c.y < 1300) ? "#ded5ea" : "#ffccd5";
+      ctx.fillStyle = 'rgba(255, 235, 170, 0.12)';
+      ctx.beginPath();
+      ctx.moveTo(screenWx, groundY * 0.15);
+      ctx.lineTo(screenWx + 120, groundY * 0.15);
+      ctx.lineTo(screenWx + 220, groundY);
+      ctx.lineTo(screenWx + 20, groundY);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+
+  for (let dx = 260; dx < hallwayEndX; dx += 360) {
+    const screenDx = dx - cameraX;
+    ctx.fillStyle = '#9b6c43';
+    ctx.fillRect(screenDx, groundY * 0.35, 65, groundY * 0.65);
+    ctx.strokeStyle = '#5a3d24';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(screenDx, groundY * 0.35, 65, groundY * 0.65);
+    ctx.fillStyle = '#ffd166';
+    ctx.beginPath();
+    ctx.arc(screenDx + 10, groundY * 0.65, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 11px Nunito';
+    ctx.fillText('AULA ' + Math.floor((dx / 200) + 1), screenDx + 10, groundY * 0.42);
+  }
+
+  const boardX = 520 - cameraX;
+  if (boardX > -150 && boardX < W + 150) {
+    ctx.fillStyle = '#2c402e';
+    ctx.fillRect(boardX, groundY * 0.28, 140, 80);
+    ctx.strokeStyle = '#8b5a2b';
+    ctx.lineWidth = 5;
+    ctx.strokeRect(boardX, groundY * 0.28, 140, 80);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+    ctx.font = 'bold 18px "Caveat", cursive';
+    ctx.fillText('Tito + Andrea', boardX + 22, groundY * 0.28 + 36);
+    ctx.fillStyle = '#ff6b8b';
+    ctx.font = '22px Arial';
+    ctx.fillText('❤️', boardX + 55, groundY * 0.28 + 65);
+  }
+
+  const archX = hallwayEndX - cameraX;
+  ctx.fillStyle = '#5a3d24';
+  ctx.fillRect(archX - 10, 0, 20, groundY);
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.fillRect(archX - 60, groundY * 0.2, 85, 22);
+  ctx.fillStyle = '#382414';
+  ctx.font = 'bold 10px Nunito';
+  ctx.fillText('🌿 PATIO ESCUELA', archX - 55, groundY * 0.2 + 15);
+
+  for (let tx = 1150; tx < WORLD_WIDTH; tx += 180) {
+    const screenTx = tx - cameraX;
+    if (screenTx > -100 && screenTx < W + 100) {
+      ctx.fillStyle = 'rgba(46, 74, 53, 0.45)';
+      ctx.beginPath();
+      ctx.arc(screenTx, groundY - 40, 60, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  ctx.strokeStyle = 'rgba(60, 40, 20, 0.6)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  for (let lx = 1100; lx <= WORLD_WIDTH; lx += 120) {
+    const sx = lx - cameraX;
+    const sy = groundY * 0.35 + Math.sin(lx * 0.05) * 8;
+    if (lx === 1100) ctx.moveTo(sx, sy);
+    else ctx.lineTo(sx, sy);
+  }
+  ctx.stroke();
+
+  for (let lx = 1120; lx <= WORLD_WIDTH; lx += 60) {
+    const sx = lx - cameraX;
+    const sy = groundY * 0.35 + Math.sin(lx * 0.05) * 8 + 3;
+    if (sx > -20 && sx < W + 20) {
+      ctx.fillStyle = magicSunsetTriggered ? '#ffd166' : 'rgba(255, 230, 160, 0.85)';
+      ctx.beginPath();
+      ctx.arc(sx, sy, magicSunsetTriggered ? 5 : 3.5, 0, Math.PI * 2);
+      ctx.fill();
+      if (magicSunsetTriggered) {
+        ctx.fillStyle = 'rgba(255, 215, 100, 0.25)';
         ctx.beginPath();
-        ctx.roundRect(PATH_X - 35 + c.offset, c.y, 70, 24, 12);
-        ctx.fill(); ctx.stroke();
-      });
-
-      // Senderos pequeños a las rosas
-      roses.forEach(r => {
-        ctx.fillStyle = (r.y < 1300) ? "#ded5ea" : "#ffe4e8";
-        ctx.lineWidth = 3.5;
-        if (r.side === 'left') {
-          ctx.fillRect(r.x, r.y + 4, (PATH_X - (PATH_WIDTH / 2)) - r.x + 8, 16);
-          ctx.strokeRect(r.x, r.y + 4, (PATH_X - (PATH_WIDTH / 2)) - r.x + 8, 16);
-        } else {
-          ctx.fillRect(PATH_X + (PATH_WIDTH / 2) - 8, r.y + 4, r.x - (PATH_X + (PATH_WIDTH / 2)) + 8, 16);
-          ctx.strokeRect(PATH_X + (PATH_WIDTH / 2) - 8, r.y + 4, r.x - (PATH_X + (PATH_WIDTH / 2)) + 8, 16);
-        }
-      });
-
-      // Faroles a los costados
-      fairyLamps.forEach(lamp => drawFairyLamp(ctx, lamp));
-
-      // Riachuelo y Puente de Madera (y = 1640)
-      drawRiverAndBridge(ctx);
-
-      // Arco floral iluminado (y = 1150)
-      drawFloralArch(ctx);
-
-      // Flores decorativas
-      scenery.forEach(s => {
-        ctx.fillStyle = s.color;
-        ctx.strokeStyle = "#1b1420";
-        ctx.lineWidth = 3.5;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fill(); ctx.stroke();
-        ctx.fillStyle = "#ffd600";
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r * 0.35, 0, Math.PI * 2);
-        ctx.fill(); ctx.stroke();
-      });
-
-      // ÁRBOL DE CEREZO (SAKURA) CON FAROLITOS EN EL MIRADOR
-      drawSakuraTree(ctx);
-
-      // Luciérnagas
-      fireflies.forEach(f => {
-        const pulse = 0.5 + Math.sin(Date.now() * 0.006 + f.phase) * 0.5;
-        const rad = f.r * (1 + pulse);
-        const grad = ctx.createRadialGradient(f.x, f.y, 1, f.x, f.y, rad * 3);
-        grad.addColorStop(0, `rgba(230, 255, 100, ${pulse * 0.9})`);
-        grad.addColorStop(1, 'rgba(230, 255, 100, 0)');
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, rad * 3, 0, Math.PI * 2);
+        ctx.arc(sx, sy, 12, 0, Math.PI * 2);
         ctx.fill();
-
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, f.r * 0.6, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // Mariposas
-      butterflies.forEach(b => drawButterfly(ctx, b));
-
-      // Pétalos de viento
-      windPetals.forEach(p => {
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rot);
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, p.size, p.size * 0.5, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
-
-      // Polvo al correr
-      dustPuffs.forEach(d => {
-        ctx.save();
-        ctx.globalAlpha = d.alpha;
-        ctx.fillStyle = "#ffffff";
-        ctx.strokeStyle = "#1b1420";
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx.fill(); ctx.stroke();
-        ctx.restore();
-      });
-
-      // Estrellitas bajo los pies
-      footstepSparks.forEach(s => {
-        ctx.save();
-        ctx.globalAlpha = s.alpha;
-        ctx.fillStyle = s.color;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
-
-      // Rosas en el mapa
-      roses.forEach(r => drawMapRose(ctx, r));
-
-      // Perrito fiel
-      drawDetailedPuppy(ctx, puppy);
-
-      // Andrea detallada
-      drawDetailedAndrea(ctx, andrea);
-
-      // Tito detallado
-      drawDetailedTito(ctx, tito);
-
-      // Corazones sobre la cabeza
-      headHearts.forEach(h => {
-        ctx.save();
-        ctx.globalAlpha = h.alpha;
-        drawDetailedHeart(ctx, h.x, h.y, h.size);
-        ctx.restore();
-      });
-
-      // Beso cómic animado
-      if (gameState === 'KISS_SCENE' && kissTimer >= 25 && kissTimer < 95) {
-        ctx.save();
-        const bounceScale = 1 + Math.sin((kissTimer - 25) * 0.15) * 0.12;
-        ctx.translate(tito.x, tito.y - 68);
-        ctx.scale(bounceScale, bounceScale);
-        ctx.font = "900 25px 'Arial Rounded MT Bold', sans-serif";
-        ctx.fillStyle = "#ff1744";
-        ctx.strokeStyle = "#1b1420";
-        ctx.lineWidth = 5.5;
-        ctx.textAlign = "center";
-        ctx.strokeText("💋 ¡MUACK! 💖", 0, 0);
-        ctx.fillText("💋 ¡MUACK! 💖", 0, 0);
-        ctx.restore();
       }
+    }
+  }
 
-      // TÍTULO DEL VALS ROMÁNTICO
-      if (gameState === 'DANCE_SCENE') {
-        ctx.save();
-        ctx.font = "900 22px 'Arial Rounded MT Bold', sans-serif";
-        ctx.fillStyle = "#ffd166";
-        ctx.strokeStyle = "#221526";
-        ctx.lineWidth = 5;
-        ctx.textAlign = "center";
-        ctx.strokeText("✨ Nuestro Vals Bajo la Luna ✨", PATH_X, andrea.y - 65);
-        ctx.fillText("✨ Nuestro Vals Bajo la Luna ✨", PATH_X, andrea.y - 65);
-        ctx.restore();
-      }
+  ctx.fillStyle = '#4a2f1b';
+  ctx.fillRect(-cameraX, groundY, hallwayEndX, H - groundY);
+  ctx.strokeStyle = '#382314';
+  ctx.lineWidth = 1;
+  for (let bx = 0; bx < hallwayEndX; bx += 35) {
+    const sbx = bx - cameraX;
+    ctx.beginPath();
+    ctx.moveTo(sbx, groundY);
+    ctx.lineTo(sbx, H);
+    ctx.stroke();
+  }
 
-      // Destellos del vals
-      waltzSparkles.forEach(w => {
-        ctx.save();
-        ctx.globalAlpha = w.alpha;
-        ctx.fillStyle = w.color;
-        ctx.shadowColor = w.color;
-        ctx.shadowBlur = 8;
-        ctx.beginPath();
-        ctx.arc(w.x, w.y, w.r, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
+  const grassGrad = ctx.createLinearGradient(0, groundY, 0, H);
+  grassGrad.addColorStop(0, '#588157');
+  grassGrad.addColorStop(0.3, '#3a5a40');
+  grassGrad.addColorStop(1, '#243b28');
+  ctx.fillStyle = grassGrad;
+  ctx.fillRect(hallwayEndX - cameraX, groundY, WORLD_WIDTH - hallwayEndX + 400, H - groundY);
 
-      // Fuegos artificiales de corazones
-      fireworkParticles.forEach(p => {
-        ctx.save();
-        ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = p.color;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = 8;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
+  for (let px = 1120; px < BENCH_X + 150; px += 55) {
+    const spx = px - cameraX;
+    if (spx > -50 && spx < W + 50) {
+      ctx.fillStyle = '#c7b198';
+      ctx.beginPath();
+      ctx.ellipse(spx, groundY + 12 + Math.sin(px) * 6, 22, 9, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#9d846b';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
 
-      // Confeti de chispitas
-      sparkConfetti.forEach(c => {
-        ctx.save();
-        ctx.globalAlpha = c.alpha;
-        ctx.fillStyle = c.color;
-        ctx.strokeStyle = "#221526";
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-        ctx.fill(); ctx.stroke();
-        ctx.restore();
-      });
+  for (let fx = 1150; fx < WORLD_WIDTH; fx += 75) {
+    const sfx = fx - cameraX;
+    if (sfx > -20 && sfx < W + 20) {
+      ctx.fillStyle = (fx % 2 === 0) ? '#ffb4a2' : '#e76f51';
+      ctx.beginPath();
+      ctx.arc(sfx, groundY - 4, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#2d6a4f';
+      ctx.fillRect(sfx - 1, groundY - 3, 2, 6);
+    }
+  }
 
-      // Tornado de corazones
-      kissTornado.forEach(k => {
-        ctx.save();
-        ctx.globalAlpha = k.alpha;
-        const kx = tito.x + Math.cos(k.angle) * k.dist;
-        const ky = tito.y - 15 + Math.sin(k.angle) * k.dist;
-        drawDetailedHeart(ctx, kx, ky, k.size);
-        ctx.restore();
-      });
+  const treeX = BENCH_X - 10 - cameraX;
+  if (treeX > -300 && treeX < W + 300) {
+    ctx.fillStyle = '#4a2f1b';
+    ctx.beginPath();
+    ctx.moveTo(treeX - 25, groundY);
+    ctx.quadraticCurveTo(treeX - 20, groundY - 140, treeX - 35, groundY - 260);
+    ctx.lineTo(treeX + 35, groundY - 260);
+    ctx.quadraticCurveTo(treeX + 20, groundY - 140, treeX + 35, groundY);
+    ctx.closePath();
+    ctx.fill();
 
-      ctx.restore();
+    ctx.strokeStyle = '#331f11';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(treeX - 5, groundY - 40);
+    ctx.lineTo(treeX - 2, groundY - 180);
+    ctx.moveTo(treeX + 12, groundY - 20);
+    ctx.lineTo(treeX + 8, groundY - 140);
+    ctx.stroke();
 
-      // 2. CAPA DE PROFUNDIDAD CINEMÁTICA (Foreground Parallax 3D)
+    const crownY = groundY - 240;
+    const leafColors = ['#e07a5f', '#f4a261', '#e76f51', '#f2cc8f', '#ffb703'];
+    leafColors.forEach((col, idx) => {
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      const ox = (idx - 2) * 45 + Math.sin(Date.now() * 0.0015 + idx) * 4;
+      const oy = crownY + Math.cos(idx * 1.5) * 20;
+      ctx.arc(treeX + ox, oy, 75 - idx * 4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  const benchScreenX = BENCH_X - cameraX;
+  if (benchScreenX > -150 && benchScreenX < W + 150) {
+    ctx.strokeStyle = '#1e2923';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(benchScreenX - 45, groundY);
+    ctx.lineTo(benchScreenX - 40, groundY - 32);
+    ctx.lineTo(benchScreenX - 45, groundY - 58);
+    ctx.moveTo(benchScreenX + 45, groundY);
+    ctx.lineTo(benchScreenX + 40, groundY - 32);
+    ctx.lineTo(benchScreenX + 45, groundY - 58);
+    ctx.stroke();
+
+    ctx.fillStyle = '#8b5a2b';
+    ctx.strokeStyle = '#5a3816';
+    ctx.lineWidth = 2;
+    ctx.fillRect(benchScreenX - 55, groundY - 58, 110, 10);
+    ctx.strokeRect(benchScreenX - 55, groundY - 58, 110, 10);
+    ctx.fillRect(benchScreenX - 55, groundY - 44, 110, 10);
+    ctx.strokeRect(benchScreenX - 55, groundY - 44, 110, 10);
+
+    ctx.fillStyle = '#a06a38';
+    ctx.fillRect(benchScreenX - 58, groundY - 32, 116, 11);
+    ctx.strokeRect(benchScreenX - 58, groundY - 32, 116, 11);
+
+    ctx.fillStyle = '#47290f';
+    ctx.font = 'bold 9px "Caveat", cursive';
+    ctx.fillText('T + A', benchScreenX - 12, groundY - 47);
+  }
+}
+
+/* ==========================================================================
+   DIBUJO DE PERSONAJES
+   ========================================================================== */
+
+function drawTito(groundY) {
+  const sx = tito.x - cameraX;
+  const isWalking = tito.isMoving;
+  const bob = isWalking ? Math.sin(tito.stepTimer * 10) * 2.5 : 0;
+  const legSwing = isWalking ? Math.sin(tito.stepTimer * 10) * 12 : 0;
+
+  ctx.save();
+  ctx.translate(sx, groundY + bob);
+
+  if (tito.isSitting) {
+    ctx.fillStyle = '#263238';
+    ctx.fillRect(-18, -28, 26, 14);
+    ctx.fillRect(-6, -16, 12, 16);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-6, -2, 16, 5);
+
+    ctx.fillStyle = '#37474f';
+    ctx.fillRect(-16, -56, 26, 30);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-8, -56, 12, 6);
+
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.arc(-2, -51, 6, 0.2, Math.PI - 0.2);
+    ctx.stroke();
+
+    ctx.fillStyle = '#37474f';
+    ctx.fillRect(4, -54, 18, 10);
+    ctx.fillStyle = '#f5cba7';
+    ctx.beginPath();
+    ctx.arc(22, -49, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#f5cba7';
+    ctx.beginPath();
+    ctx.arc(-2, -66, 12, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = 'rgba(74, 50, 36, 0.35)';
+    ctx.beginPath();
+    ctx.arc(-2, -64, 11, 0.1, Math.PI * 0.9);
+    ctx.fill();
+
+    ctx.fillStyle = '#2b1b17';
+    ctx.beginPath();
+    ctx.arc(1, -67, 1.8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#c0392b';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.arc(1, -63, 3, 0.2, Math.PI * 0.8);
+    ctx.stroke();
+
+    ctx.fillStyle = '#2c1810';
+    ctx.beginPath();
+    ctx.arc(-3, -71, 12, Math.PI, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(-13, -70);
+    ctx.quadraticCurveTo(-18, -58, -14, -46);
+    ctx.lineTo(-7, -48);
+    ctx.quadraticCurveTo(-10, -58, -4, -68);
+    ctx.closePath();
+    ctx.fill();
+
+  } else {
+    if (tito.direction === -1) {
+      ctx.scale(-1, 1);
+    }
+
+    ctx.fillStyle = '#263238';
+    ctx.fillRect(-10, -30, 8, 30);
+    ctx.fillRect(2 + (legSwing * 0.2), -30, 8, 30);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-11, -3, 11, 5);
+    ctx.fillRect(1 + (legSwing * 0.2), -3, 11, 5);
+
+    ctx.fillStyle = '#37474f';
+    ctx.fillRect(-12, -58, 24, 30);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-6, -58, 12, 6);
+
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.arc(0, -53, 5, 0.2, Math.PI - 0.2);
+    ctx.stroke();
+
+    ctx.fillStyle = '#37474f';
+    ctx.fillRect(4 - (legSwing * 0.2), -56, 7, 24);
+    ctx.fillStyle = '#f5cba7';
+    ctx.beginPath();
+    ctx.arc(7 - (legSwing * 0.2), -32, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#f5cba7';
+    ctx.beginPath();
+    ctx.arc(0, -68, 12, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = 'rgba(74, 50, 36, 0.35)';
+    ctx.beginPath();
+    ctx.arc(0, -66, 11, 0.1, Math.PI * 0.9);
+    ctx.fill();
+
+    ctx.fillStyle = '#2b1b17';
+    ctx.beginPath();
+    ctx.arc(4, -69, 1.8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#c0392b';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.arc(4, -65, 3, 0.2, Math.PI * 0.8);
+    ctx.stroke();
+
+    ctx.fillStyle = '#2c1810';
+    ctx.beginPath();
+    ctx.arc(-1, -73, 12, Math.PI, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(-11, -72);
+    ctx.quadraticCurveTo(-17, -60, -13, -48);
+    ctx.lineTo(-6, -50);
+    ctx.quadraticCurveTo(-9, -60, -3, -70);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+function drawAndrea(groundY) {
+  const sx = andrea.x - cameraX;
+  const breath = Math.sin(Date.now() * 0.003) * 1.2;
+
+  ctx.save();
+  ctx.translate(sx, groundY + breath);
+
+  ctx.fillStyle = '#f5cba7';
+  ctx.fillRect(-14, -26, 24, 12);
+  ctx.fillRect(-4, -16, 10, 16);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(-4, -2, 12, 4);
+
+  ctx.fillStyle = '#2e5b88';
+  ctx.fillRect(-16, -34, 26, 12);
+
+  ctx.fillStyle = '#ff758f';
+  ctx.fillRect(-12, -54, 22, 18);
+  ctx.fillStyle = '#f5cba7';
+  ctx.fillRect(-10, -36, 18, 4);
+
+  ctx.fillStyle = '#f5cba7';
+  ctx.beginPath();
+  ctx.arc(-2, -32, 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#ff4d6d';
+  ctx.fillRect(4, -36, 9, 14);
+  ctx.fillStyle = '#c9184a';
+  ctx.fillRect(3, -37, 11, 3);
+  ctx.fillStyle = '#ffd166';
+  ctx.fillRect(8, -41, 2, 4);
+
+  const tilt = andrea.headOnShoulder ? -0.22 : 0;
+  ctx.rotate(tilt);
+
+  ctx.fillStyle = '#f5cba7';
+  ctx.beginPath();
+  ctx.arc(-2, -64, 11, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#3a2012';
+  ctx.beginPath();
+  ctx.arc(2, -65, 1.8, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#3a2012';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(3, -67);
+  ctx.lineTo(5, -69);
+  ctx.stroke();
+
+  ctx.strokeStyle = '#e63946';
+  ctx.lineWidth = 1.3;
+  ctx.beginPath();
+  ctx.arc(2, -61, 3.2, 0.1, Math.PI * 0.9);
+  ctx.stroke();
+
+  ctx.fillStyle = 'rgba(255, 117, 143, 0.45)';
+  ctx.beginPath();
+  ctx.arc(-1, -61, 3, 0, Math.PI * 2);
+  ctx.arc(5, -61, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#3d2314';
+  for (let b = -10; b <= 4; b += 4) {
+    ctx.beginPath();
+    ctx.arc(b, -74, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  const curls = [
+    { x: -14, y: -68, r: 6 },
+    { x: -16, y: -60, r: 7 },
+    { x: -14, y: -50, r: 7.5 },
+    { x: -10, y: -42, r: 6.5 },
+    { x: 8, y: -66, r: 6 },
+    { x: 10, y: -58, r: 7 },
+    { x: 8, y: -48, r: 6.5 }
+  ];
+  curls.forEach(c => {
+    ctx.beginPath();
+    ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.arc(c.x - 1, c.y - 1, c.r - 2, -0.5, 1.2);
+    ctx.stroke();
+  });
+
+  ctx.restore();
+}
+
+/* ==========================================================================
+   DIBUJO DE CARTITAS EN EL CAMINO
+   ========================================================================== */
+function drawLetters(groundY) {
+  const time = Date.now() * 0.003;
+
+  LETTERS_DATA.forEach(letter => {
+    const sx = letter.x - cameraX;
+    if (sx < -40 || sx > W + 40) return;
+
+    const floatY = groundY - 24 + Math.sin(time + letter.id) * 5;
+
+    const glowGrad = ctx.createRadialGradient(sx, floatY, 4, sx, floatY, 26);
+    glowGrad.addColorStop(0, letter.read ? 'rgba(255, 209, 102, 0.6)' : 'rgba(255, 107, 107, 0.7)');
+    glowGrad.addColorStop(1, 'rgba(255, 209, 102, 0)');
+    ctx.fillStyle = glowGrad;
+    ctx.beginPath();
+    ctx.arc(sx, floatY, 26, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#fffdfa';
+    ctx.strokeStyle = '#b38b59';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(sx - 12, floatY - 9, 24, 18);
+    ctx.strokeRect(sx - 12, floatY - 9, 24, 18);
+
+    ctx.beginPath();
+    ctx.moveTo(sx - 12, floatY - 9);
+    ctx.lineTo(sx, floatY + 1);
+    ctx.lineTo(sx + 12, floatY - 9);
+    ctx.stroke();
+
+    ctx.fillStyle = letter.read ? '#2ec4b6' : '#e63946';
+    ctx.font = '10px Arial';
+    ctx.fillText('❤️', sx - 5, floatY + 5);
+
+    for (let s = 0; s < 3; s++) {
+      const sa = time * 2 + s * 2.1;
+      const sdist = 16 + Math.sin(time * 3 + s) * 4;
+      ctx.fillStyle = '#ffd166';
+      ctx.beginPath();
+      ctx.arc(sx + Math.cos(sa) * sdist, floatY + Math.sin(sa) * sdist, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  });
+}
+
+/* ==========================================================================
+   PARTÍCULAS DE PÉTALOS Y VIENTO
+   ========================================================================== */
+function updateAndDrawParticles(groundY) {
+  petals.forEach(p => {
+    p.y += p.speedY;
+    p.x += p.speedX;
+    p.angle += p.angleSpeed;
+
+    if (p.y > groundY + 80) {
+      p.y = -20;
+      p.x = cameraX - 100 + Math.random() * (W + 200);
+    }
+    if (p.x > WORLD_WIDTH) {
+      p.x = 0;
+    }
+
+    const screenX = p.x - cameraX;
+    if (screenX > -30 && screenX < W + 30) {
       ctx.save();
-      foregroundPetals.forEach(fp => {
-        ctx.globalAlpha = fp.alpha;
-        ctx.fillStyle = "#ff85a1";
-        ctx.save();
-        ctx.translate(fp.x, fp.y);
-        ctx.rotate(fp.rot);
-        ctx.beginPath();
-        ctx.ellipse(0, 0, fp.size, fp.size * 0.55, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
+      ctx.translate(screenX, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.size, p.size * 0.5, 0, 0, Math.PI * 2);
+      ctx.fill();
       ctx.restore();
     }
+  });
 
-    function gameLoop() {
-      update();
-      render();
-      requestAnimationFrame(gameLoop);
-    }
+  if (cameraX < 1100) {
+    ctx.fillStyle = 'rgba(255, 235, 170, 0.45)';
+    dustMotes.forEach(d => {
+      d.y += d.speedY;
+      if (d.y < 50) d.y = groundY - 20;
+      const screenX = d.x - cameraX;
+      if (screenX > 0 && screenX < W) {
+        ctx.beginPath();
+        ctx.arc(screenX, d.y, d.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+  }
+}
 
-    /* =========================================================================
-       SELLO DE LACRE, DESEOS & ÁLBUM
-       ========================================================================= */
-    let currentPolaroidIndex = 0;
+/* ==========================================================================
+   BUCLE PRINCIPAL DE ANIMACIÓN & FÍSICAS SUAVES
+   ========================================================================== */
+let lastFrameTime = performance.now();
 
-    function renderWishesGrid() {
-      const grid = document.getElementById('wishesGrid');
-      grid.innerHTML = '';
+function gameLoop(now) {
+  const dt = Math.min((now - lastFrameTime) / 1000, 0.1);
+  lastFrameTime = now;
 
-      CONFIG.deseosLista.forEach(item => {
-        const isSelected = selectedWishes.includes(item.id);
-        const card = document.createElement('div');
-        card.className = `wish-card ${isSelected ? 'selected' : ''}`;
-        card.onclick = () => toggleWish(item.id);
-        card.innerHTML = `
-          <div class="wish-emoji">${item.emoji}</div>
-          <div class="wish-text">${item.text}</div>
-        `;
-        grid.appendChild(card);
-      });
+  const groundY = H - 110;
 
-      document.getElementById('wishesCounter').innerText = `Elegidos: ${selectedWishes.length} / 3`;
-      const btnCont = document.getElementById('btnContinueWishes');
-      btnCont.style.display = (selectedWishes.length === 3) ? 'flex' : 'none';
-    }
+  if (!tito.isSitting) {
+    let moveDir = 0;
 
-    function toggleWish(id) {
-      playDashSound();
-      if (selectedWishes.includes(id)) {
-        selectedWishes = selectedWishes.filter(w => w !== id);
+    if (keys.left) moveDir = -1;
+    else if (keys.right) moveDir = 1;
+    else if (targetWalkX !== null) {
+      const diff = targetWalkX - tito.x;
+      if (Math.abs(diff) > 6) {
+        moveDir = Math.sign(diff);
       } else {
-        if (selectedWishes.length < 3) {
-          selectedWishes.push(id);
-        } else {
-          selectedWishes.shift();
-          selectedWishes.push(id);
-        }
-      }
-      renderWishesGrid();
-      if (navigator.vibrate) navigator.vibrate(30);
-    }
-
-    function finishWishes() {
-      playKissSound();
-      document.getElementById('wishesBlock').style.display = 'none';
-      document.getElementById('celebrationBox').style.display = 'flex';
-      renderPolaroid(0);
-    }
-
-    function renderPolaroid(index) {
-      const p = CONFIG.polaroidMemories[index];
-      document.getElementById('polaroidArt').innerText = p.art;
-      document.getElementById('polaroidTitle').innerText = p.title;
-      document.getElementById('polaroidMsg').innerText = `"${p.msg}"`;
-      document.getElementById('polaroidPin').innerText = p.pin;
-
-      const dots = document.querySelectorAll('.album-dot');
-      dots.forEach((dot, idx) => {
-        dot.classList.toggle('active', idx === index);
-      });
-    }
-
-    function nextPolaroid() {
-      currentPolaroidIndex = (currentPolaroidIndex + 1) % CONFIG.polaroidMemories.length;
-      renderPolaroid(currentPolaroidIndex);
-      playDashSound();
-    }
-
-    function prevPolaroid() {
-      currentPolaroidIndex = (currentPolaroidIndex - 1 + CONFIG.polaroidMemories.length) % CONFIG.polaroidMemories.length;
-      renderPolaroid(currentPolaroidIndex);
-      playDashSound();
-    }
-
-    function goPolaroid(index) {
-      currentPolaroidIndex = index;
-      renderPolaroid(currentPolaroidIndex);
-      playDashSound();
-    }
-
-    function startGame() {
-      initAudio();
-      startMusic();
-      document.getElementById('startScreen').style.display = 'none';
-      document.getElementById('journeyTracker').style.display = 'flex';
-      gameState = 'PLAYING';
-      gameLoop();
-    }
-
-    function triggerFinalModal() {
-      gameState = 'FINAL';
-      if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 250]);
-      document.getElementById('modal-final').classList.add('active');
-    }
-
-    let noCount = 0;
-    function dodgeNo(e) {
-      if (e) e.preventDefault();
-      noCount++;
-      playDodgeSound();
-
-      const btnNo = document.getElementById('btn-no');
-      const btnYes = document.getElementById('btn-yes');
-      const area = document.getElementById('proposalArea');
-
-      btnNo.innerText = CONFIG.frasesNo[noCount % CONFIG.frasesNo.length];
-
-      const maxX = area.clientWidth - 130;
-      const maxY = area.clientHeight - 45;
-      const randX = Math.max(5, Math.floor(Math.random() * maxX));
-      const randY = Math.max(5, Math.floor(Math.random() * maxY));
-
-      btnNo.style.position = 'absolute';
-      btnNo.style.left = `${randX}px`;
-      btnNo.style.top = `${randY}px`;
-
-      btnYes.style.transform = `scale(${Math.min(1 + (noCount * 0.09), 1.4)})`;
-      btnYes.classList.add('super-glow');
-
-      if (navigator.vibrate) navigator.vibrate(35);
-    }
-
-    function celebrateYes() {
-      playKissSound();
-      playVictoryFanfare();
-      if (navigator.vibrate) navigator.vibrate([150, 50, 150, 50, 300]);
-
-      // Mostrar sobre con sello de lacre
-      document.getElementById('proposalQuestionBlock').style.display = 'none';
-      document.getElementById('envelopeBlock').style.display = 'flex';
-    }
-
-    // ROMPER EL SELLO DE LACRE DE CERA INTERACTIVO
-    function breakWaxSeal() {
-      playWaxSealSound();
-      if (navigator.vibrate) navigator.vibrate([80, 40, 120]);
-
-      const seal = document.getElementById('waxSeal');
-      seal.style.transform = 'scale(1.4) rotate(20deg)';
-      seal.style.opacity = '0';
-      seal.style.transition = 'all 0.35s ease';
-
-      setTimeout(() => {
-        document.getElementById('envelopeBlock').style.display = 'none';
-        document.getElementById('wishesBlock').style.display = 'flex';
-        renderWishesGrid();
-      }, 400);
-    }
-
-    // DESCARGAR POSTAL DE RECUERDO CON LUNA, SAKURA, TITO, ANDREA, EL PERRITO Y DESEOS
-    function downloadMemoryCard() {
-      const offCanvas = document.createElement('canvas');
-      offCanvas.width = 720;
-      offCanvas.height = 980;
-      const octx = offCanvas.getContext('2d');
-
-      const grad = octx.createLinearGradient(0, 0, 0, 980);
-      grad.addColorStop(0, '#ffe5ec');
-      grad.addColorStop(1, '#ffb3c6');
-      octx.fillStyle = grad;
-      octx.fillRect(0, 0, 720, 980);
-
-      // Marco Polaroid
-      octx.fillStyle = '#ffffff';
-      octx.shadowColor = 'rgba(0,0,0,0.18)';
-      octx.shadowBlur = 24;
-      octx.shadowOffsetY = 12;
-      octx.beginPath();
-      octx.roundRect(50, 50, 620, 880, 26);
-      octx.fill();
-      octx.shadowColor = 'transparent';
-
-      // Ilustración nocturna
-      octx.fillStyle = '#140c26';
-      octx.beginPath();
-      octx.roundRect(80, 80, 560, 480, 18);
-      octx.fill();
-
-      // Luna en la postal
-      octx.fillStyle = '#fffdf0';
-      octx.beginPath();
-      octx.arc(170, 170, 42, 0, Math.PI * 2);
-      octx.fill();
-
-      // Estrellas
-      for (let i = 0; i < 40; i++) {
-        octx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-        octx.beginPath();
-        octx.arc(100 + Math.random() * 520, 100 + Math.random() * 440, Math.random() * 2 + 1, 0, Math.PI * 2);
-        octx.fill();
-      }
-
-      // Dibujar a Andrea, Tito y el Perrito juntos
-      octx.save();
-      octx.translate(360, 385);
-      octx.scale(2.1, 2.1);
-      drawDetailedAndrea(octx, { x: 32, y: 0, w: 50, h: 56, jumpY: 0, kissOffset: 0, blinkTimer: 200, warningTimer: 0 });
-      drawDetailedTito(octx, { x: -32, y: 0, w: 48, h: 56, facing: 1, stretch: 1, squash: 1, runFrame: 0, blinkTimer: 200, heartEyesTimer: 100, intenseLove: false, spinAngle: 0 });
-      drawDetailedPuppy(octx, { x: 0, y: 8, facing: 1, jumpY: 0, tailWag: 0, excited: 1 });
-      octx.restore();
-
-      // Título
-      octx.font = '900 36px "Arial Rounded MT Bold", sans-serif';
-      octx.fillStyle = '#221526';
-      octx.textAlign = 'center';
-      octx.fillText('Tito & Andrea ✨', 360, 625);
-
-      octx.font = '800 18px "Arial Rounded MT Bold", sans-serif';
-      octx.fillStyle = '#4a3b52';
-      octx.fillText('"¡Te extrañé un montón y me haces el más feliz!"', 360, 665);
-
-      if (selectedWishes.length > 0) {
-        octx.font = '700 16px "Arial Rounded MT Bold", sans-serif';
-        octx.fillStyle = '#ff2a55';
-        octx.fillText('Nuestros 3 deseos para la próxima cita: ✨', 360, 705);
-
-        octx.font = '700 15px "Arial Rounded MT Bold", sans-serif';
-        octx.fillStyle = '#665270';
-        let wy = 735;
-        selectedWishes.forEach((wid, idx) => {
-          const item = CONFIG.deseosLista.find(d => d.id === wid);
-          if (item) {
-            octx.fillText(`${idx + 1}. ${item.emoji} ${item.text}`, 360, wy);
-            wy += 24;
-          }
-        });
-      }
-
-      octx.font = '900 23px "Arial Rounded MT Bold", sans-serif';
-      octx.fillStyle = '#ff2a55';
-      octx.fillText('Con todo mi amor, Tito ❤️', 360, 855);
-
-      const link = document.createElement('a');
-      link.download = 'tito-y-andrea-recuerdo.png';
-      link.href = offCanvas.toDataURL('image/png');
-      link.click();
-    }
-
-    function openWhatsApp() {
-      let finalMsg = CONFIG.mensajeWhatsAppBase;
-
-      if (selectedWishes.length > 0) {
-        finalMsg += "\n\nMis 3 deseos para nuestra próxima cita son:\n";
-        selectedWishes.forEach((wid, idx) => {
-          const item = CONFIG.deseosLista.find(d => d.id === wid);
-          if (item) {
-            finalMsg += `${idx + 1}. ${item.emoji} ${item.text}\n`;
-          }
-        });
-        finalMsg += "\n¿Cuándo los cumplimos? 🥰💖";
-      }
-
-      const url = `https://wa.me/${CONFIG.telefonoWhatsApp}?text=${encodeURIComponent(finalMsg)}`;
-      window.open(url, '_blank');
-    }
-
-    function restartGame() {
-      document.getElementById('modal-final').classList.remove('active');
-      document.getElementById('proposalQuestionBlock').style.display = 'block';
-      document.getElementById('envelopeBlock').style.display = 'none';
-      document.getElementById('wishesBlock').style.display = 'none';
-      document.getElementById('celebrationBox').style.display = 'none';
-
-      const seal = document.getElementById('waxSeal');
-      seal.style.transform = 'scale(1)';
-      seal.style.opacity = '1';
-
-      const btnNo = document.getElementById('btn-no');
-      const btnYes = document.getElementById('btn-yes');
-      btnNo.style.position = 'absolute';
-      btnNo.style.right = '10px';
-      btnNo.style.left = 'auto';
-      btnNo.style.top = '20px';
-      btnNo.innerText = 'No 😜';
-      btnYes.style.transform = 'scale(1)';
-      btnYes.classList.remove('super-glow');
-      noCount = 0;
-      selectedWishes = [];
-
-      collectedCount = 0;
-      document.getElementById('rose-score').innerText = '0 / 5';
-      roses.forEach(r => r.collected = false);
-
-      tito.x = PATH_X;
-      tito.y = WORLD_HEIGHT - 120;
-      tito.intenseLove = false;
-      tito.spinAngle = 0;
-      tito.heartEyesTimer = 0;
-
-      puppy.x = PATH_X - 25;
-      puppy.y = WORLD_HEIGHT - 110;
-      puppy.excited = 0;
-
-      andrea.jumpY = 0;
-      andrea.kissOffset = 0;
-      andrea.warningTimer = 0;
-
-      cameraY = WORLD_HEIGHT - 650;
-      cameraZoom = 1;
-      kissTimer = 0;
-      danceTimer = 0;
-      archCrossed = false;
-
-      document.getElementById('controlsWrapper').style.display = 'flex';
-      document.getElementById('journeyTracker').style.display = 'flex';
-
-      startMusic();
-      gameState = 'PLAYING';
-    }
-
-    /* =========================================================================
-       CONTROLES (D-PAD + TECLADO + DESLIZAMIENTO TÁCTIL)
-       ========================================================================= */
-    function bindBtn(id, key) {
-      const el = document.getElementById(id);
-      const start = (e) => {
-        e.preventDefault();
-        initAudio();
-        keys[key] = true;
-        el.classList.add('active');
-      };
-      const end = (e) => {
-        e.preventDefault();
-        keys[key] = false;
-        el.classList.remove('active');
-      };
-      el.addEventListener('touchstart', start, { passive: false });
-      el.addEventListener('touchend', end, { passive: false });
-      el.addEventListener('mousedown', start);
-      el.addEventListener('mouseup', end);
-      el.addEventListener('mouseleave', end);
-    }
-
-    bindBtn('btnUp', 'up');
-    bindBtn('btnDown', 'down');
-    bindBtn('btnLeft', 'left');
-    bindBtn('btnRight', 'right');
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.up = true;
-      if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.down = true;
-      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = true;
-      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = true;
-    });
-
-    window.addEventListener('keyup', (e) => {
-      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.up = false;
-      if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.down = false;
-      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = false;
-      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = false;
-    });
-
-    let touchOrigin = null;
-
-    function handlePointerMoveDir(clientX, clientY) {
-      if (!touchOrigin || gameState !== 'PLAYING') return;
-      const dx = clientX - touchOrigin.x;
-      const dy = clientY - touchOrigin.y;
-      const dist = Math.hypot(dx, dy);
-
-      if (dist > 12) {
-        keys.up = (dy < -8);
-        keys.down = (dy > 8);
-        keys.left = (dx < -8);
-        keys.right = (dx > 8);
+        targetWalkX = null;
       }
     }
 
-    canvas.addEventListener('pointerdown', (e) => {
-      initAudio();
-      if (gameState === 'DANCE_SCENE') {
-        // En el baile, tocar la pantalla lanza fuegos artificiales y destellos
-        spawnHeartFirework(e.clientX / currentScale, (e.clientY / currentScale) + cameraY, '#ffd166');
-        playTone(880, 'sine', 0.2, 0, 0.08);
-        return;
-      }
-      if (gameState !== 'PLAYING') return;
-      touchOrigin = { x: e.clientX, y: e.clientY };
-      handlePointerMoveDir(e.clientX, e.clientY);
-    });
+    if (moveDir !== 0) {
+      tito.vx = moveDir * tito.speed;
+      tito.direction = moveDir;
+      tito.isMoving = true;
+      tito.stepTimer += dt;
+      tito.x += tito.vx;
+    } else {
+      tito.vx = 0;
+      tito.isMoving = false;
+    }
 
-    window.addEventListener('pointermove', (e) => {
-      if (touchOrigin) handlePointerMoveDir(e.clientX, e.clientY);
-    });
+    if (tito.x < 40) tito.x = 40;
+    if (tito.x > BENCH_X - 10) {
+      tito.x = BENCH_X - 10;
+      tito.isSitting = true;
+      tito.isMoving = false;
+      targetWalkX = null;
+      triggerBenchEncounter();
+    }
+  }
 
-    const endTouch = () => {
-      if (touchOrigin) {
-        touchOrigin = null;
-        keys.up = false;
-        keys.down = false;
-        keys.left = false;
-        keys.right = false;
-      }
-    };
+  const targetCamX = tito.x - W * 0.38;
+  cameraX += (targetCamX - cameraX) * 0.08;
+  if (cameraX < 0) cameraX = 0;
+  if (cameraX > WORLD_WIDTH - W) cameraX = WORLD_WIDTH - W;
 
-    window.addEventListener('pointerup', endTouch);
-    window.addEventListener('pointercancel', endTouch);
-  </script>
+  checkNearbyLetters();
+
+  ctx.clearRect(0, 0, W, H);
+  drawSchoolScene(groundY);
+  drawLetters(groundY);
+  drawAndrea(groundY);
+  drawTito(groundY);
+  updateAndDrawParticles(groundY);
+
+  requestAnimationFrame(gameLoop);
+}
+
+/* ==========================================================================
+   INTERACCIÓN CON CARTITAS
+   ========================================================================== */
+const interactPrompt = document.getElementById('interact-prompt');
+const modalLetter = document.getElementById('modal-letter');
+const modalLetterTitle = document.getElementById('modal-letter-title');
+const modalLetterBody = document.getElementById('modal-letter-body');
+const letterCounterBadge = document.getElementById('letter-counter');
+
+function checkNearbyLetters() {
+  if (tito.isSitting) {
+    interactPrompt.style.display = 'none';
+    return;
+  }
+
+  currentNearbyLetter = null;
+  for (const letter of LETTERS_DATA) {
+    if (Math.abs(tito.x - letter.x) < 45) {
+      currentNearbyLetter = letter;
+      break;
+    }
+  }
+
+  if (currentNearbyLetter) {
+    interactPrompt.style.display = 'flex';
+    interactPrompt.querySelector('span:last-child').textContent = currentNearbyLetter.read ? 'Releer Cartita' : 'Abrir Cartita';
+  } else {
+    interactPrompt.style.display = 'none';
+  }
+}
+
+function openLetter(letter) {
+  audio.playPaperRustle();
+  letter.read = true;
+  updateCounter();
+
+  modalLetterTitle.textContent = letter.title;
+  modalLetterBody.innerHTML = letter.text.replace(/\n/g, '<br>');
+  modalLetter.classList.add('active');
+}
+
+document.getElementById('btn-close-letter').addEventListener('click', () => {
+  audio.playPaperRustle();
+  modalLetter.classList.remove('active');
+});
+
+interactPrompt.addEventListener('click', () => {
+  if (currentNearbyLetter) {
+    openLetter(currentNearbyLetter);
+  }
+});
+
+function updateCounter() {
+  const readCount = LETTERS_DATA.filter(l => l.read).length;
+  letterCounterBadge.textContent = `${readCount}/4`;
+}
+
+/* ==========================================================================
+   REENCUENTRO EN EL BANCO & CLÍMAX ROMÁNTICO
+   ========================================================================== */
+const speechBubble = document.getElementById('speech-bubble');
+const modalGrand = document.getElementById('modal-grand');
+const waxSealBtn = document.getElementById('wax-seal-btn');
+
+function triggerBenchEncounter() {
+  if (benchReached) return;
+  benchReached = true;
+  magicSunsetTriggered = true;
+
+  showSpeechBubble('¡Tito! Te estaba esperando... ❤️', BENCH_X + 22, H - 190);
+
+  setTimeout(() => {
+    andrea.headOnShoulder = true;
+    showSpeechBubble('Qué lindo volver a nuestro banco...', BENCH_X - 10, H - 190);
+  }, 1800);
+
+  setTimeout(() => {
+    hideSpeechBubble();
+    openGrandEnvelope();
+  }, 3800);
+}
+
+function showSpeechBubble(text, worldX, screenY) {
+  speechBubble.textContent = text;
+  speechBubble.style.display = 'block';
+  const sx = worldX - cameraX;
+  speechBubble.style.left = `${Math.max(20, Math.min(W - 200, sx - 60))}px`;
+  speechBubble.style.top = `${screenY}px`;
+}
+
+function hideSpeechBubble() {
+  speechBubble.style.display = 'none';
+}
+
+function openGrandEnvelope() {
+  audio.playWaxChime();
+  modalGrand.classList.add('active');
+  document.getElementById('btn-whatsapp').href = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${WHATSAPP_TEXT}`;
+}
+
+waxSealBtn.addEventListener('click', () => {
+  audio.playWaxChime();
+  waxSealBtn.style.transform = 'scale(1.2) rotate(15deg)';
+  setTimeout(() => {
+    waxSealBtn.style.transform = 'scale(1)';
+  }, 300);
+});
+
+document.getElementById('btn-stay-bench').addEventListener('click', () => {
+  modalGrand.classList.remove('active');
+});
+
+/* ==========================================================================
+   GENERADOR DE POSTAL POLAROID DE RECUERDO
+   ========================================================================== */
+document.getElementById('btn-download-polaroid').addEventListener('click', () => {
+  const pCanvas = document.createElement('canvas');
+  pCanvas.width = 600;
+  pCanvas.height = 720;
+  const pCtx = pCanvas.getContext('2d');
+
+  pCtx.fillStyle = '#ffffff';
+  pCtx.fillRect(0, 0, 600, 720);
+
+  pCtx.fillStyle = '#fceade';
+  const photoGrad = pCtx.createLinearGradient(0, 40, 0, 540);
+  photoGrad.addColorStop(0, '#c74465');
+  photoGrad.addColorStop(0.5, '#ff8e43');
+  photoGrad.addColorStop(1, '#ffe382');
+  pCtx.fillStyle = photoGrad;
+  pCtx.fillRect(40, 40, 520, 500);
+
+  pCtx.fillStyle = '#4a2f1b';
+  pCtx.fillRect(200, 360, 200, 20);
+  pCtx.fillRect(180, 240, 40, 200);
+  pCtx.fillStyle = '#ffb703';
+  pCtx.beginPath();
+  pCtx.arc(200, 220, 90, 0, Math.PI * 2);
+  pCtx.fill();
+
+  pCtx.fillStyle = '#2b2520';
+  pCtx.font = 'bold 38px "Dancing Script", cursive';
+  pCtx.textAlign = 'center';
+  pCtx.fillText('Nuestro Banco de la Escuela', 300, 600);
+  pCtx.font = '28px "Caveat", cursive';
+  pCtx.fillStyle = '#e63946';
+  pCtx.fillText('Tito & Andrea ❤️ Para siempre', 300, 650);
+
+  const link = document.createElement('a');
+  link.download = 'Tito-y-Andrea-Nuestro-Banco.png';
+  link.href = pCanvas.toDataURL('image/png');
+  link.click();
+});
+
+/* ==========================================================================
+   CONTROLES DE ENTRADA (TÁCTIL & TECLADO)
+   ========================================================================== */
+window.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = true;
+  if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = true;
+  if (e.key === ' ' || e.key === 'Enter') {
+    if (currentNearbyLetter && !modalLetter.classList.contains('active')) {
+      openLetter(currentNearbyLetter);
+    }
+  }
+});
+
+window.addEventListener('keyup', e => {
+  if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = false;
+  if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = false;
+});
+
+const btnLeft = document.getElementById('btn-left');
+const btnRight = document.getElementById('btn-right');
+
+const handlePress = (dir, isPressed) => {
+  if (dir === 'left') keys.left = isPressed;
+  if (dir === 'right') keys.right = isPressed;
+  if (isPressed) targetWalkX = null;
+};
+
+btnLeft.addEventListener('touchstart', e => { e.preventDefault(); handlePress('left', true); });
+btnLeft.addEventListener('touchend', e => { e.preventDefault(); handlePress('left', false); });
+btnLeft.addEventListener('mousedown', () => handlePress('left', true));
+btnLeft.addEventListener('mouseup', () => handlePress('left', false));
+btnLeft.addEventListener('mouseleave', () => handlePress('left', false));
+
+btnRight.addEventListener('touchstart', e => { e.preventDefault(); handlePress('right', true); });
+btnRight.addEventListener('touchend', e => { e.preventDefault(); handlePress('right', false); });
+btnRight.addEventListener('mousedown', () => handlePress('right', true));
+btnRight.addEventListener('mouseup', () => handlePress('right', false));
+btnRight.addEventListener('mouseleave', () => handlePress('right', false));
+
+canvas.addEventListener('pointerdown', e => {
+  if (tito.isSitting) return;
+  const rect = canvas.getBoundingClientRect();
+  const clickScreenX = e.clientX - rect.left;
+  targetWalkX = clickScreenX + cameraX;
+});
+
+const btnAudio = document.getElementById('btn-audio');
+btnAudio.addEventListener('click', () => {
+  const active = audio.toggle();
+  btnAudio.textContent = active ? '🎵' : '🔇';
+});
+
+document.getElementById('btn-reset').addEventListener('click', () => {
+  tito.x = 100;
+  tito.isSitting = false;
+  andrea.headOnShoulder = false;
+  benchReached = false;
+  magicSunsetTriggered = false;
+  modalGrand.classList.remove('active');
+  modalLetter.classList.remove('active');
+  hideSpeechBubble();
+  LETTERS_DATA.forEach(l => l.read = false);
+  updateCounter();
+});
+
+document.getElementById('btn-start-game').addEventListener('click', () => {
+  audio.start();
+  document.getElementById('modal-start').classList.remove('active');
+});
+
+requestAnimationFrame(gameLoop);
+</script>
 </body>
 </html>
