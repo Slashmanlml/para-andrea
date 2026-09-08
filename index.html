@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Tito & Andrea ✨ Masterpiece Edition</title>
+  <title>Tito & Andrea ✨ Edición de Ensueño</title>
   <style>
     :root {
       --primary: #ff2a55;
@@ -355,12 +355,12 @@
       50% { transform: translateY(-8px); }
     }
 
-    /* Modal Final Limpio & Celebración */
+    /* Modal Final */
     .modal-overlay {
       position: absolute;
       inset: 0;
       background: rgba(15, 9, 20, 0.88);
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(5px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -382,7 +382,7 @@
       border-radius: 32px;
       padding: 20px 16px;
       width: 100%;
-      max-width: 380px;
+      max-width: 385px;
       text-align: center;
       box-shadow: 0 10px 0 var(--border-color);
       transform: scale(0.85);
@@ -459,6 +459,84 @@
     .btn-yes:active, .btn-no:active {
       transform: translateY(3px);
       box-shadow: 0 2px 0 var(--border-color);
+    }
+
+    /* SOBRE CON SELLO DE LACRE DE CERA */
+    .envelope-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeInZoom 0.35s ease-out;
+    }
+
+    .vintage-envelope {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      background: #fdfaf3;
+      border: 3.5px solid var(--border-color);
+      border-radius: 18px;
+      box-shadow: 0 6px 0 var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 12px 0;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .envelope-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-top: 2px dashed #e8dec8;
+      border-bottom: 2px dashed #e8dec8;
+      margin: 10px;
+      border-radius: 8px;
+    }
+
+    .envelope-label {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #7a6350;
+      margin-bottom: 8px;
+      z-index: 2;
+    }
+
+    .wax-seal {
+      width: 68px;
+      height: 68px;
+      background: radial-gradient(circle at 35% 35%, #ff4b72, #b80028 75%);
+      border: 3px solid #82001c;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.4);
+      z-index: 5;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      animation: waxPulse 1.8s infinite ease-in-out;
+    }
+
+    .wax-seal:hover {
+      transform: scale(1.08);
+    }
+
+    .wax-seal:active {
+      transform: scale(0.95);
+    }
+
+    .wax-heart {
+      font-size: 1.8rem;
+      color: #ffffff;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4));
+    }
+
+    @keyframes waxPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
 
     /* MINIJUEGO: ESTRELLAS DE LOS DESEOS */
@@ -554,7 +632,7 @@
       box-shadow: 0 2px 0 var(--border-color);
     }
 
-    /* Álbum Polaroid Interactivo */
+    /* Álbum Polaroid */
     .celebration-box {
       display: none;
       flex-direction: column;
@@ -793,14 +871,14 @@
       <div class="start-title-box">
         <div style="font-size: 2.8rem; margin-bottom: 4px;">👦🐶👧</div>
         <h1>Tito & Andrea</h1>
-        <p>Junta las 5 rosas mágicas con tu fiel perrito para llegar hasta Andrea 💐💖</p>
+        <p>Junta las 5 rosas mágicas con tu fiel perrito para llegar hasta Andrea bajo la luna 💐💖</p>
       </div>
       <button class="start-btn" onclick="startGame()">
         <span>¡JUGAR!</span> 💖
       </button>
     </div>
 
-    <!-- MODAL FINAL (Pregunta + Minijuego de Deseos + Álbum Polaroid) -->
+    <!-- MODAL FINAL (Pregunta + Sobre de Lacre + Deseos + Álbum) -->
     <div class="modal-overlay" id="modal-final">
       <div class="modal-card">
         
@@ -815,7 +893,21 @@
           </div>
         </div>
 
-        <!-- Fase 2: Minijuego de las Estrellas de los Deseos -->
+        <!-- Fase 2: Sobre Artesanal con Sello de Lacre de Cera -->
+        <div class="envelope-box" id="envelopeBlock">
+          <h2 style="color: #ff1744; font-size: 1.35rem;">💌 Una Carta Especial</h2>
+          <p style="font-size: 0.88rem; color: #665270; font-weight: 800; margin-bottom: 4px;">Toca el sello de lacre para abrirla:</p>
+          
+          <div class="vintage-envelope" onclick="breakWaxSeal()">
+            <div class="envelope-lines"></div>
+            <div class="envelope-label">Para: Andrea 🌸 &bull; De: Tito ❤️</div>
+            <div class="wax-seal" id="waxSeal">
+              <span class="wax-heart">❤️</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fase 3: Minijuego de las Estrellas de los Deseos -->
         <div class="wishes-box" id="wishesBlock">
           <div style="font-size: 2.5rem; margin-bottom: 4px;">🌠✨</div>
           <h2 style="color: #ff1744; font-size: 1.35rem;">¡Lluvia de Deseos!</h2>
@@ -828,11 +920,11 @@
           </div>
 
           <button class="continue-wishes-btn" id="btnContinueWishes" onclick="finishWishes()">
-            <span>Ver Nuestra Carta & Enviar a Tito</span> 💌
+            <span>Ver Nuestra Historia & Enviar a Tito</span> 💌
           </button>
         </div>
 
-        <!-- Fase 3: Álbum Polaroid Interactivo -->
+        <!-- Fase 4: Álbum Polaroid Interactivo -->
         <div class="celebration-box" id="celebrationBox">
           <h2 style="color: #ff1744; font-size: 1.35rem; margin-bottom: 4px;">🎉 ¡NUESTRA HISTORIA! 🥰💖</h2>
           
@@ -953,11 +1045,12 @@
     let selectedWishes = [];
 
     /* =========================================================================
-       AUDIO ADAPTATIVO ENRIQUECIDO
+       AUDIO ADAPTATIVO & VALS EN 3/4
        ========================================================================= */
     let audioCtx = null;
     let musicPlaying = false;
     let musicInterval = null;
+    let waltzInterval = null;
 
     function initAudio() {
       if (!audioCtx) {
@@ -1034,6 +1127,14 @@
       playTone(850, 'sine', 0.08, 30, 0.09);
     }
 
+    function playWaxSealSound() {
+      if (!audioCtx) return;
+      playTone(280, 'sine', 0.08, 0, 0.12);
+      playTone(520, 'triangle', 0.12, 30, 0.14);
+      playTone(880, 'sine', 0.25, 70, 0.16);
+    }
+
+    // Melodía polifónica adaptativa
     function startMusic() {
       if (!audioCtx) initAudio();
       musicPlaying = true;
@@ -1087,6 +1188,41 @@
       }, 235);
     }
 
+    // Vals romántico en 3/4 para la escena de baile
+    function startWaltzMusic() {
+      if (musicInterval) clearInterval(musicInterval);
+      const waltzChords = [
+        { bass: 261.63, chord: 523.25, lead: 659.25 }, // C
+        { bass: 220.00, chord: 440.00, lead: 659.25 }, // Am
+        { bass: 174.61, chord: 349.23, lead: 523.25 }, // F
+        { bass: 196.00, chord: 392.00, lead: 587.33 }  // G
+      ];
+
+      let beat = 0;
+      let measure = 0;
+      if (waltzInterval) clearInterval(waltzInterval);
+      waltzInterval = setInterval(() => {
+        if (!musicPlaying) return;
+        const current = waltzChords[measure % waltzChords.length];
+
+        if (beat === 0) {
+          // Pulso 1: Bajo rotundo
+          playTone(current.bass, 'sine', 0.45, 0, 0.05);
+          playTone(current.lead, 'triangle', 0.4, 30, 0.045);
+        } else {
+          // Pulsos 2 y 3: Acordes suaves de vals
+          playTone(current.chord, 'triangle', 0.2, 0, 0.03);
+          playTone(current.chord * 1.25, 'sine', 0.2, 20, 0.025);
+        }
+
+        beat++;
+        if (beat >= 3) {
+          beat = 0;
+          measure++;
+        }
+      }, 240);
+    }
+
     function toggleAudio() {
       initAudio();
       musicPlaying = !musicPlaying;
@@ -1094,6 +1230,7 @@
         startMusic();
       } else {
         clearInterval(musicInterval);
+        if (waltzInterval) clearInterval(waltzInterval);
         document.getElementById('audioToggle').innerText = '🔇';
       }
     }
@@ -1117,6 +1254,7 @@
     let cameraZoom = 1;
     let heartbeatTick = 0;
     let archCrossed = false;
+    let danceTimer = 0;
 
     // Tito
     const tito = {
@@ -1147,7 +1285,7 @@
       warningTimer: 0
     };
 
-    // Perrito Fiel Acompañante
+    // Perrito Fiel
     const puppy = {
       x: PATH_X - 25,
       y: WORLD_HEIGHT - 110,
@@ -1177,6 +1315,7 @@
     const sparkConfetti = [];
     const fireworkParticles = [];
     const foregroundPetals = [];
+    const waltzSparkles = [];
 
     // Partículas en primer plano (Foreground Parallax 3D)
     for (let i = 0; i < 14; i++) {
@@ -1192,9 +1331,9 @@
       });
     }
 
-    // Estrellas en el cielo
+    // Estrellas
     const stars = [];
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < 75; i++) {
       stars.push({
         x: Math.random() * WORLD_WIDTH,
         y: Math.random() * 1300,
@@ -1251,7 +1390,7 @@
     // Flores
     const scenery = [];
     for (let y = 100; y < WORLD_HEIGHT - 50; y += 105) {
-      if (y > 1580 && y < 1720) continue; // no flores adentro del río
+      if (y > 1580 && y < 1720) continue;
       scenery.push({
         x: PATH_X - 160 + (Math.random() * 24),
         y: y + (Math.random() * 30),
@@ -1269,7 +1408,7 @@
     // Adoquines
     const cobblestones = [];
     for (let y = 30; y < WORLD_HEIGHT; y += 70) {
-      if (y > 1590 && y < 1690) continue; // puente de madera en vez de adoquines
+      if (y > 1590 && y < 1690) continue;
       cobblestones.push({
         y: y,
         offset: (y % 140 === 0) ? -12 : 12
@@ -1291,22 +1430,133 @@
     resizeCanvas();
 
     /* =========================================================================
-       SPRITES DETALLADOS & PERSONALIZADOS
+       ELEMENTOS DEL MUNDO (LUNA GIGANTE, SAKURA, RÍO Y PUENTE)
        ========================================================================= */
 
-    // DIBUJAR PERRITO FIEL ACOMPAÑANTE
+    // DIBUJAR LA GRAN LUNA LLENA MÍSTICA (x = PATH_X - 110, y = 120)
+    function drawGiantMoon(ctx) {
+      const mx = PATH_X - 105;
+      const my = 120;
+      const mr = 56;
+
+      ctx.save();
+      // Halo místico resplandeciente
+      const moonHalo = ctx.createRadialGradient(mx, my, mr * 0.8, mx, my, mr * 2.4);
+      moonHalo.addColorStop(0, 'rgba(255, 252, 230, 0.45)');
+      moonHalo.addColorStop(0.5, 'rgba(230, 240, 255, 0.2)');
+      moonHalo.addColorStop(1, 'rgba(230, 240, 255, 0)');
+      ctx.fillStyle = moonHalo;
+      ctx.beginPath();
+      ctx.arc(mx, my, mr * 2.4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Superficie de la luna
+      ctx.fillStyle = '#fffdf0';
+      ctx.beginPath();
+      ctx.arc(mx, my, mr, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Cráteres suaves y cráter en relieve
+      ctx.fillStyle = 'rgba(215, 210, 235, 0.35)';
+      const craters = [
+        { x: mx - 18, y: my - 14, r: 12 },
+        { x: mx + 16, y: my - 16, r: 9 },
+        { x: mx + 8,  y: my + 18, r: 14 },
+        { x: mx - 20, y: my + 20, r: 8 },
+        { x: mx + 24, y: my + 6,  r: 7 }
+      ];
+      craters.forEach(c => {
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.restore();
+    }
+
+    // DIBUJAR ÁRBOL DE CEREZO (SAKURA) CON FAROLITOS MECLÉNDOSE
+    function drawSakuraTree(ctx) {
+      const tx = PATH_X + 115;
+      const ty = 125;
+
+      ctx.save();
+
+      // Tronco y ramas
+      ctx.fillStyle = "#3d2817";
+      ctx.strokeStyle = "#221526";
+      ctx.lineWidth = 3;
+
+      ctx.beginPath();
+      ctx.moveTo(tx - 12, ty + 50);
+      ctx.quadraticCurveTo(tx - 4, ty + 10, tx - 14, ty - 20);
+      ctx.lineTo(tx + 14, ty - 20);
+      ctx.quadraticCurveTo(tx + 6, ty + 10, tx + 14, ty + 50);
+      ctx.closePath();
+      ctx.fill(); ctx.stroke();
+
+      // Copa frondosa de flores de Sakura
+      const blossomPuffs = [
+        { dx: -24, dy: -36, r: 26, c: '#ff85a1' },
+        { dx: 18,  dy: -40, r: 28, c: '#ff70a6' },
+        { dx: -2,  dy: -55, r: 32, c: '#ffa6c1' },
+        { dx: -38, dy: -18, r: 22, c: '#ffb3c6' },
+        { dx: 36,  dy: -22, r: 24, c: '#ff99b6' },
+        { dx: 0,   dy: -32, r: 34, c: '#ff7597' }
+      ];
+
+      blossomPuffs.forEach(b => {
+        ctx.fillStyle = b.c;
+        ctx.beginPath();
+        ctx.arc(tx + b.dx, ty + b.dy, b.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Farolitos chinos colgantes en el árbol
+      const lanternSwing = Math.sin(Date.now() * 0.003) * 4;
+      const lanterns = [
+        { x: tx - 22 + lanternSwing, y: ty - 6 },
+        { x: tx + 24 - lanternSwing, y: ty - 10 }
+      ];
+
+      lanterns.forEach(l => {
+        // Cuerda
+        ctx.strokeStyle = "#221526";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(l.x, ty - 24);
+        ctx.lineTo(l.x, l.y);
+        ctx.stroke();
+
+        // Luz tenue
+        const lGrad = ctx.createRadialGradient(l.x, l.y + 6, 2, l.x, l.y + 6, 24);
+        lGrad.addColorStop(0, 'rgba(255, 220, 80, 0.7)');
+        lGrad.addColorStop(1, 'rgba(255, 220, 80, 0)');
+        ctx.fillStyle = lGrad;
+        ctx.beginPath();
+        ctx.arc(l.x, l.y + 6, 24, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Farolito rojo/dorado
+        ctx.fillStyle = "#ff2a55";
+        ctx.beginPath();
+        ctx.roundRect(l.x - 5, l.y, 10, 14, 4);
+        ctx.fill(); ctx.stroke();
+      });
+
+      ctx.restore();
+    }
+
+    // DIBUJAR PERRITO FIEL
     function drawDetailedPuppy(ctx, p) {
       ctx.save();
       ctx.translate(p.x, p.y - p.jumpY);
       ctx.scale(p.facing, 1);
 
-      // Sombra
       ctx.fillStyle = "rgba(18, 12, 22, 0.25)";
       ctx.beginPath();
       ctx.ellipse(0, 11 + p.jumpY, 11, 5, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Colita alegre batiéndose
       p.tailWag += 0.25;
       const tailAngle = Math.sin(p.tailWag) * 0.45;
       ctx.save();
@@ -1320,7 +1570,6 @@
       ctx.fill(); ctx.stroke();
       ctx.restore();
 
-      // Patitas
       ctx.fillStyle = "#ffffff";
       ctx.strokeStyle = "#221526";
       ctx.lineWidth = 2;
@@ -1329,7 +1578,6 @@
       ctx.arc(5, 9, 3, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // Cuerpo esponjoso dorado
       ctx.fillStyle = "#e0a96d";
       ctx.strokeStyle = "#221526";
       ctx.lineWidth = 2.5;
@@ -1337,13 +1585,11 @@
       ctx.roundRect(-9, -4, 18, 14, 6);
       ctx.fill(); ctx.stroke();
 
-      // Pecho blanco
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
       ctx.ellipse(3, 2, 4, 5, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Collar rojo con medallita de corazón
       ctx.strokeStyle = "#ff2a55";
       ctx.lineWidth = 2.5;
       ctx.beginPath();
@@ -1355,7 +1601,6 @@
       ctx.arc(4, 2, 2, 0, Math.PI * 2);
       ctx.fill();
 
-      // Cabeza
       ctx.fillStyle = "#e0a96d";
       ctx.strokeStyle = "#221526";
       ctx.lineWidth = 2.5;
@@ -1363,13 +1608,11 @@
       ctx.arc(6, -8, 8, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // Orejita caída marrón caramelo
       ctx.fillStyle = "#b87d4b";
       ctx.beginPath();
       ctx.ellipse(3, -10, 3.5, 6, 0.3, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
 
-      // Ojo y brillo
       ctx.fillStyle = "#221526";
       ctx.beginPath();
       ctx.arc(7.5, -9, 1.8, 0, Math.PI * 2);
@@ -1380,7 +1623,6 @@
       ctx.arc(8.2, -9.5, 0.8, 0, Math.PI * 2);
       ctx.fill();
 
-      // Hocico y naricita
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
       ctx.arc(11, -6, 3.5, 0, Math.PI * 2);
@@ -1391,7 +1633,6 @@
       ctx.arc(12.5, -7, 1.4, 0, Math.PI * 2);
       ctx.fill();
 
-      // Corazoncito cuando está emocionado
       if (p.excited > 0) {
         drawDetailedHeart(ctx, 4, -22, 6);
       }
@@ -1406,7 +1647,6 @@
 
       ctx.save();
 
-      // Agua del río con gradiente cristalino
       const riverGrad = ctx.createLinearGradient(0, riverY, 0, riverY + riverHeight);
       riverGrad.addColorStop(0, '#2d7d8a');
       riverGrad.addColorStop(0.5, '#42a5b3');
@@ -1414,12 +1654,10 @@
       ctx.fillStyle = riverGrad;
       ctx.fillRect(0, riverY, WORLD_WIDTH, riverHeight);
 
-      // Orillas de tierra y piedritas
       ctx.fillStyle = "#4a3525";
       ctx.fillRect(0, riverY - 3, WORLD_WIDTH, 4);
       ctx.fillRect(0, riverY + riverHeight - 1, WORLD_WIDTH, 4);
 
-      // Ondas de agua animadas
       const flow = (Date.now() * 0.002) % 40;
       ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
       ctx.lineWidth = 2;
@@ -1437,7 +1675,6 @@
         ctx.stroke();
       }
 
-      // Nenúfares en el agua
       const lilies = [
         { x: 50, y: riverY + 30 },
         { x: 370, y: riverY + 45 },
@@ -1454,17 +1691,14 @@
         ctx.fill();
       });
 
-      // PUENTE DE MADERA RÚSTICO SOBRE EL SENDERO
       const bx = PATH_X - (PATH_WIDTH / 2) - 8;
       const bw = PATH_WIDTH + 16;
       const by = riverY - 12;
       const bh = riverHeight + 24;
 
-      // Sombra del puente sobre el agua
       ctx.fillStyle = "rgba(10, 20, 25, 0.45)";
       ctx.fillRect(bx, by, bw, bh);
 
-      // Tablas de madera del puente
       for (let py = by; py < by + bh; py += 14) {
         ctx.fillStyle = ((py % 28) === 0) ? "#b08968" : "#9c6644";
         ctx.strokeStyle = "#221526";
@@ -1472,13 +1706,11 @@
         ctx.fillRect(bx, py, bw, 12);
         ctx.strokeRect(bx, py, bw, 12);
 
-        // Clavos
         ctx.fillStyle = "#221526";
         ctx.fillRect(bx + 4, py + 4, 3, 3);
         ctx.fillRect(bx + bw - 7, py + 4, 3, 3);
       }
 
-      // Barandas laterales de madera con postes
       ctx.fillStyle = "#7f4f24";
       ctx.strokeStyle = "#221526";
       ctx.lineWidth = 3;
@@ -1487,7 +1719,6 @@
       ctx.fillRect(bx + bw - 4, by, 7, bh);
       ctx.strokeRect(bx + bw - 4, by, 7, bh);
 
-      // Faroles en las esquinas del puente
       drawFairyLamp(ctx, { x: bx - 2, y: by + 6, glow: 0.9 });
       drawFairyLamp(ctx, { x: bx + bw + 2, y: by + 6, glow: 0.9 });
       drawFairyLamp(ctx, { x: bx - 2, y: by + bh - 6, glow: 0.9 });
@@ -1610,7 +1841,6 @@
       ctx.fillStyle = "rgba(18, 12, 22, 0.45)";
       ctx.beginPath();
       ctx.arc(-10, -19, 5, 0, Math.PI * 2);
-      ctx.arc(10, -19, 5, 0, Math.PI * 2);
       ctx.fill();
 
       ctx.fillStyle = "#120c16";
@@ -1964,11 +2194,11 @@
     }
 
     function drawFloralArch(ctx) {
-      ctx.save();
       const archY = 1150;
       const leftX = PATH_X - (PATH_WIDTH / 2) - 14;
       const rightX = PATH_X + (PATH_WIDTH / 2) + 14;
 
+      ctx.save();
       ctx.fillStyle = "#4a3525";
       ctx.strokeStyle = "#221526";
       ctx.lineWidth = 3;
@@ -2112,7 +2342,7 @@
         }
       });
 
-      // Pétalos en primer plano (Foreground Parallax 3D)
+      // Parallax foreground
       foregroundPetals.forEach(fp => {
         fp.x += fp.speedX;
         fp.y += fp.speedY;
@@ -2186,7 +2416,7 @@
 
         if (tito.heartEyesTimer > 0) tito.heartEyesTimer--;
 
-        // Movimiento e inteligencia del perrito fiel
+        // Movimiento del perrito
         const pTargetX = tito.x - (tito.facing * 30);
         const pTargetY = tito.y + 12;
         puppy.x += (pTargetX - puppy.x) * 0.12;
@@ -2253,14 +2483,14 @@
           }
         });
 
-        // Mini-tracker de progreso
+        // Mini-tracker
         const totalDist = (WORLD_HEIGHT - 120) - (andrea.y + 50);
         const currentDist = (WORLD_HEIGHT - 120) - tito.y;
         const progressRatio = Math.max(0, Math.min(1, currentDist / totalDist));
         document.getElementById('trackerFill').style.height = `${progressRatio * 100}%`;
         document.getElementById('trackerAvatar').style.bottom = `${progressRatio * 100}%`;
 
-        // Latido háptico conforme se acerca a Andrea
+        // Latido háptico
         const distAndrea = Math.hypot(tito.x - andrea.x, tito.y - andrea.y);
         const trackerAvatar = document.getElementById('trackerAvatar');
 
@@ -2274,7 +2504,7 @@
           trackerAvatar.classList.remove('pulsing');
         }
 
-        // Encuentro con Andrea
+        // Encuentro
         if (distAndrea < 75) {
           if (collectedCount >= 5) {
             startKissScene();
@@ -2283,7 +2513,7 @@
           }
         }
 
-        // Cámara fluida
+        // Cámara
         const viewportVirtualHeight = canvas.height / currentScale;
         const targetCamY = tito.y - (viewportVirtualHeight * 0.65);
         cameraY += (targetCamY - cameraY) * 0.12;
@@ -2298,7 +2528,6 @@
         tito.x += (andrea.x - tito.x) * 0.1;
         tito.y += (andrea.y + 22 - tito.y) * 0.1;
 
-        // El perrito festeja corriendo en círculos
         puppy.celebrateAngle += 0.08;
         puppy.x = tito.x + Math.cos(puppy.celebrateAngle) * 45;
         puppy.y = tito.y + Math.sin(puppy.celebrateAngle) * 25;
@@ -2329,11 +2558,57 @@
               alpha: 1
             });
           }
-        } else if (kissTimer > 25 && kissTimer < 110) {
+        } else if (kissTimer > 25 && kissTimer < 95) {
           tito.intenseLove = true;
           tito.spinAngle += 0.22;
           tito.y -= 0.6;
-        } else if (kissTimer >= 145) {
+        } else if (kissTimer >= 105) {
+          // Iniciar la hermosa escena del vals
+          startDanceScene();
+        }
+      }
+
+      // CINEMÁTICA DEL VALS ROMÁNTICO BAJO LA LUNA
+      if (gameState === 'DANCE_SCENE') {
+        danceTimer++;
+        tito.intenseLove = false;
+
+        const danceCenterY = andrea.y + 12;
+        const waltzAngle = danceTimer * 0.045;
+        const waltzRadius = 24;
+
+        // Tito y Andrea bailando tomados de las manos en círculo suave
+        tito.x = PATH_X + Math.cos(waltzAngle) * waltzRadius;
+        tito.y = danceCenterY + Math.sin(waltzAngle) * 8;
+        tito.facing = (Math.cos(waltzAngle) > 0) ? -1 : 1;
+
+        andrea.x = PATH_X - Math.cos(waltzAngle) * waltzRadius;
+        andrea.y = danceCenterY - Math.sin(waltzAngle) * 8;
+
+        // Balanceo tierno
+        andrea.jumpY = Math.abs(Math.sin(danceTimer * 0.09)) * 6;
+        tito.squash = 1 + Math.sin(danceTimer * 0.09) * 0.08;
+
+        // Perrito sentado contemplándolos feliz
+        puppy.x = PATH_X - 60;
+        puppy.y = andrea.y + 24;
+        puppy.facing = 1;
+        puppy.jumpY = 0;
+        puppy.tailWag += 0.15;
+        puppy.excited = 99;
+
+        // Destellos dorados del vals
+        if (danceTimer % 3 === 0) {
+          waltzSparkles.push({
+            x: PATH_X + (Math.random() - 0.5) * 70,
+            y: danceCenterY + (Math.random() - 0.5) * 40,
+            r: Math.random() * 3.5 + 2,
+            color: ['#ffd166', '#ff85a1', '#ffffff', '#ffd700'][Math.floor(Math.random() * 4)],
+            alpha: 1
+          });
+        }
+
+        if (danceTimer >= 170) {
           triggerFinalModal();
         }
       }
@@ -2381,6 +2656,12 @@
         p.alpha -= p.decay;
         if (p.alpha <= 0) fireworkParticles.splice(idx, 1);
       });
+
+      waltzSparkles.forEach((w, idx) => {
+        w.alpha -= 0.02;
+        w.y -= 0.5;
+        if (w.alpha <= 0) waltzSparkles.splice(idx, 1);
+      });
     }
 
     let kissTimer = 0;
@@ -2392,13 +2673,19 @@
       document.getElementById('journeyTracker').style.display = 'none';
     }
 
+    function startDanceScene() {
+      gameState = 'DANCE_SCENE';
+      danceTimer = 0;
+      startWaltzMusic();
+    }
+
     function render() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       ctx.save();
       ctx.scale(currentScale * cameraZoom, currentScale * cameraZoom);
 
-      if (gameState === 'KISS_SCENE') {
+      if (gameState === 'KISS_SCENE' || gameState === 'DANCE_SCENE') {
         const focusX = (tito.x + andrea.x) / 2;
         const focusY = (tito.y + andrea.y) / 2;
         const viewW = canvas.width / (currentScale * cameraZoom);
@@ -2410,9 +2697,9 @@
 
       // 1. Fondo Día -> Atardecer -> Noche
       const bgGrad = ctx.createLinearGradient(0, 0, 0, WORLD_HEIGHT);
-      bgGrad.addColorStop(0, '#0f091c');
-      bgGrad.addColorStop(0.30, '#1c1736');
-      bgGrad.addColorStop(0.55, '#394860');
+      bgGrad.addColorStop(0, '#0a0514');
+      bgGrad.addColorStop(0.28, '#181232');
+      bgGrad.addColorStop(0.55, '#35435b');
       bgGrad.addColorStop(0.78, '#5b9e7c');
       bgGrad.addColorStop(1, '#7ecba1');
       ctx.fillStyle = bgGrad;
@@ -2426,6 +2713,9 @@
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fill();
       });
+
+      // LA GRAN LUNA LLENA MÍSTICA EN LA CIMA
+      drawGiantMoon(ctx);
 
       // Sendero empedrado
       ctx.fillStyle = "#ffe4e8";
@@ -2477,6 +2767,9 @@
         ctx.arc(s.x, s.y, s.r * 0.35, 0, Math.PI * 2);
         ctx.fill(); ctx.stroke();
       });
+
+      // ÁRBOL DE CEREZO (SAKURA) CON FAROLITOS EN EL MIRADOR
+      drawSakuraTree(ctx);
 
       // Luciérnagas
       fireflies.forEach(f => {
@@ -2556,7 +2849,7 @@
       });
 
       // Beso cómic animado
-      if (gameState === 'KISS_SCENE' && kissTimer >= 25 && kissTimer < 115) {
+      if (gameState === 'KISS_SCENE' && kissTimer >= 25 && kissTimer < 95) {
         ctx.save();
         const bounceScale = 1 + Math.sin((kissTimer - 25) * 0.15) * 0.12;
         ctx.translate(tito.x, tito.y - 68);
@@ -2570,6 +2863,32 @@
         ctx.fillText("💋 ¡MUACK! 💖", 0, 0);
         ctx.restore();
       }
+
+      // TÍTULO DEL VALS ROMÁNTICO
+      if (gameState === 'DANCE_SCENE') {
+        ctx.save();
+        ctx.font = "900 22px 'Arial Rounded MT Bold', sans-serif";
+        ctx.fillStyle = "#ffd166";
+        ctx.strokeStyle = "#221526";
+        ctx.lineWidth = 5;
+        ctx.textAlign = "center";
+        ctx.strokeText("✨ Nuestro Vals Bajo la Luna ✨", PATH_X, andrea.y - 65);
+        ctx.fillText("✨ Nuestro Vals Bajo la Luna ✨", PATH_X, andrea.y - 65);
+        ctx.restore();
+      }
+
+      // Destellos del vals
+      waltzSparkles.forEach(w => {
+        ctx.save();
+        ctx.globalAlpha = w.alpha;
+        ctx.fillStyle = w.color;
+        ctx.shadowColor = w.color;
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(w.x, w.y, w.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
 
       // Fuegos artificiales de corazones
       fireworkParticles.forEach(p => {
@@ -2632,7 +2951,7 @@
     }
 
     /* =========================================================================
-       MINIJUEGO DE DESEOS & ÁLBUM POLAROID
+       SELLO DE LACRE, DESEOS & ÁLBUM
        ========================================================================= */
     let currentPolaroidIndex = 0;
 
@@ -2665,7 +2984,6 @@
         if (selectedWishes.length < 3) {
           selectedWishes.push(id);
         } else {
-          // Reemplaza el primero
           selectedWishes.shift();
           selectedWishes.push(id);
         }
@@ -2759,24 +3077,40 @@
       playVictoryFanfare();
       if (navigator.vibrate) navigator.vibrate([150, 50, 150, 50, 300]);
 
-      // Abrir el minijuego de deseos
+      // Mostrar sobre con sello de lacre
       document.getElementById('proposalQuestionBlock').style.display = 'none';
-      document.getElementById('wishesBlock').style.display = 'flex';
-      renderWishesGrid();
+      document.getElementById('envelopeBlock').style.display = 'flex';
     }
 
-    // DESCARGAR POSTAL DE RECUERDO CON DIBUJO DE TITO, ANDREA, EL PERRITO Y LOS DESEOS
+    // ROMPER EL SELLO DE LACRE DE CERA INTERACTIVO
+    function breakWaxSeal() {
+      playWaxSealSound();
+      if (navigator.vibrate) navigator.vibrate([80, 40, 120]);
+
+      const seal = document.getElementById('waxSeal');
+      seal.style.transform = 'scale(1.4) rotate(20deg)';
+      seal.style.opacity = '0';
+      seal.style.transition = 'all 0.35s ease';
+
+      setTimeout(() => {
+        document.getElementById('envelopeBlock').style.display = 'none';
+        document.getElementById('wishesBlock').style.display = 'flex';
+        renderWishesGrid();
+      }, 400);
+    }
+
+    // DESCARGAR POSTAL DE RECUERDO CON LUNA, SAKURA, TITO, ANDREA, EL PERRITO Y DESEOS
     function downloadMemoryCard() {
       const offCanvas = document.createElement('canvas');
       offCanvas.width = 720;
-      offCanvas.height = 960;
+      offCanvas.height = 980;
       const octx = offCanvas.getContext('2d');
 
-      const grad = octx.createLinearGradient(0, 0, 0, 960);
+      const grad = octx.createLinearGradient(0, 0, 0, 980);
       grad.addColorStop(0, '#ffe5ec');
       grad.addColorStop(1, '#ffb3c6');
       octx.fillStyle = grad;
-      octx.fillRect(0, 0, 720, 960);
+      octx.fillRect(0, 0, 720, 980);
 
       // Marco Polaroid
       octx.fillStyle = '#ffffff';
@@ -2784,14 +3118,20 @@
       octx.shadowBlur = 24;
       octx.shadowOffsetY = 12;
       octx.beginPath();
-      octx.roundRect(50, 50, 620, 860, 26);
+      octx.roundRect(50, 50, 620, 880, 26);
       octx.fill();
       octx.shadowColor = 'transparent';
 
       // Ilustración nocturna
-      octx.fillStyle = '#161026';
+      octx.fillStyle = '#140c26';
       octx.beginPath();
       octx.roundRect(80, 80, 560, 480, 18);
+      octx.fill();
+
+      // Luna en la postal
+      octx.fillStyle = '#fffdf0';
+      octx.beginPath();
+      octx.arc(170, 170, 42, 0, Math.PI * 2);
       octx.fill();
 
       // Estrellas
@@ -2804,7 +3144,7 @@
 
       // Dibujar a Andrea, Tito y el Perrito juntos
       octx.save();
-      octx.translate(360, 375);
+      octx.translate(360, 385);
       octx.scale(2.1, 2.1);
       drawDetailedAndrea(octx, { x: 32, y: 0, w: 50, h: 56, jumpY: 0, kissOffset: 0, blinkTimer: 200, warningTimer: 0 });
       drawDetailedTito(octx, { x: -32, y: 0, w: 48, h: 56, facing: 1, stretch: 1, squash: 1, runFrame: 0, blinkTimer: 200, heartEyesTimer: 100, intenseLove: false, spinAngle: 0 });
@@ -2817,7 +3157,6 @@
       octx.textAlign = 'center';
       octx.fillText('Tito & Andrea ✨', 360, 625);
 
-      // Deseos elegidos
       octx.font = '800 18px "Arial Rounded MT Bold", sans-serif';
       octx.fillStyle = '#4a3b52';
       octx.fillText('"¡Te extrañé un montón y me haces el más feliz!"', 360, 665);
@@ -2841,7 +3180,7 @@
 
       octx.font = '900 23px "Arial Rounded MT Bold", sans-serif';
       octx.fillStyle = '#ff2a55';
-      octx.fillText('Con todo mi amor, Tito ❤️', 360, 845);
+      octx.fillText('Con todo mi amor, Tito ❤️', 360, 855);
 
       const link = document.createElement('a');
       link.download = 'tito-y-andrea-recuerdo.png';
@@ -2870,8 +3209,13 @@
     function restartGame() {
       document.getElementById('modal-final').classList.remove('active');
       document.getElementById('proposalQuestionBlock').style.display = 'block';
+      document.getElementById('envelopeBlock').style.display = 'none';
       document.getElementById('wishesBlock').style.display = 'none';
       document.getElementById('celebrationBox').style.display = 'none';
+
+      const seal = document.getElementById('waxSeal');
+      seal.style.transform = 'scale(1)';
+      seal.style.opacity = '1';
 
       const btnNo = document.getElementById('btn-no');
       const btnYes = document.getElementById('btn-yes');
@@ -2906,11 +3250,13 @@
       cameraY = WORLD_HEIGHT - 650;
       cameraZoom = 1;
       kissTimer = 0;
+      danceTimer = 0;
       archCrossed = false;
 
       document.getElementById('controlsWrapper').style.display = 'flex';
       document.getElementById('journeyTracker').style.display = 'flex';
 
+      startMusic();
       gameState = 'PLAYING';
     }
 
@@ -2973,8 +3319,14 @@
     }
 
     canvas.addEventListener('pointerdown', (e) => {
-      if (gameState !== 'PLAYING') return;
       initAudio();
+      if (gameState === 'DANCE_SCENE') {
+        // En el baile, tocar la pantalla lanza fuegos artificiales y destellos
+        spawnHeartFirework(e.clientX / currentScale, (e.clientY / currentScale) + cameraY, '#ffd166');
+        playTone(880, 'sine', 0.2, 0, 0.08);
+        return;
+      }
+      if (gameState !== 'PLAYING') return;
       touchOrigin = { x: e.clientX, y: e.clientY };
       handlePointerMoveDir(e.clientX, e.clientY);
     });
