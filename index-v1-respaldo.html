@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Nuestro Banco del Recreo 🏫💌 Tito & Andrea</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,800;1,400&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #e63946;
+      --gold: #ffb703;
+      --paper: #fffcf2;
+      --paper-line: #dcd3b8;
+      --ink: #2b2520;
+      --wood: #8b5a2b;
+      --dark: #1f1424;
+      --rose: #f4a261;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background: #0f0a17;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #271438 0%, #0d0614 100%);
+    }
+
+    #game-container {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      height: 100%;
+      height: 100dvh;
+      max-height: 940px;
+      background: #181024;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+      border: 3px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @media (min-width: 521px) {
+      #game-container {
+        border-radius: 32px;
+        height: 95vh;
+        border: 4px solid rgba(255, 215, 120, 0.25);
+      }
+    }
+
+    #gameCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+    }
+
+    /* HUD */
+    .hud {
+      position: absolute;
+      top: max(14px, env(safe-area-inset-top, 14px));
+      left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(139, 90, 43, 0.3);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: #3d2b1f;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      pointer-events: auto;
+    }
+
+    .badge-icon {
+      font-size: 1.15rem;
+    }
+
+    .hud-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(139, 90, 43, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      pointer-events: auto;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .hud-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Floating Interaction Prompt */
+    #interact-prompt {
+      position: absolute;
+      bottom: 125px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.95);
+      background: linear-gradient(135deg, #fffcf2, #faedcd);
+      border: 3px solid #8b5a2b;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-weight: 800;
+      color: #382414;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      z-index: 25;
+      animation: gentleBounce 1.5s infinite ease-in-out;
+    }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-6px); }
+    }
+
+    /* On-Screen Touch Controls */
+    .controls {
+      position: absolute;
+      bottom: max(20px, env(safe-area-inset-bottom, 20px));
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .dpad-group {
+      display: flex;
+      gap: 14px;
+      pointer-events: auto;
+    }
+
+    .ctrl-btn {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border: 3px solid rgba(139, 90, 43, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #382414;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      transition: transform 0.1s ease, background 0.15s;
+    }
+
+    .ctrl-btn:active {
+      transform: scale(0.9);
+      background: #faedcd;
+    }
+
+    .walk-hint {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      padding: 6px 12px;
+      border-radius: 20px;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    /* MODAL OVERLAYS */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(18, 10, 26, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Start Screen */
+    .start-card {
+      background: linear-gradient(145deg, #fffcf2 0%, #faedcd 100%);
+      border: 3px solid #8b5a2b;
+      border-radius: 24px;
+      padding: 28px 24px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8);
+      position: relative;
+    }
+
+    .start-card h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      color: #4a2810;
+      margin-bottom: 6px;
+    }
+
+    .start-card .subtitle {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      color: #e63946;
+      margin-bottom: 16px;
+    }
+
+    .start-card p {
+      color: #533e2d;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    .start-card .icon-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 1.8rem;
+      margin-bottom: 18px;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #e63946, #d62828);
+      color: #ffffff;
+      border: none;
+      padding: 13px 28px;
+      border-radius: 50px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(230, 57, 70, 0.45);
+      transition: transform 0.15s ease, box-shadow 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .primary-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Cartita Modal (Letter Sheet) */
+    .letter-sheet {
+      background: #fffdf5;
+      background-image: repeating-linear-gradient(
+        transparent,
+        transparent 28px,
+        rgba(214, 198, 169, 0.55) 28px,
+        rgba(214, 198, 169, 0.55) 30px
+      );
+      border: 3px solid #b38b59;
+      border-radius: 18px;
+      padding: 36px 24px 24px 34px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 20px 48px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.2);
+      position: relative;
+      border-left: 8px solid #c97a7e;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    .modal-overlay.active .letter-sheet {
+      transform: scale(1);
+    }
+
+    .letter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 16px;
+      border-bottom: 2px dashed rgba(179, 139, 89, 0.4);
+      padding-bottom: 8px;
+    }
+
+    .letter-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      color: #9d2b38;
+      font-weight: 700;
+    }
+
+    .letter-date {
+      font-size: 0.8rem;
+      color: #7b624f;
+      font-style: italic;
+    }
+
+    .letter-body {
+      font-family: 'Caveat', cursive;
+      font-size: 1.45rem;
+      line-height: 1.6;
+      color: #2b2520;
+      min-height: 120px;
+      margin-bottom: 20px;
+    }
+
+    .letter-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .letter-sign {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.35rem;
+      color: #e63946;
+      font-weight: 700;
+    }
+
+    .close-letter-btn {
+      background: #8b5a2b;
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Grand Final Envelope Modal */
+    .grand-card {
+      background: linear-gradient(160deg, #fffcf5 0%, #f7ecd5 100%);
+      border: 3px solid #d4af37;
+      border-radius: 24px;
+      padding: 24px;
+      max-width: 420px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 25px rgba(255, 215, 0, 0.25);
+      position: relative;
+      text-align: center;
+    }
+
+    .wax-seal {
+      width: 72px;
+      height: 72px;
+      background: radial-gradient(circle at 35% 35%, #e63946, #9b1d28);
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(155, 29, 40, 0.45), inset 0 2px 4px rgba(255,255,255,0.4);
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border: 2px dashed rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .wax-seal:hover {
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    .grand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      color: #4a2810;
+      margin-bottom: 4px;
+    }
+
+    .grand-subtitle {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.35rem;
+      color: #e63946;
+      margin-bottom: 14px;
+    }
+
+    .grand-message {
+      font-family: 'Caveat', cursive;
+      font-size: 1.38rem;
+      line-height: 1.5;
+      color: #2b2520;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.65);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      border-left: 4px solid #e63946;
+    }
+
+    .promises-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .promise-item {
+      background: #ffffff;
+      border: 1.5px solid #ebd9be;
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: #443224;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+
+    .promise-item.checked {
+      border-color: #e63946;
+      background: #fff8f8;
+    }
+
+    .promise-item .p-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .actions-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .action-btn-whatsapp {
+      background: #25d366;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.98rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .action-btn-whatsapp:active {
+      transform: scale(0.96);
+    }
+
+    .action-btn-secondary {
+      background: #ffffff;
+      color: #8b5a2b;
+      border: 2px solid #8b5a2b;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    /* Floating speech bubbles on characters */
+    .char-dialogue {
+      position: absolute;
+      background: #ffffff;
+      border: 2px solid #8b5a2b;
+      padding: 6px 14px;
+      border-radius: 16px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #382414;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+      pointer-events: none;
+      z-index: 15;
+      white-space: nowrap;
+      display: none;
+      animation: dialogPop 0.3s ease;
+    }
+
+    .char-dialogue::after {
+      content: '';
+      position: absolute;
+      bottom: -7px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 7px 6px 0;
+      border-style: solid;
+      border-color: #8b5a2b transparent;
+      display: block;
+      width: 0;
+    }
+
+    @keyframes dialogPop {
+      0% { opacity: 0; transform: translateY(6px) scale(0.9); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="game-container">
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="badge" id="badge-letters">
+      <span class="badge-icon">💌</span>
+      <span>Cartitas: <b id="letter-counter">0/4</b></span>
+    </div>
+    <div style="display:flex; gap:10px;">
+      <button class="hud-btn" id="btn-audio" title="Música / Sonido">🎵</button>
+      <button class="hud-btn" id="btn-reset" title="Volver al inicio">🔄</button>
+    </div>
+  </div>
+
+  <!-- Interact Prompt -->
+  <button id="interact-prompt">
+    <span>✉️</span>
+    <span>Abrir Cartita</span>
+  </button>
+
+  <!-- Touch Controls -->
+  <div class="controls">
+    <div class="dpad-group">
+      <button class="ctrl-btn" id="btn-left" aria-label="Izquierda">◀</button>
+      <button class="ctrl-btn" id="btn-right" aria-label="Derecha">▶</button>
+    </div>
+    <div class="walk-hint">Toca o usa ◀ ▶ para caminar</div>
+  </div>
+
+  <!-- Character Floating Dialogue -->
+  <div class="char-dialogue" id="speech-bubble"></div>
+
+  <!-- START MODAL -->
+  <div class="modal-overlay active" id="modal-start">
+    <div class="start-card">
+      <div class="icon-row">🏫 🌳 💌</div>
+      <h1>Nuestro Recreo</h1>
+      <div class="subtitle">Tito & Andrea</div>
+      <p>
+        ¿Te acordás cuando sonaba el timbre de la escuela y corríamos a ese banco de madera para hablar todo el recreo?<br><br>
+        Recorré el camino, descubrí las cartitas que dejé para vos y encontrémonos donde todo comenzó.
+      </p>
+      <button class="primary-btn" id="btn-start-game">
+        <span>Comenzar Paseo</span>
+        <span>✨</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- LETTER MODAL -->
+  <div class="modal-overlay" id="modal-letter">
+    <div class="letter-sheet">
+      <div class="letter-header">
+        <div class="letter-title" id="modal-letter-title">El Timbre del Recreo</div>
+        <div class="letter-date">Recuerdo escolar</div>
+      </div>
+      <div class="letter-body" id="modal-letter-body"></div>
+      <div class="letter-footer">
+        <div class="letter-sign">Con amor, Tito ❤️</div>
+        <button class="close-letter-btn" id="btn-close-letter">Guardar en el corazón</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAND FINAL ENVELOPE MODAL -->
+  <div class="modal-overlay" id="modal-grand">
+    <div class="grand-card">
+      <div class="wax-seal" id="wax-seal-btn" title="Tocar el sello para abrir">T&A</div>
+      <h2 class="grand-title">Nuestro Banco del Recreo</h2>
+      <div class="grand-subtitle">Donde el tiempo no existía</div>
+      
+      <div class="grand-message" id="grand-msg-text">
+        Andrea de mi vida,<br><br>
+        Pasaron las clases, cambiaron los años, pero cada vez que te veo sonreír con tus rulitos y tus trenzas... siento la misma emoción que cuando corría a buscarte al banco de la escuela.<br><br>
+        Esos 15 minutos de recreo se volvieron mi lugar favorito del mundo. Gracias por ser mi calma, mi risa y mi amor.
+      </div>
+
+      <div class="promises-list">
+        <div class="promise-item checked">
+          <span class="p-icon">🌸</span>
+          <span>Recordar siempre de dónde venimos y lo lindo que fue encontrarte.</span>
+        </div>
+        <div class="promise-item checked">
+          <span class="p-icon">☕</span>
+          <span>Compartir cada charla, cada mate y cada día a tu lado.</span>
+        </div>
+        <div class="promise-item checked">
+          <span class="p-icon">💖</span>
+          <span>Elegirte en cada recreo que nos regale la vida.</span>
+        </div>
+      </div>
+
+      <div class="actions-stack">
+        <a class="action-btn-whatsapp" id="btn-whatsapp" target="_blank" rel="noopener noreferrer">
+          <span>💌</span>
+          <span>Enviarle un mensajito a Tito</span>
+        </a>
+        <button class="action-btn-secondary" id="btn-download-polaroid">
+          <span>📷</span>
+          <span>Descargar Foto Recuerdo</span>
+        </button>
+        <button class="action-btn-secondary" id="btn-stay-bench">
+          <span>✨</span>
+          <span>Quedarnos juntos en el banco</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   CONFIGURACIÓN Y DATOS DE LA HISTORIA
+   ========================================================================== */
+const LETTERS_DATA = [
+  {
+    id: 1,
+    x: 350,
+    title: "El Timbre del Recreo 🔔",
+    text: "¿Te acordás de cómo sonaba ese timbre? En clase yo solo miraba el reloj contando los minutos. Cuando tocaba la campana salía volando por este pasillo solo para verte llegar.",
+    read: false
+  },
+  {
+    id: 2,
+    x: 740,
+    title: "Los Quince Minutos ⏳",
+    text: "Quince minutos que se sentían como dos segundos. Nos sentábamos y empezábamos a charlar sin parar. El mundo afuera desaparecía y nunca alcanzaban las palabras.",
+    read: false
+  },
+  {
+    id: 3,
+    x: 1350,
+    title: "Tu Risa y Tus Rulos ✨",
+    text: "Me encantaba verte llegar con tus rulitos despeinados por el viento, tus trenzas y esa sonrisa que iluminaba todo el patio. Eras y sos lo más lindo de mis días.",
+    read: false
+  },
+  {
+    id: 4,
+    x: 1750,
+    title: "Lo Que Nunca Cambió ❤️",
+    text: "La escuela terminó, crecimos y el mundo siguió girando... pero todo lo que sentí en ese banco con vos se quedó grabado en mi corazón para siempre. Te quiero con toda mi alma.",
+    read: false
+  }
+];
+
+const BENCH_X = 2120; // Posición del banco escolar en el patio
+const WORLD_WIDTH = 2500;
+const WHATSAPP_PHONE = "5493765005973";
+const WHATSAPP_TEXT = encodeURIComponent("Tito... leí todas las cartitas en el banco de la escuela 💌 Me hiciste acordar tanto a nuestros recreos. Te quiero con todo mi corazón ❤️");
+
+/* ==========================================================================
+   MOTOR DE AUDIO ACÚSTICO (PIANO & CELESTA EMOTIVO - SIN PITIDOS ARCADE)
+   ========================================================================== */
+class EmotionalAudioEngine {
+  constructor() {
+    this.ctx = null;
+    this.isMuted = false;
+    this.isPlaying = false;
+    this.timer = null;
+    this.currentChord = 0;
+
+    // Progresión romántica y conmovedora en Re Mayor (D - F#m/C# - Bm - G / A)
+    this.chords = [
+      { bass: 146.83, notes: [293.66, 369.99, 440.00, 587.33] }, // D / Dmaj
+      { bass: 138.59, notes: [277.18, 369.99, 440.00, 554.37] }, // F#m/C#
+      { bass: 123.47, notes: [246.94, 293.66, 369.99, 440.00] }, // Bm7
+      { bass: 98.00,  notes: [246.94, 293.66, 392.00, 493.88] }, // Gmaj7
+      { bass: 146.83, notes: [293.66, 369.99, 440.00, 659.25] }, // Dadd9
+      { bass: 123.47, notes: [293.66, 369.99, 440.00, 587.33] }, // Bm
+      { bass: 98.00,  notes: [293.66, 369.99, 440.00, 587.33] }, // Gmaj9
+      { bass: 110.00, notes: [293.66, 329.63, 440.00, 587.33] }  // Asus4
+    ];
+  }
+
+  init() {
+    if (this.ctx) return;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    this.ctx = new AudioContext();
+
+    this.masterFilter = this.ctx.createBiquadFilter();
+    this.masterFilter.type = 'lowpass';
+    this.masterFilter.frequency.value = 2800;
+
+    this.masterGain = this.ctx.createGain();
+    this.masterGain.gain.value = 0.45;
+
+    this.delayNode = this.ctx.createDelay();
+    this.delayNode.delayTime.value = 0.35;
+    this.delayFeedback = this.ctx.createGain();
+    this.delayFeedback.gain.value = 0.28;
+
+    this.delayNode.connect(this.delayFeedback);
+    this.delayFeedback.connect(this.delayNode);
+
+    this.masterFilter.connect(this.masterGain);
+    this.masterFilter.connect(this.delayNode);
+    this.delayNode.connect(this.masterGain);
+
+    this.masterGain.connect(this.ctx.destination);
+  }
+
+  start() {
+    this.init();
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
+    if (this.isPlaying) return;
+    this.isPlaying = true;
+    this.currentChord = 0;
+    this.scheduleNextArpeggio();
+  }
+
+  scheduleNextArpeggio() {
+    if (!this.isPlaying || this.isMuted) return;
+
+    const chord = this.chords[this.currentChord % this.chords.length];
+    this.currentChord++;
+
+    this.playPianoNote(chord.bass, 0.4, 3.2, 0.35);
+
+    chord.notes.forEach((freq, i) => {
+      const delay = (i * 0.28) + (Math.random() * 0.05);
+      setTimeout(() => {
+        if (!this.isPlaying || this.isMuted) return;
+        this.playPianoNote(freq, 0.22, 2.5, 0.28);
+      }, delay * 1000);
+    });
+
+    if (Math.random() > 0.4) {
+      setTimeout(() => {
+        if (!this.isPlaying || this.isMuted) return;
+        const melodyNotes = [587.33, 659.25, 739.99, 880.00];
+        const randomNote = melodyNotes[Math.floor(Math.random() * melodyNotes.length)];
+        this.playCelestaNote(randomNote, 0.12, 1.8);
+      }, 1200);
+    }
+
+    this.timer = setTimeout(() => {
+      this.scheduleNextArpeggio();
+    }, 2800);
+  }
+
+  playPianoNote(freq, volume = 0.25, duration = 2.0, warmth = 0.3) {
+    if (!this.ctx || this.isMuted) return;
+
+    const now = this.ctx.currentTime;
+    
+    const osc1 = this.ctx.createOscillator();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(freq, now);
+
+    const osc2 = this.ctx.createOscillator();
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(freq * 2, now);
+
+    const noteFilter = this.ctx.createBiquadFilter();
+    noteFilter.type = 'lowpass';
+    noteFilter.frequency.setValueAtTime(1200, now);
+    noteFilter.frequency.exponentialRampToValueAtTime(350, now + duration);
+
+    const noteGain = this.ctx.createGain();
+    noteGain.gain.setValueAtTime(0.0001, now);
+    noteGain.gain.linearRampToValueAtTime(volume, now + 0.015);
+    noteGain.gain.exponentialRampToValueAtTime(volume * 0.4, now + 0.3);
+    noteGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+    const osc2Gain = this.ctx.createGain();
+    osc2Gain.gain.value = warmth;
+
+    osc1.connect(noteGain);
+    osc2.connect(osc2Gain);
+    osc2Gain.connect(noteGain);
+    noteGain.connect(noteFilter);
+    noteFilter.connect(this.masterFilter);
+
+    osc1.start(now);
+    osc2.start(now);
+    osc1.stop(now + duration + 0.1);
+    osc2.stop(now + duration + 0.1);
+  }
+
+  playCelestaNote(freq, volume = 0.15, duration = 1.6) {
+    if (!this.ctx || this.isMuted) return;
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.linearRampToValueAtTime(volume, now + 0.008);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+    osc.connect(gain);
+    gain.connect(this.masterFilter);
+
+    osc.start(now);
+    osc.stop(now + duration);
+  }
+
+  playPaperRustle() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
+      const bufferSize = this.ctx.sampleRate * 0.15;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+      }
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 1800;
+      filter.Q.value = 1.5;
+
+      const gain = this.ctx.createGain();
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+      noise.start(now);
+    } catch(e) {}
+  }
+
+  playWaxChime() {
+    if (!this.ctx || this.isMuted) return;
+    const notes = [587.33, 739.99, 880.00, 1174.66];
+    notes.forEach((f, idx) => {
+      setTimeout(() => {
+        this.playCelestaNote(f, 0.2, 2.2);
+      }, idx * 120);
+    });
+  }
+
+  toggle() {
+    this.isMuted = !this.isMuted;
+    if (!this.isMuted && !this.isPlaying) {
+      this.start();
+    }
+    return !this.isMuted;
+  }
+}
+
+const audio = new EmotionalAudioEngine();
+
+/* ==========================================================================
+   SISTEMA DE JUEGO & CANVAS
+   ========================================================================== */
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const container = document.getElementById('game-container');
+
+let W = 480;
+let H = 800;
+let cameraX = 0;
+
+// Estado de Tito
+const tito = {
+  x: 100,
+  y: 0,
+  vx: 0,
+  speed: 3.2,
+  direction: 1,
+  isMoving: false,
+  isSitting: false,
+  stepTimer: 0,
+  width: 44,
+  height: 72
+};
+
+// Estado de Andrea
+const andrea = {
+  x: BENCH_X + 22,
+  y: 0,
+  isSitting: true,
+  smileTimer: 0,
+  headOnShoulder: false
+};
+
+// Partículas y Ambiente
+const petals = [];
+const dustMotes = [];
+for (let i = 0; i < 40; i++) {
+  petals.push({
+    x: Math.random() * WORLD_WIDTH,
+    y: Math.random() * 800,
+    size: 4 + Math.random() * 5,
+    speedY: 0.6 + Math.random() * 0.8,
+    speedX: 0.5 + Math.random() * 0.9,
+    angle: Math.random() * Math.PI * 2,
+    angleSpeed: (Math.random() - 0.5) * 0.04,
+    color: Math.random() > 0.4 ? 'rgba(255, 183, 197, 0.75)' : 'rgba(255, 214, 165, 0.75)'
+  });
+}
+for (let i = 0; i < 25; i++) {
+  dustMotes.push({
+    x: Math.random() * 1100,
+    y: Math.random() * 600,
+    radius: 1 + Math.random() * 2,
+    alpha: 0.2 + Math.random() * 0.5,
+    speedY: -0.2 - Math.random() * 0.3
+  });
+}
+
+// Control Input
+const keys = { left: false, right: false };
+let targetWalkX = null;
+let currentNearbyLetter = null;
+let benchReached = false;
+let magicSunsetTriggered = false;
+
+/* ==========================================================================
+   RESIZE CANVAS
+   ========================================================================== */
+function resizeCanvas() {
+  const rect = container.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  W = rect.width;
+  H = rect.height;
+  canvas.width = Math.floor(W * dpr);
+  canvas.height = Math.floor(H * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const groundY = H - 110;
+  tito.y = groundY;
+  andrea.y = groundY;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+/* ==========================================================================
+   DIBUJO DE ESCENARIOS (PASILLO ESCOLAR -> PATIO & BANCO)
+   ========================================================================== */
+function drawSchoolScene(groundY) {
+  const sunsetGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+  if (!magicSunsetTriggered) {
+    sunsetGrad.addColorStop(0, '#5a3d7a');
+    sunsetGrad.addColorStop(0.5, '#bd6377');
+    sunsetGrad.addColorStop(0.85, '#f4a261');
+    sunsetGrad.addColorStop(1, '#ffd166');
+  } else {
+    sunsetGrad.addColorStop(0, '#3a1c54');
+    sunsetGrad.addColorStop(0.4, '#c74465');
+    sunsetGrad.addColorStop(0.75, '#ff8e43');
+    sunsetGrad.addColorStop(1, '#ffe382');
+  }
+  ctx.fillStyle = sunsetGrad;
+  ctx.fillRect(-cameraX, 0, WORLD_WIDTH + 500, groundY);
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+  for (let cx = 200; cx < WORLD_WIDTH; cx += 500) {
+    ctx.beginPath();
+    ctx.arc(cx - cameraX * 0.2, groundY * 0.28, 45, 0, Math.PI * 2);
+    ctx.arc(cx + 40 - cameraX * 0.2, groundY * 0.25, 60, 0, Math.PI * 2);
+    ctx.arc(cx + 90 - cameraX * 0.2, groundY * 0.28, 45, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  const hallwayEndX = 1050;
+
+  const wallGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+  wallGrad.addColorStop(0, '#ded0b6');
+  wallGrad.addColorStop(0.65, '#f2e8cf');
+  wallGrad.addColorStop(1, '#c8b693');
+  ctx.fillStyle = wallGrad;
+  ctx.fillRect(-cameraX, 0, hallwayEndX, groundY);
+
+  ctx.fillStyle = '#7a4f2b';
+  ctx.fillRect(-cameraX, groundY - 14, hallwayEndX, 14);
+
+  for (let wx = 120; wx < hallwayEndX; wx += 280) {
+    const screenWx = wx - cameraX;
+    if (screenWx > -200 && screenWx < W + 200) {
+      ctx.fillStyle = 'rgba(255, 238, 187, 0.45)';
+      ctx.fillRect(screenWx, groundY * 0.15, 120, groundY * 0.45);
+      ctx.strokeStyle = '#8b6848';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(screenWx, groundY * 0.15, 120, groundY * 0.45);
+      ctx.beginPath();
+      ctx.moveTo(screenWx + 60, groundY * 0.15);
+      ctx.lineTo(screenWx + 60, groundY * 0.60);
+      ctx.moveTo(screenWx, groundY * 0.35);
+      ctx.lineTo(screenWx + 120, groundY * 0.35);
+      ctx.stroke();
+
+      ctx.fillStyle = 'rgba(255, 235, 170, 0.12)';
+      ctx.beginPath();
+      ctx.moveTo(screenWx, groundY * 0.15);
+      ctx.lineTo(screenWx + 120, groundY * 0.15);
+      ctx.lineTo(screenWx + 220, groundY);
+      ctx.lineTo(screenWx + 20, groundY);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+
+  for (let dx = 260; dx < hallwayEndX; dx += 360) {
+    const screenDx = dx - cameraX;
+    ctx.fillStyle = '#9b6c43';
+    ctx.fillRect(screenDx, groundY * 0.35, 65, groundY * 0.65);
+    ctx.strokeStyle = '#5a3d24';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(screenDx, groundY * 0.35, 65, groundY * 0.65);
+    ctx.fillStyle = '#ffd166';
+    ctx.beginPath();
+    ctx.arc(screenDx + 10, groundY * 0.65, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 11px Nunito';
+    ctx.fillText('AULA ' + Math.floor((dx / 200) + 1), screenDx + 10, groundY * 0.42);
+  }
+
+  const boardX = 520 - cameraX;
+  if (boardX > -150 && boardX < W + 150) {
+    ctx.fillStyle = '#2c402e';
+    ctx.fillRect(boardX, groundY * 0.28, 140, 80);
+    ctx.strokeStyle = '#8b5a2b';
+    ctx.lineWidth = 5;
+    ctx.strokeRect(boardX, groundY * 0.28, 140, 80);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+    ctx.font = 'bold 18px "Caveat", cursive';
+    ctx.fillText('Tito + Andrea', boardX + 22, groundY * 0.28 + 36);
+    ctx.fillStyle = '#ff6b8b';
+    ctx.font = '22px Arial';
+    ctx.fillText('❤️', boardX + 55, groundY * 0.28 + 65);
+  }
+
+  const archX = hallwayEndX - cameraX;
+  ctx.fillStyle = '#5a3d24';
+  ctx.fillRect(archX - 10, 0, 20, groundY);
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.fillRect(archX - 60, groundY * 0.2, 85, 22);
+  ctx.fillStyle = '#382414';
+  ctx.font = 'bold 10px Nunito';
+  ctx.fillText('🌿 PATIO ESCUELA', archX - 55, groundY * 0.2 + 15);
+
+  for (let tx = 1150; tx < WORLD_WIDTH; tx += 180) {
+    const screenTx = tx - cameraX;
+    if (screenTx > -100 && screenTx < W + 100) {
+      ctx.fillStyle = 'rgba(46, 74, 53, 0.45)';
+      ctx.beginPath();
+      ctx.arc(screenTx, groundY - 40, 60, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  ctx.strokeStyle = 'rgba(60, 40, 20, 0.6)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  for (let lx = 1100; lx <= WORLD_WIDTH; lx += 120) {
+    const sx = lx - cameraX;
+    const sy = groundY * 0.35 + Math.sin(lx * 0.05) * 8;
+    if (lx === 1100) ctx.moveTo(sx, sy);
+    else ctx.lineTo(sx, sy);
+  }
+  ctx.stroke();
+
+  for (let lx = 1120; lx <= WORLD_WIDTH; lx += 60) {
+    const sx = lx - cameraX;
+    const sy = groundY * 0.35 + Math.sin(lx * 0.05) * 8 + 3;
+    if (sx > -20 && sx < W + 20) {
+      ctx.fillStyle = magicSunsetTriggered ? '#ffd166' : 'rgba(255, 230, 160, 0.85)';
+      ctx.beginPath();
+      ctx.arc(sx, sy, magicSunsetTriggered ? 5 : 3.5, 0, Math.PI * 2);
+      ctx.fill();
+      if (magicSunsetTriggered) {
+        ctx.fillStyle = 'rgba(255, 215, 100, 0.25)';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 12, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+
+  ctx.fillStyle = '#4a2f1b';
+  ctx.fillRect(-cameraX, groundY, hallwayEndX, H - groundY);
+  ctx.strokeStyle = '#382314';
+  ctx.lineWidth = 1;
+  for (let bx = 0; bx < hallwayEndX; bx += 35) {
+    const sbx = bx - cameraX;
+    ctx.beginPath();
+    ctx.moveTo(sbx, groundY);
+    ctx.lineTo(sbx, H);
+    ctx.stroke();
+  }
+
+  const grassGrad = ctx.createLinearGradient(0, groundY, 0, H);
+  grassGrad.addColorStop(0, '#588157');
+  grassGrad.addColorStop(0.3, '#3a5a40');
+  grassGrad.addColorStop(1, '#243b28');
+  ctx.fillStyle = grassGrad;
+  ctx.fillRect(hallwayEndX - cameraX, groundY, WORLD_WIDTH - hallwayEndX + 400, H - groundY);
+
+  for (let px = 1120; px < BENCH_X + 150; px += 55) {
+    const spx = px - cameraX;
+    if (spx > -50 && spx < W + 50) {
+      ctx.fillStyle = '#c7b198';
+      ctx.beginPath();
+      ctx.ellipse(spx, groundY + 12 + Math.sin(px) * 6, 22, 9, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#9d846b';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
+
+  for (let fx = 1150; fx < WORLD_WIDTH; fx += 75) {
+    const sfx = fx - cameraX;
+    if (sfx > -20 && sfx < W + 20) {
+      ctx.fillStyle = (fx % 2 === 0) ? '#ffb4a2' : '#e76f51';
+      ctx.beginPath();
+      ctx.arc(sfx, groundY - 4, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#2d6a4f';
+      ctx.fillRect(sfx - 1, groundY - 3, 2, 6);
+    }
+  }
+
+  const treeX = BENCH_X - 10 - cameraX;
+  if (treeX > -300 && treeX < W + 300) {
+    ctx.fillStyle = '#4a2f1b';
+    ctx.beginPath();
+    ctx.moveTo(treeX - 25, groundY);
+    ctx.quadraticCurveTo(treeX - 20, groundY - 140, treeX - 35, groundY - 260);
+    ctx.lineTo(treeX + 35, groundY - 260);
+    ctx.quadraticCurveTo(treeX + 20, groundY - 140, treeX + 35, groundY);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = '#331f11';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(treeX - 5, groundY - 40);
+    ctx.lineTo(treeX - 2, groundY - 180);
+    ctx.moveTo(treeX + 12, groundY - 20);
+    ctx.lineTo(treeX + 8, groundY - 140);
+    ctx.stroke();
+
+    const crownY = groundY - 240;
+    const leafColors = ['#e07a5f', '#f4a261', '#e76f51', '#f2cc8f', '#ffb703'];
+    leafColors.forEach((col, idx) => {
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      const ox = (idx - 2) * 45 + Math.sin(Date.now() * 0.0015 + idx) * 4;
+      const oy = crownY + Math.cos(idx * 1.5) * 20;
+      ctx.arc(treeX + ox, oy, 75 - idx * 4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  const benchScreenX = BENCH_X - cameraX;
+  if (benchScreenX > -150 && benchScreenX < W + 150) {
+    ctx.strokeStyle = '#1e2923';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(benchScreenX - 45, groundY);
+    ctx.lineTo(benchScreenX - 40, groundY - 32);
+    ctx.lineTo(benchScreenX - 45, groundY - 58);
+    ctx.moveTo(benchScreenX + 45, groundY);
+    ctx.lineTo(benchScreenX + 40, groundY - 32);
+    ctx.lineTo(benchScreenX + 45, groundY - 58);
+    ctx.stroke();
+
+    ctx.fillStyle = '#8b5a2b';
+    ctx.strokeStyle = '#5a3816';
+    ctx.lineWidth = 2;
+    ctx.fillRect(benchScreenX - 55, groundY - 58, 110, 10);
+    ctx.strokeRect(benchScreenX - 55, groundY - 58, 110, 10);
+    ctx.fillRect(benchScreenX - 55, groundY - 44, 110, 10);
+    ctx.strokeRect(benchScreenX - 55, groundY - 44, 110, 10);
+
+    ctx.fillStyle = '#a06a38';
+    ctx.fillRect(benchScreenX - 58, groundY - 32, 116, 11);
+    ctx.strokeRect(benchScreenX - 58, groundY - 32, 116, 11);
+
+    ctx.fillStyle = '#47290f';
+    ctx.font = 'bold 9px "Caveat", cursive';
+    ctx.fillText('T + A', benchScreenX - 12, groundY - 47);
+  }
+}
+
+/* ==========================================================================
+   DIBUJO DE PERSONAJES
+   ========================================================================== */
+
+function drawTito(groundY) {
+  const sx = tito.x - cameraX;
+  const isWalking = tito.isMoving;
+  const bob = isWalking ? Math.sin(tito.stepTimer * 10) * 2.5 : 0;
+  const legSwing = isWalking ? Math.sin(tito.stepTimer * 10) * 12 : 0;
+
+  ctx.save();
+  ctx.translate(sx, groundY + bob);
+
+  if (tito.isSitting) {
+    ctx.fillStyle = '#263238';
+    ctx.fillRect(-18, -28, 26, 14);
+    ctx.fillRect(-6, -16, 12, 16);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-6, -2, 16, 5);
+
+    ctx.fillStyle = '#37474f';
+    ctx.fillRect(-16, -56, 26, 30);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-8, -56, 12, 6);
+
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.arc(-2, -51, 6, 0.2, Math.PI - 0.2);
+    ctx.stroke();
+
+    ctx.fillStyle = '#37474f';
+    ctx.fillRect(4, -54, 18, 10);
+    ctx.fillStyle = '#f5cba7';
+    ctx.beginPath();
+    ctx.arc(22, -49, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#f5cba7';
+    ctx.beginPath();
+    ctx.arc(-2, -66, 12, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = 'rgba(74, 50, 36, 0.35)';
+    ctx.beginPath();
+    ctx.arc(-2, -64, 11, 0.1, Math.PI * 0.9);
+    ctx.fill();
+
+    ctx.fillStyle = '#2b1b17';
+    ctx.beginPath();
+    ctx.arc(1, -67, 1.8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#c0392b';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.arc(1, -63, 3, 0.2, Math.PI * 0.8);
+    ctx.stroke();
+
+    ctx.fillStyle = '#2c1810';
+    ctx.beginPath();
+    ctx.arc(-3, -71, 12, Math.PI, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(-13, -70);
+    ctx.quadraticCurveTo(-18, -58, -14, -46);
+    ctx.lineTo(-7, -48);
+    ctx.quadraticCurveTo(-10, -58, -4, -68);
+    ctx.closePath();
+    ctx.fill();
+
+  } else {
+    if (tito.direction === -1) {
+      ctx.scale(-1, 1);
+    }
+
+    ctx.fillStyle = '#263238';
+    ctx.fillRect(-10, -30, 8, 30);
+    ctx.fillRect(2 + (legSwing * 0.2), -30, 8, 30);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-11, -3, 11, 5);
+    ctx.fillRect(1 + (legSwing * 0.2), -3, 11, 5);
+
+    ctx.fillStyle = '#37474f';
+    ctx.fillRect(-12, -58, 24, 30);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-6, -58, 12, 6);
+
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.arc(0, -53, 5, 0.2, Math.PI - 0.2);
+    ctx.stroke();
+
+    ctx.fillStyle = '#37474f';
+    ctx.fillRect(4 - (legSwing * 0.2), -56, 7, 24);
+    ctx.fillStyle = '#f5cba7';
+    ctx.beginPath();
+    ctx.arc(7 - (legSwing * 0.2), -32, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#f5cba7';
+    ctx.beginPath();
+    ctx.arc(0, -68, 12, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = 'rgba(74, 50, 36, 0.35)';
+    ctx.beginPath();
+    ctx.arc(0, -66, 11, 0.1, Math.PI * 0.9);
+    ctx.fill();
+
+    ctx.fillStyle = '#2b1b17';
+    ctx.beginPath();
+    ctx.arc(4, -69, 1.8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#c0392b';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.arc(4, -65, 3, 0.2, Math.PI * 0.8);
+    ctx.stroke();
+
+    ctx.fillStyle = '#2c1810';
+    ctx.beginPath();
+    ctx.arc(-1, -73, 12, Math.PI, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(-11, -72);
+    ctx.quadraticCurveTo(-17, -60, -13, -48);
+    ctx.lineTo(-6, -50);
+    ctx.quadraticCurveTo(-9, -60, -3, -70);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+function drawAndrea(groundY) {
+  const sx = andrea.x - cameraX;
+  const breath = Math.sin(Date.now() * 0.003) * 1.2;
+
+  ctx.save();
+  ctx.translate(sx, groundY + breath);
+
+  ctx.fillStyle = '#f5cba7';
+  ctx.fillRect(-14, -26, 24, 12);
+  ctx.fillRect(-4, -16, 10, 16);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(-4, -2, 12, 4);
+
+  ctx.fillStyle = '#2e5b88';
+  ctx.fillRect(-16, -34, 26, 12);
+
+  ctx.fillStyle = '#ff758f';
+  ctx.fillRect(-12, -54, 22, 18);
+  ctx.fillStyle = '#f5cba7';
+  ctx.fillRect(-10, -36, 18, 4);
+
+  ctx.fillStyle = '#f5cba7';
+  ctx.beginPath();
+  ctx.arc(-2, -32, 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#ff4d6d';
+  ctx.fillRect(4, -36, 9, 14);
+  ctx.fillStyle = '#c9184a';
+  ctx.fillRect(3, -37, 11, 3);
+  ctx.fillStyle = '#ffd166';
+  ctx.fillRect(8, -41, 2, 4);
+
+  const tilt = andrea.headOnShoulder ? -0.22 : 0;
+  ctx.rotate(tilt);
+
+  ctx.fillStyle = '#f5cba7';
+  ctx.beginPath();
+  ctx.arc(-2, -64, 11, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#3a2012';
+  ctx.beginPath();
+  ctx.arc(2, -65, 1.8, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#3a2012';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(3, -67);
+  ctx.lineTo(5, -69);
+  ctx.stroke();
+
+  ctx.strokeStyle = '#e63946';
+  ctx.lineWidth = 1.3;
+  ctx.beginPath();
+  ctx.arc(2, -61, 3.2, 0.1, Math.PI * 0.9);
+  ctx.stroke();
+
+  ctx.fillStyle = 'rgba(255, 117, 143, 0.45)';
+  ctx.beginPath();
+  ctx.arc(-1, -61, 3, 0, Math.PI * 2);
+  ctx.arc(5, -61, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#3d2314';
+  for (let b = -10; b <= 4; b += 4) {
+    ctx.beginPath();
+    ctx.arc(b, -74, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  const curls = [
+    { x: -14, y: -68, r: 6 },
+    { x: -16, y: -60, r: 7 },
+    { x: -14, y: -50, r: 7.5 },
+    { x: -10, y: -42, r: 6.5 },
+    { x: 8, y: -66, r: 6 },
+    { x: 10, y: -58, r: 7 },
+    { x: 8, y: -48, r: 6.5 }
+  ];
+  curls.forEach(c => {
+    ctx.beginPath();
+    ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.arc(c.x - 1, c.y - 1, c.r - 2, -0.5, 1.2);
+    ctx.stroke();
+  });
+
+  ctx.restore();
+}
+
+/* ==========================================================================
+   DIBUJO DE CARTITAS EN EL CAMINO
+   ========================================================================== */
+function drawLetters(groundY) {
+  const time = Date.now() * 0.003;
+
+  LETTERS_DATA.forEach(letter => {
+    const sx = letter.x - cameraX;
+    if (sx < -40 || sx > W + 40) return;
+
+    const floatY = groundY - 24 + Math.sin(time + letter.id) * 5;
+
+    const glowGrad = ctx.createRadialGradient(sx, floatY, 4, sx, floatY, 26);
+    glowGrad.addColorStop(0, letter.read ? 'rgba(255, 209, 102, 0.6)' : 'rgba(255, 107, 107, 0.7)');
+    glowGrad.addColorStop(1, 'rgba(255, 209, 102, 0)');
+    ctx.fillStyle = glowGrad;
+    ctx.beginPath();
+    ctx.arc(sx, floatY, 26, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#fffdfa';
+    ctx.strokeStyle = '#b38b59';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(sx - 12, floatY - 9, 24, 18);
+    ctx.strokeRect(sx - 12, floatY - 9, 24, 18);
+
+    ctx.beginPath();
+    ctx.moveTo(sx - 12, floatY - 9);
+    ctx.lineTo(sx, floatY + 1);
+    ctx.lineTo(sx + 12, floatY - 9);
+    ctx.stroke();
+
+    ctx.fillStyle = letter.read ? '#2ec4b6' : '#e63946';
+    ctx.font = '10px Arial';
+    ctx.fillText('❤️', sx - 5, floatY + 5);
+
+    for (let s = 0; s < 3; s++) {
+      const sa = time * 2 + s * 2.1;
+      const sdist = 16 + Math.sin(time * 3 + s) * 4;
+      ctx.fillStyle = '#ffd166';
+      ctx.beginPath();
+      ctx.arc(sx + Math.cos(sa) * sdist, floatY + Math.sin(sa) * sdist, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  });
+}
+
+/* ==========================================================================
+   PARTÍCULAS DE PÉTALOS Y VIENTO
+   ========================================================================== */
+function updateAndDrawParticles(groundY) {
+  petals.forEach(p => {
+    p.y += p.speedY;
+    p.x += p.speedX;
+    p.angle += p.angleSpeed;
+
+    if (p.y > groundY + 80) {
+      p.y = -20;
+      p.x = cameraX - 100 + Math.random() * (W + 200);
+    }
+    if (p.x > WORLD_WIDTH) {
+      p.x = 0;
+    }
+
+    const screenX = p.x - cameraX;
+    if (screenX > -30 && screenX < W + 30) {
+      ctx.save();
+      ctx.translate(screenX, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.size, p.size * 0.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  });
+
+  if (cameraX < 1100) {
+    ctx.fillStyle = 'rgba(255, 235, 170, 0.45)';
+    dustMotes.forEach(d => {
+      d.y += d.speedY;
+      if (d.y < 50) d.y = groundY - 20;
+      const screenX = d.x - cameraX;
+      if (screenX > 0 && screenX < W) {
+        ctx.beginPath();
+        ctx.arc(screenX, d.y, d.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+  }
+}
+
+/* ==========================================================================
+   BUCLE PRINCIPAL DE ANIMACIÓN & FÍSICAS SUAVES
+   ========================================================================== */
+let lastFrameTime = performance.now();
+
+function gameLoop(now) {
+  const dt = Math.min((now - lastFrameTime) / 1000, 0.1);
+  lastFrameTime = now;
+
+  const groundY = H - 110;
+
+  if (!tito.isSitting) {
+    let moveDir = 0;
+
+    if (keys.left) moveDir = -1;
+    else if (keys.right) moveDir = 1;
+    else if (targetWalkX !== null) {
+      const diff = targetWalkX - tito.x;
+      if (Math.abs(diff) > 6) {
+        moveDir = Math.sign(diff);
+      } else {
+        targetWalkX = null;
+      }
+    }
+
+    if (moveDir !== 0) {
+      tito.vx = moveDir * tito.speed;
+      tito.direction = moveDir;
+      tito.isMoving = true;
+      tito.stepTimer += dt;
+      tito.x += tito.vx;
+    } else {
+      tito.vx = 0;
+      tito.isMoving = false;
+    }
+
+    if (tito.x < 40) tito.x = 40;
+    if (tito.x > BENCH_X - 10) {
+      tito.x = BENCH_X - 10;
+      tito.isSitting = true;
+      tito.isMoving = false;
+      targetWalkX = null;
+      triggerBenchEncounter();
+    }
+  }
+
+  const targetCamX = tito.x - W * 0.38;
+  cameraX += (targetCamX - cameraX) * 0.08;
+  if (cameraX < 0) cameraX = 0;
+  if (cameraX > WORLD_WIDTH - W) cameraX = WORLD_WIDTH - W;
+
+  checkNearbyLetters();
+
+  ctx.clearRect(0, 0, W, H);
+  drawSchoolScene(groundY);
+  drawLetters(groundY);
+  drawAndrea(groundY);
+  drawTito(groundY);
+  updateAndDrawParticles(groundY);
+
+  requestAnimationFrame(gameLoop);
+}
+
+/* ==========================================================================
+   INTERACCIÓN CON CARTITAS
+   ========================================================================== */
+const interactPrompt = document.getElementById('interact-prompt');
+const modalLetter = document.getElementById('modal-letter');
+const modalLetterTitle = document.getElementById('modal-letter-title');
+const modalLetterBody = document.getElementById('modal-letter-body');
+const letterCounterBadge = document.getElementById('letter-counter');
+
+function checkNearbyLetters() {
+  if (tito.isSitting) {
+    interactPrompt.style.display = 'none';
+    return;
+  }
+
+  currentNearbyLetter = null;
+  for (const letter of LETTERS_DATA) {
+    if (Math.abs(tito.x - letter.x) < 45) {
+      currentNearbyLetter = letter;
+      break;
+    }
+  }
+
+  if (currentNearbyLetter) {
+    interactPrompt.style.display = 'flex';
+    interactPrompt.querySelector('span:last-child').textContent = currentNearbyLetter.read ? 'Releer Cartita' : 'Abrir Cartita';
+  } else {
+    interactPrompt.style.display = 'none';
+  }
+}
+
+function openLetter(letter) {
+  audio.playPaperRustle();
+  letter.read = true;
+  updateCounter();
+
+  modalLetterTitle.textContent = letter.title;
+  modalLetterBody.innerHTML = letter.text.replace(/\n/g, '<br>');
+  modalLetter.classList.add('active');
+}
+
+document.getElementById('btn-close-letter').addEventListener('click', () => {
+  audio.playPaperRustle();
+  modalLetter.classList.remove('active');
+});
+
+interactPrompt.addEventListener('click', () => {
+  if (currentNearbyLetter) {
+    openLetter(currentNearbyLetter);
+  }
+});
+
+function updateCounter() {
+  const readCount = LETTERS_DATA.filter(l => l.read).length;
+  letterCounterBadge.textContent = `${readCount}/4`;
+}
+
+/* ==========================================================================
+   REENCUENTRO EN EL BANCO & CLÍMAX ROMÁNTICO
+   ========================================================================== */
+const speechBubble = document.getElementById('speech-bubble');
+const modalGrand = document.getElementById('modal-grand');
+const waxSealBtn = document.getElementById('wax-seal-btn');
+
+function triggerBenchEncounter() {
+  if (benchReached) return;
+  benchReached = true;
+  magicSunsetTriggered = true;
+
+  showSpeechBubble('¡Tito! Te estaba esperando... ❤️', BENCH_X + 22, H - 190);
+
+  setTimeout(() => {
+    andrea.headOnShoulder = true;
+    showSpeechBubble('Qué lindo volver a nuestro banco...', BENCH_X - 10, H - 190);
+  }, 1800);
+
+  setTimeout(() => {
+    hideSpeechBubble();
+    openGrandEnvelope();
+  }, 3800);
+}
+
+function showSpeechBubble(text, worldX, screenY) {
+  speechBubble.textContent = text;
+  speechBubble.style.display = 'block';
+  const sx = worldX - cameraX;
+  speechBubble.style.left = `${Math.max(20, Math.min(W - 200, sx - 60))}px`;
+  speechBubble.style.top = `${screenY}px`;
+}
+
+function hideSpeechBubble() {
+  speechBubble.style.display = 'none';
+}
+
+function openGrandEnvelope() {
+  audio.playWaxChime();
+  modalGrand.classList.add('active');
+  document.getElementById('btn-whatsapp').href = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${WHATSAPP_TEXT}`;
+}
+
+waxSealBtn.addEventListener('click', () => {
+  audio.playWaxChime();
+  waxSealBtn.style.transform = 'scale(1.2) rotate(15deg)';
+  setTimeout(() => {
+    waxSealBtn.style.transform = 'scale(1)';
+  }, 300);
+});
+
+document.getElementById('btn-stay-bench').addEventListener('click', () => {
+  modalGrand.classList.remove('active');
+});
+
+/* ==========================================================================
+   GENERADOR DE POSTAL POLAROID DE RECUERDO
+   ========================================================================== */
+document.getElementById('btn-download-polaroid').addEventListener('click', () => {
+  const pCanvas = document.createElement('canvas');
+  pCanvas.width = 600;
+  pCanvas.height = 720;
+  const pCtx = pCanvas.getContext('2d');
+
+  pCtx.fillStyle = '#ffffff';
+  pCtx.fillRect(0, 0, 600, 720);
+
+  pCtx.fillStyle = '#fceade';
+  const photoGrad = pCtx.createLinearGradient(0, 40, 0, 540);
+  photoGrad.addColorStop(0, '#c74465');
+  photoGrad.addColorStop(0.5, '#ff8e43');
+  photoGrad.addColorStop(1, '#ffe382');
+  pCtx.fillStyle = photoGrad;
+  pCtx.fillRect(40, 40, 520, 500);
+
+  pCtx.fillStyle = '#4a2f1b';
+  pCtx.fillRect(200, 360, 200, 20);
+  pCtx.fillRect(180, 240, 40, 200);
+  pCtx.fillStyle = '#ffb703';
+  pCtx.beginPath();
+  pCtx.arc(200, 220, 90, 0, Math.PI * 2);
+  pCtx.fill();
+
+  pCtx.fillStyle = '#2b2520';
+  pCtx.font = 'bold 38px "Dancing Script", cursive';
+  pCtx.textAlign = 'center';
+  pCtx.fillText('Nuestro Banco de la Escuela', 300, 600);
+  pCtx.font = '28px "Caveat", cursive';
+  pCtx.fillStyle = '#e63946';
+  pCtx.fillText('Tito & Andrea ❤️ Para siempre', 300, 650);
+
+  const link = document.createElement('a');
+  link.download = 'Tito-y-Andrea-Nuestro-Banco.png';
+  link.href = pCanvas.toDataURL('image/png');
+  link.click();
+});
+
+/* ==========================================================================
+   CONTROLES DE ENTRADA (TÁCTIL & TECLADO)
+   ========================================================================== */
+window.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = true;
+  if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = true;
+  if (e.key === ' ' || e.key === 'Enter') {
+    if (currentNearbyLetter && !modalLetter.classList.contains('active')) {
+      openLetter(currentNearbyLetter);
+    }
+  }
+});
+
+window.addEventListener('keyup', e => {
+  if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = false;
+  if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = false;
+});
+
+const btnLeft = document.getElementById('btn-left');
+const btnRight = document.getElementById('btn-right');
+
+const handlePress = (dir, isPressed) => {
+  if (dir === 'left') keys.left = isPressed;
+  if (dir === 'right') keys.right = isPressed;
+  if (isPressed) targetWalkX = null;
+};
+
+btnLeft.addEventListener('touchstart', e => { e.preventDefault(); handlePress('left', true); });
+btnLeft.addEventListener('touchend', e => { e.preventDefault(); handlePress('left', false); });
+btnLeft.addEventListener('mousedown', () => handlePress('left', true));
+btnLeft.addEventListener('mouseup', () => handlePress('left', false));
+btnLeft.addEventListener('mouseleave', () => handlePress('left', false));
+
+btnRight.addEventListener('touchstart', e => { e.preventDefault(); handlePress('right', true); });
+btnRight.addEventListener('touchend', e => { e.preventDefault(); handlePress('right', false); });
+btnRight.addEventListener('mousedown', () => handlePress('right', true));
+btnRight.addEventListener('mouseup', () => handlePress('right', false));
+btnRight.addEventListener('mouseleave', () => handlePress('right', false));
+
+canvas.addEventListener('pointerdown', e => {
+  if (tito.isSitting) return;
+  const rect = canvas.getBoundingClientRect();
+  const clickScreenX = e.clientX - rect.left;
+  targetWalkX = clickScreenX + cameraX;
+});
+
+const btnAudio = document.getElementById('btn-audio');
+btnAudio.addEventListener('click', () => {
+  const active = audio.toggle();
+  btnAudio.textContent = active ? '🎵' : '🔇';
+});
+
+document.getElementById('btn-reset').addEventListener('click', () => {
+  tito.x = 100;
+  tito.isSitting = false;
+  andrea.headOnShoulder = false;
+  benchReached = false;
+  magicSunsetTriggered = false;
+  modalGrand.classList.remove('active');
+  modalLetter.classList.remove('active');
+  hideSpeechBubble();
+  LETTERS_DATA.forEach(l => l.read = false);
+  updateCounter();
+});
+
+document.getElementById('btn-start-game').addEventListener('click', () => {
+  audio.start();
+  document.getElementById('modal-start').classList.remove('active');
+});
+
+requestAnimationFrame(gameLoop);
+</script>
+</body>
+</html>
